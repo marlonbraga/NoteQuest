@@ -1,4 +1,5 @@
 ﻿using System;
+using Game;
 
 namespace DungeonMasterBot {
 	class Program {

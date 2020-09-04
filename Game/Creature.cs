@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace DungeonMasterBot {
-	class Creature
+namespace Game {
+	public class Creature
 	{
 		public string Name { get; set; }
 		public string Icon { get; set; }
@@ -29,9 +29,9 @@ namespace DungeonMasterBot {
 			var random = new Random();
 			int test = random.Next(20)+1;
 			test += this.Modify(Strength);
-			Thread.Sleep(1500);
+			//Thread.Sleep(1500);
 			Console.WriteLine($"{this.Icon}{this.Name} attacks[{test}]...");
-			Thread.Sleep(750);
+			//Thread.Sleep(750);
 			if(test >= creature.Defense) {
 				Console.WriteLine($"{this.Icon}{this.Name} hits! 💥");
 				isDead = creature.Hit(random.Next(this.Damage)+1);
@@ -52,7 +52,7 @@ namespace DungeonMasterBot {
 				damage = Convert.ToInt16(Math.Floor(aux));
 				Console.WriteLine($"{this.Icon}{this.Name} blocks🛡 [{damage}] of damage!");
 			}
-			Thread.Sleep(750);
+			//Thread.Sleep(750);
 			Console.WriteLine($"{this.Icon}{this.Name} lost [{damage}]HP🩸");
 			this.HeathPoint -= damage;
 			if (this.HeathPoint <= 0)

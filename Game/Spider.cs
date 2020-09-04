@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Bat:Enemy {
-		public Bat() {
-			this.Name = "Bat";
-			this.Icon = "🦇";
+namespace Game {
+	class Spider:Enemy {
+		public Spider() {
+			this.Name = "Spider";
+			this.Icon = "🕷🕷";
 			this.Strength = 2;
 			this.Dextrity = 11;
 			this.Contitution = 9;
@@ -17,7 +17,7 @@ namespace DungeonMasterBot {
 			this.Defense = 10;
 			this.Damage = 8;
 
-			this.HeathPoint = new Random().Next(8) + 1;
+			this.HeathPoint = new Random().Next(10) + 1;
 		}
 	}
 }

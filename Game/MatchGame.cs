@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace DungeonMasterBot {
-	class MatchGame
+namespace Game {
+	public class MatchGame
 	{
-		public Party Party { set; get; }
-		public static DungeonRoom ActualDungeonRoom;
+		internal Party Party { set; get; }
+		internal static DungeonRoom ActualDungeonRoom;
 		private static MatchGame _matchGame;
+		private MatchGame() { }
 		public static MatchGame GetInstance()
 		{
 			if(_matchGame == null) {
@@ -37,7 +38,7 @@ namespace DungeonMasterBot {
 			string options = "[";
 			for(int i = 0; i < ActualDungeonRoom.Doors.Count; i++) {
 				options += $"{i}-";
-				options += ActualDungeonRoom.Doors[i].icon;
+				options += ActualDungeonRoom.Doors[i].optionIcon;
 
 				if(i < ActualDungeonRoom.Doors.Count - 1) {
 					options += "|";
@@ -61,7 +62,7 @@ namespace DungeonMasterBot {
 				return true;
 			}
 		}
-		public void EndGame()
+		internal void EndGame()
 		{
 			Console.WriteLine("     \n💀💀💀 GAME OVER 💀💀💀\n");
 			_matchGame = null;

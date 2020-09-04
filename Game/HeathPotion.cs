@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Item {
+namespace Game {
+	class HeathPotion:Item {
 	}
 }

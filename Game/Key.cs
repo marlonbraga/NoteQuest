@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
+namespace Game {
 	class Key:Item {
 	}
 }

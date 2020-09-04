@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Inventory {
+namespace Game {
+	class Item {
 	}
 }

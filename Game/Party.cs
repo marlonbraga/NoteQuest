@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Party {
+namespace Game {
+	 class Party {
 		public List<Hero> Heroes { set; get; }
 
 		private static Party _party;

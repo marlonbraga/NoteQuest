@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Door
+namespace Game {
+	public class Door
 	{
 		public DungeonRoom FrontRoom { get; set; }
 		public DungeonRoom BackRoom { get; set; }
-		public string icon = "🚫";
+		public string mapIcon = "🚪";
+		public string optionIcon = "*";
 		public bool isLocked;
 		public Direction Direction { get; set; }
 
@@ -16,13 +17,13 @@ namespace DungeonMasterBot {
 			this.BackRoom = BackRoom;
 			this.Direction = direction;
 			if(direction == Direction.up) {
-				icon = "⏫";
+				optionIcon = "⏫";
 			} else if(direction == Direction.left) {
-				icon = "⏪";
+				optionIcon = "⏪";
 			} else if(direction == Direction.down) {
-				icon = "⏬";
+				optionIcon = "⏬";
 			} else if(direction == Direction.right) {
-				icon = "⏩";
+				optionIcon = "⏩";
 			}
 		}
 		public DungeonRoom PassDoor()
@@ -34,6 +35,22 @@ namespace DungeonMasterBot {
 			FrontRoom.Enter();
 
 			return FrontRoom;
+		}
+
+		public Door InvertDoor() {
+			Door door = this;
+			Direction direction = door.Direction;
+			if(direction == Direction.up) {
+				direction = Direction.down;
+			} else if(direction == Direction.left) {
+				direction = Direction.right;
+			} else if(direction == Direction.down) {
+				direction = Direction.up;
+			} else if(direction == Direction.right) {
+				direction = Direction.left;
+			}
+			door = new Door(direction, door.BackRoom);
+			return door;
 		}
 	}
 }

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot
-{
+namespace Game {
 	class Goblin : Enemy
 	{
 		public Goblin()

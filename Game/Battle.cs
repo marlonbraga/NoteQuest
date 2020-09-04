@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Battle {
+namespace Game {
+	public class Battle {
 		public Battle(List<Hero> Heroes, List<Enemy> Enemies) {
 			if(!IsBattleFinished(Heroes, Enemies)) {
 				Console.WriteLine(PrintEnemies(Enemies));

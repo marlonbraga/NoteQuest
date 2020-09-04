@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace DungeonMasterBot {
-	class Hero : Creature
+namespace Game {
+	public class Hero : Creature
 	{
 		public string heroClass;
 		private int ModifyStrenght = 0;
