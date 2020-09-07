@@ -20,6 +20,7 @@ namespace Game {
 		public List<Door> Doors { set; get; }
 		public List<Enemy> Enemy { set; get; }
 		public string[,] Titles { set; get; }
+		public string RoomMap { set; get; }
 
 		public DungeonRoom() {
 			numbersOfRooms++;
@@ -31,7 +32,6 @@ namespace Game {
 			Vector2 roomSize = new Vector2(15);
 
 			this.Titles = new string[(int)roomSize.X, (int)roomSize.Y];
-			int floor;
 			for(int i = 0; i < roomSize.X; i++) {
 				for(int j = 0; j < roomSize.Y; j++) {
 					if(i == 0 || j == 0 || i == roomSize.X - 1 || j == roomSize.Y - 1) {
@@ -46,24 +46,24 @@ namespace Game {
 					} 
 				}
 			}
-			DrawRoom(this.Titles);
-			string entranceRoom = ""+
+			RoomMap = ""+
 			                      "\n🔳🔳🔳🔳🔳🔳🔳🚪🔳🔳🔳🔳🔳🔳🔳" +
-			                      "\n🔳               ░░               🔳" +
-			                      "\n🔳   🔳🔳       ░░       🔳🔳   🔳" +
-			                      "\n🔳   🔳🔳       ░░       🔳🔳   🔳" +
-			                      "\n🔳               ░░               🔳" +
-			                      "\n🔳          ░░░░░░░░░░░░          🔳" +
-			                      "\n🔳         ░░░░░░░░░░░░░░         🔳" +
-			                      "\n🚪░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░🚪" +
-			                      "\n🔳         ░░░░░░░░░░░░░░         🔳" +
-			                      "\n🔳          ░░░░░░░░░░░░          🔳" +
-			                      "\n🔳               ░░               🔳" +
-			                      "\n🔳   🔳🔳       ░░       🔳🔳   🔳" +
-			                      "\n🔳   🔳🔳      ░░░░      🔳🔳   🔳" +
-			                      "\n🔳             ░░░░░░             🔳" +
-			                      "\n🔳🔳🔳🔳🔳🔳░░░░░░░🔳🔳🔳🔳🔳🔳";
-			//Console.WriteLine(entranceRoom);
+			                      "\n🔳            ░░            🔳" +
+			                      "\n🔳  🔳🔳      ░░      🔳🔳  🔳" +
+			                      "\n🔳  🔳🔳      ░░      🔳🔳  🔳" +
+			                      "\n🔳            ░░            🔳" +
+			                      "\n🔳        ░░░░░░░░░░        🔳" +
+			                      "\n🔳       ░░░░░░░░░░░░       🔳" +
+			                      "\n🚪░░░░░░░░░░░░░░░░░░░░░░░░░░🚪" +
+			                      "\n🔳       ░░░░░░░░░░░░       🔳" +
+			                      "\n🔳        ░░░░░░░░░░        🔳" +
+			                      "\n🔳            ░░            🔳" +
+			                      "\n🔳  🔳🔳      ░░      🔳🔳  🔳" +
+			                      "\n🔳  🔳🔳     ░░░░     🔳🔳  🔳" +
+			                      "\n🔳          ░░░░░░          🔳" +
+								  "\n🔳🔳🔳🔳🔳░░░░░░░░░░🔳🔳🔳🔳🔳";
+			DrawRoom(RoomMap);
+
 			this.Doors = new List<Door>();
 			this.Doors.Add(new Door(Direction.left,this));
 			this.Doors.Add(new Door(Direction.up,this));
@@ -74,11 +74,11 @@ namespace Game {
 		{
 			numbersOfRooms++;
 			idRoom = numbersOfRooms;
+			RoomMap = "";
 
-			//TODO: Set Asyncronic programming;
-			this.Titles = GenerateTitles(); //public
-			this.Doors = GenerateDoors(this, enterDoor, backRoom); //private
-			this.Enemy = GenerateEnemy(this); //private
+			this.Titles = GenerateTitles();
+			this.Doors = GenerateDoors(this, enterDoor, backRoom);
+			this.Enemy = GenerateEnemy(this);
 		}
 		
 		public string[,] GenerateTitles()
@@ -179,41 +179,19 @@ namespace Game {
 				Door newDoor = new Door(direction, this);//???
 				room.Doors.Add(newDoor);
 
-				//Draw new door on Titles
 				switch((int)newDoor.Direction) {
 					case 0:
-						room.Titles[/*(int)doorsParams.RoomSize.X - 1*/0, (int)DoorPosition.Y] = newDoor.mapIcon;
-						//doorsParams.direction = Direction.down;
+						room.Titles[0, (int)DoorPosition.Y] = newDoor.mapIcon;
 						break;
 					case 1:
 						room.Titles[(int)DoorPosition.X, 0] = newDoor.mapIcon;
-						//doorsParams.direction = Direction.left;
 						break;
 					case 2:
-						room.Titles[/*0*/(int)doorsParams.RoomSize.X - 1, (int)DoorPosition.Y] = newDoor.mapIcon;
-						//doorsParams.direction = Direction.up;
+						room.Titles[(int)doorsParams.RoomSize.X - 1, (int)DoorPosition.Y] = newDoor.mapIcon;
 						break;
 					case 3:
 						room.Titles[(int)DoorPosition.X, (int)doorsParams.RoomSize.Y - 1] = newDoor.mapIcon;
-						//doorsParams.direction = Direction.right;
 						break;
-
-					//case 0:
-					//	room.Titles[doorsParams.MaxX - 1, doorsParams.doorPositionY] = "🚪";
-					//	doorsParams.direction = Direction.down;
-					//	break;
-					//case 1:
-					//	room.Titles[doorsParams.doorPositionX, 0] = "🚪";
-					//	doorsParams.direction = Direction.left;
-					//	break;
-					//case 2:
-					//	room.Titles[0, doorsParams.doorPositionY] = "🚪";
-					//	doorsParams.direction = Direction.up;
-					//	break;
-					//case 3:
-					//	room.Titles[doorsParams.DoorPositionX, doorsParams.MaxY - 1] = "🚪";
-					//	doorsParams.direction = Direction.right;
-					//	break;
 				}
 				
 			}
@@ -278,9 +256,8 @@ namespace Game {
 			return battle;
 		}
 		
-		public string[,] RemoveEnemy()
+		public string[,] RemoveEnemy(string[,] titles)
 		{
-			string[,] titles = this.Titles;
 			Vector2 roomSize = new Vector2();
 			roomSize.X = titles.GetLength(0);
 			roomSize.Y = titles.GetLength(1);
@@ -303,7 +280,7 @@ namespace Game {
 		
 		public string Enter()
 		{
-			return DrawRoom(this.Titles);
+			return DrawRoom(this.RoomMap);
 		}
 		
 		private string DrawRoom(string[,] titles) {
@@ -317,10 +294,14 @@ namespace Game {
 				}
 				room += "\n";
 			}
-			Console.WriteLine(room);
 			return room;
 		}
-		
-		
+		private string DrawRoom(string titles) {
+			if(titles == "") {
+				titles = DrawRoom(this.Titles);
+			}
+			Console.WriteLine(titles);
+			return titles;
+		}
 	}
 }

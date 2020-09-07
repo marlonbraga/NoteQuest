@@ -11,7 +11,7 @@ namespace Game {
 					Turn(Heroes, Enemies);
 				}
 
-				MatchGame.ActualDungeonRoom.RemoveEnemy();
+				MatchGame.ActualDungeonRoom.RemoveEnemy(MatchGame.ActualDungeonRoom.Titles);
 				MatchGame.ActualDungeonRoom.Enter();
 			}
 		}
