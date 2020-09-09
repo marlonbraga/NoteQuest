@@ -7,6 +7,7 @@ namespace Game {
 	public class MatchGame
 	{
 		internal Party Party { set; get; }
+		internal DungeonRoomBuilder DungeonRoomBuilder { private set; get; }
 		internal static DungeonRoom ActualDungeonRoom;
 		private static MatchGame _matchGame;
 		private MatchGame() { }
@@ -23,8 +24,9 @@ namespace Game {
 
 			Party = Party.GetInstance();
 
-			
-			ActualDungeonRoom = new DungeonRoom();
+			DungeonRoomBuilder = new DungeonRoomBuilder();
+			ActualDungeonRoom = DungeonRoomBuilder.BuildRoom();
+			ActualDungeonRoom.Enter();
 			do
 			{
 				MatchRound();
