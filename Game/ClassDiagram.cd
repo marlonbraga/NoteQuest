@@ -38,7 +38,7 @@
   <Class Name="Game.DungeonRoomBuilder">
     <Position X="7.75" Y="0.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAIAAACAACAAAEAABAAAAAAAACAIACAAwAAAA=</HashCode>
+      <HashCode>AAAAAAAAIBAACAACAAAEAABAAAAAAAACAIACAAwAAAA=</HashCode>
       <FileName>DungeonRoomBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -91,13 +91,6 @@
       <FileName>Key.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Game.MatchGame">
-    <Position X="15.25" Y="0.5" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AEAAAAQAACAAAAAAAAAACACABAAAAAAAAAAAAAAQACA=</HashCode>
-      <FileName>MatchGame.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Game.Party">
     <Position X="0.5" Y="6.5" Width="1.75" />
     <TypeIdentifier>
@@ -124,6 +117,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VoidEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.MatchGame">
+    <Position X="15.25" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAQAACAAAAAAAAAACACABAAAAAAAAAAAAAAQACA=</HashCode>
+      <FileName>MatchGame.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="Game.Direction">
