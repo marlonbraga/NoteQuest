@@ -20,10 +20,11 @@ namespace Test_Game {
 		public void Battle_1HeroAnd1Enemy_BattleRuns() {
             string expectedOutput1 = "This room has [*] 💀s!";
             string expectedOutput2 = "💀 died!";
+            FactoryHero factory = new FactoryHero();
                 
             List<Hero> Heroes = new List<Hero>();
             List<Enemy> Enemies = new List<Enemy>();
-            Hero hero = new Hero("1");
+            Hero hero = factory.CreateHero(HeroClass.Warrior);
             Enemy enemy = new VoidEnemy();
             Heroes.Add(hero);
             Enemies.Add(enemy);

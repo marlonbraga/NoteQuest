@@ -89,7 +89,8 @@ namespace Test_Game {
 		public void Hostil_ReturnSomething() {
 			List<Hero> Heroes = new List<Hero>();
 			List<Enemy> Enemies = new List<Enemy>();
-			Hero hero = new Hero("1");
+			FactoryHero factory = new FactoryHero();
+			Hero hero = factory.CreateHero(HeroClass.Warrior);
 			Enemy enemy = new VoidEnemy();
 			Heroes.Add(hero);
 			Enemies.Add(enemy);
@@ -105,7 +106,8 @@ namespace Test_Game {
 		public void Hostil_GetBattle() {
 			List<Hero> Heroes = new List<Hero>();
 			List<Enemy> Enemies = new List<Enemy>();
-			Hero hero = new Hero("1");
+			FactoryHero factory = new FactoryHero();
+			Hero hero = factory.CreateHero(HeroClass.Warrior);
 			Enemy enemy = new VoidEnemy();
 			Heroes.Add(hero);
 			Enemies.Add(enemy);
