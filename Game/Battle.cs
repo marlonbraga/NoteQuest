@@ -10,9 +10,12 @@ namespace Game {
 				while(!IsBattleFinished(Heroes, Enemies)) {
 					Turn(Heroes, Enemies);
 				}
-
-				MatchGame.ActualDungeonRoom.RemoveEnemy();
-				MatchGame.ActualDungeonRoom.Enter();
+				try {
+					MatchGame.ActualDungeonRoom.RemoveEnemyOf(MatchGame.ActualDungeonRoom.Titles);
+					MatchGame.ActualDungeonRoom.Enter();
+				} catch {
+					//TODO: Fix Design issue. RemoveEnemy() isn't Battle() responsability
+				}
 			}
 		}
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	 class Party {
+	public class Party {
 		public List<Hero> Heroes { set; get; }
 
 		private static Party _party;
@@ -16,7 +16,6 @@ namespace Game {
 
 		private Party()
 		{
-
 			ChoseClass();
 		}
 

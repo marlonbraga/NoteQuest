@@ -3,85 +3,138 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Game;
+using System.IO;
 
 namespace Test_Game {
 	[TestFixture]
 	class Test_DungeonRoom {
-		private DungeonRoom dungeonRoom;
+		private DungeonRoom dummyRoom;
 
 		[SetUp]
 		public void Init() {
-			dungeonRoom = new DungeonRoom(); 
+			dummyRoom = new DungeonRoom(0); 
 		}
 
 		[TearDown]
 		public void Cleanup() { /* ... */ }
 
 		[Test]
-		[Ignore("Ignore a test")]
-		public void ReturnDungeonRoom() {
-			//dungeonRoom;
+		public void DungeonRoom_1parameter() {
+			int expectedIdRoom = 0;
+			DungeonRoom dungeonRoom;
 
-			Assert.Pass();
+			dungeonRoom = new DungeonRoom(0);
+
+			Assert.AreEqual(expectedIdRoom, dungeonRoom.IdRoom);
 		}
 		[Test]
-		[Ignore("Ignore a test")]
-		public void ReturnGenertedRoom() {
-			Assert.Pass();
-		}
-		[Test]
-		[Ignore("Ignore a test")]
-		public void ReturnRoomWithoutEnemies() {
-			//RemoveEnemy();
-			Assert.Pass();
-		}
-		[Test]
-		public void IsDoorAble_EmptyDoorList_ReturnTrue() {
+		public void DungeonRoom_5parameteres() {
 			List<Door> Doors = new List<Door>();
-			Direction direction = Direction.right;
-			bool isDoorAble = false;
+			Doors.Add(new Door(Direction.left, dummyRoom));
+			Doors.Add(new Door(Direction.up, dummyRoom));
+			Doors.Add(new Door(Direction.right, dummyRoom));
+			
+			List<Enemy> Enemies = new List<Enemy>();
+			Enemies.Add(new Rat());
+			Enemies.Add(new Rat());
 
-			isDoorAble = dungeonRoom.IsDoorAble(Doors, direction);
+			string[,] Titles = {
+				{ "🔳","🚪","🔳"},
+				{ "🚪","  ","🚪"},
+				{ "🔳","🚪","🔳"}
+			};
+			string RoomMap = "" +
+				"\n🔳🚪🔳" +
+				"\n🚪  🚪" +
+				"\n🔳🚪🔳";
 
-			Assert.IsTrue(isDoorAble);
+			DungeonRoom dungeonRoom = new DungeonRoom(0, Doors,Enemies,Titles,RoomMap);
+
+			Assert.AreEqual(0, dungeonRoom.IdRoom);
+			Assert.AreEqual(Doors, dungeonRoom.Doors);
+			Assert.AreEqual(Enemies, dungeonRoom.Enemies);
+			Assert.AreEqual(Titles, dungeonRoom.Titles);
+			Assert.AreEqual(RoomMap, dungeonRoom.RoomMap);
+		}
+
+		[Test]
+		public void Enter_RoomMapIsBlank_ReturnString() {
+			string[,] title = {
+				{ "🔳","🚪","🔳"},
+				{ "🚪","  ","🚪"},
+				{ "🔳","🚪","🔳"}
+			};
+			dummyRoom.Titles = title;
+			dummyRoom.RoomMap = "";
+			string drawMap;
+
+			drawMap = dummyRoom.Enter();
+
+			Assert.IsNotNull(drawMap);
 		}
 		[Test]
-		public void IsDoorAble_FullDoorList_ReturnFalse() {
-			List<Door> Doors = new List<Door>();
-			Doors.Add(new Door(Direction.right, dungeonRoom));
-			Doors.Add(new Door(Direction.left, dungeonRoom));
-			Doors.Add(new Door(Direction.up, dungeonRoom));
-			Doors.Add(new Door(Direction.down, dungeonRoom));
-			Direction direction = Direction.right;
-			bool isDoorAble = false;
+		public void Enter_RoomMapIsNotNull_ReturnString() {
+			string map = dummyRoom.RoomMap = "" +
+				"\n🔳🚪🔳" +
+				"\n🚪  🚪" +
+				"\n🔳🚪🔳";
+			string drawMap;
 
-			isDoorAble = dungeonRoom.IsDoorAble(Doors, direction);
+			drawMap = dummyRoom.Enter();
 
-			Assert.IsFalse(isDoorAble);
+			Assert.AreEqual(map, drawMap);
+		}
+
+		[Test]
+		public void Hostil_ReturnSomething() {
+			List<Hero> Heroes = new List<Hero>();
+			List<Enemy> Enemies = new List<Enemy>();
+			Hero hero = new Hero("1");
+			Enemy enemy = new VoidEnemy();
+			Heroes.Add(hero);
+			Enemies.Add(enemy);
+			dummyRoom.Enemies = Enemies;
+			Party.GetInstance().Heroes = Heroes;
+			var input = new StringReader("1");
+			Console.SetIn(input);
+			Console.SetIn(input);
+
+			Assert.IsNotNull(dummyRoom.Hostil());
 		}
 		[Test]
-		public void IsDoorAble_PartialEmptyDoorList_ReturnFalse() {
-			List<Door> Doors = new List<Door>();
-			Doors.Add(new Door(Direction.right, dungeonRoom));
-			Direction direction = Direction.right;
-			bool isDoorAble = false;
+		public void Hostil_GetBattle() {
+			List<Hero> Heroes = new List<Hero>();
+			List<Enemy> Enemies = new List<Enemy>();
+			Hero hero = new Hero("1");
+			Enemy enemy = new VoidEnemy();
+			Heroes.Add(hero);
+			Enemies.Add(enemy);
+			dummyRoom.Enemies = Enemies;
+			Party.GetInstance().Heroes = Heroes;
+			var input = new StringReader("1");
+			Console.SetIn(input);
+			Console.SetIn(input);
 
-			isDoorAble = dungeonRoom.IsDoorAble(Doors, direction);
+			Type t = dummyRoom.Hostil().GetType();
 
-			Assert.IsFalse(isDoorAble);
+			Assert.AreEqual(t, typeof(Battle));
 		}
 		[Test]
-		public void IsDoorAble_PartialEmptyDoorList_ReturnTrue() {
-			List<Door> Doors = new List<Door>();
-			Doors.Add(new Door(Direction.up, dungeonRoom));
-			Doors.Add(new Door(Direction.down, dungeonRoom));
-			Doors.Add(new Door(Direction.left, dungeonRoom));
-			Direction direction = Direction.right;
-			bool isDoorAble = false;
+		public void RemoveEnemy_SettingEnemyOn_CreateEnemy() {
+			string[,] map = {
+				{ "🔳","🚪","🔳"},
+				{ "🚪","💀","🚪"},
+				{ "🔳","🚪","🔳"}
+			};
+			string[,] drawMap = {
+				{"🔳","🚪","🔳"},
+				{"🚪","🐀","🚪"},
+				{"🔳","🚪","🔳"}
+			};
 
-			isDoorAble = dungeonRoom.IsDoorAble(Doors, direction);
+			string[,] newDrawMap = dummyRoom.RemoveEnemyOf(drawMap);
 
-			Assert.IsTrue(isDoorAble);
+			Assert.AreEqual(map, newDrawMap);
 		}
 	}
 }

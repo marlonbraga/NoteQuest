@@ -30,7 +30,8 @@ namespace Game {
 		{
 			if (FrontRoom == null)
 			{
-				FrontRoom = new DungeonRoom(this, BackRoom);
+				DungeonRoomBuilder dungeonRoomBuilder = new DungeonRoomBuilder();
+				FrontRoom = dungeonRoomBuilder.BuildRoom(this, BackRoom);
 			}
 			FrontRoom.Enter();
 
