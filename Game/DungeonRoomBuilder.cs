@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Game {
 	public class DungeonRoomBuilder {
-		private DungeonRoom dungeonRoom;
+		private Room dungeonRoom;
 		private static int numbersOfRooms = 0;
 
-		public DungeonRoom BuildRoom() {
+		public Room BuildRoom() {
 			numbersOfRooms++;
-			dungeonRoom = new DungeonRoom(numbersOfRooms);
+			dungeonRoom = new Room(numbersOfRooms);
 
-			dungeonRoom.Enemies = new List<Enemy>();
+			dungeonRoom.Monsters = new List<Monster>();
 			dungeonRoom.Doors = new List<Door>();
 
 			Vector2 roomSize = new Vector2(15);
@@ -56,18 +56,18 @@ namespace Game {
 			return dungeonRoom;
 		}
 
-		public DungeonRoom BuildRoom(Door enterDoor, DungeonRoom backRoom) {
-			dungeonRoom = new DungeonRoom(++numbersOfRooms);
+		public Room BuildRoom(Door enterDoor, Room backRoom) {
+			dungeonRoom = new Room(++numbersOfRooms);
 			dungeonRoom.RoomMap = "";
 			dungeonRoom.Titles = GenerateTitles();
 			dungeonRoom.Doors = GenerateDoors(dungeonRoom, enterDoor, backRoom);
-			dungeonRoom.Enemies = GenerateEnemy(dungeonRoom);
+			dungeonRoom.Monsters = GenerateMonsters(dungeonRoom);
 
 			return dungeonRoom;
 		}
 
-		public DungeonRoom ObtainDungeonRoom(Door enterDoor, DungeonRoom backRoom) {
-			DungeonRoom dungeonRoom = BuildRoom(enterDoor, backRoom);
+		public Room ObtainDungeonRoom(Door enterDoor, Room backRoom) {
+			Room dungeonRoom = BuildRoom(enterDoor, backRoom);
 
 			return dungeonRoom;
 		}
@@ -101,7 +101,7 @@ namespace Game {
 			return titles;
 		}
 
-		private List<Door> GenerateDoors(DungeonRoom room, Door enterDoor, DungeonRoom backRoom) {
+		private List<Door> GenerateDoors(Room room, Door enterDoor, Room backRoom) {
 
 			var random = new Random();
 			int doorsQuantity = random.Next(3);
@@ -116,7 +116,7 @@ namespace Game {
 			return room.Doors;
 		}
 		
-		public string[,] AddGatewayToMap(DungeonRoom room, Door enterDoor, Vector2 RoomSize) {
+		public string[,] AddGatewayToMap(Room room, Door enterDoor, Vector2 RoomSize) {
 			string[,] Titles = room.Titles;
 			var random = new Random();
 			Vector2 doorPosition = new Vector2();
@@ -138,14 +138,14 @@ namespace Game {
 			}
 			return Titles;
 		}
-		public Door GenerateGateway(DungeonRoom room, Door enterDoor, DungeonRoom backRoom) {
+		public Door GenerateGateway(Room room, Door enterDoor, Room backRoom) {
 			Direction direction = enterDoor.InvertDoor().Direction;
 			Door backDoor = new Door(direction, room);
 			backDoor.FrontRoom = backRoom;
 			return backDoor;
 		}
 		
-		public List<Door> GenerateNewDoors(DungeonRoom room, Vector2 RoomSize, int DoorsQuantity) {
+		public List<Door> GenerateNewDoors(Room room, Vector2 RoomSize, int DoorsQuantity) {
 			var random = new Random();
 			Vector2 DoorPosition = new Vector2();
 			DoorPosition.X = random.Next((int)RoomSize.X - 2) + 1;
@@ -191,13 +191,13 @@ namespace Game {
 			return thereIsDoor;
 		}
 
-		private List<Enemy> GenerateEnemy(DungeonRoom room) {
+		private List<Monster> GenerateMonsters(Room room) {
 			var maxX = room.Titles.GetLength(0);
 			var maxY = room.Titles.GetLength(1);
 			var random = new Random();
 			int enemyType = random.Next(5);
-			List<Enemy> Enemies = new List<Enemy>();
-			Enemy enemy = null;
+			List<Monster> Monsters = new List<Monster>();
+			Monster enemy = null;
 			switch(enemyType) {
 				case 0:
 					enemy = new VoidEnemy();
@@ -218,17 +218,17 @@ namespace Game {
 					enemy = new VoidEnemy();
 					break;
 			}
-			Enemies.Add(enemy);
+			Monsters.Add(enemy);
 			int positionX = random.Next(maxX - 2) + 1;
 			int positionY = random.Next(maxY - 2) + 1;
 
-			room.Titles[positionX, positionY] = Enemies[0].Icon;
+			room.Titles[positionX, positionY] = Monsters[0].Icon;
 
 			if(enemyType == 0) {
-				Enemies.RemoveRange(0, Enemies.Count);
+				Monsters.RemoveRange(0, Monsters.Count);
 			}
 
-			return Enemies;
+			return Monsters;
 		}
 
 	}

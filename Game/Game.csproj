@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enemies\" />
+    <Folder Include="Monsters\" />
   </ItemGroup>
 
 </Project>

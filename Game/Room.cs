@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Numerics;
-using System.Text;
-using System.Threading;
-using System.Transactions;
 
 namespace Game {
 	public enum Direction:int {
@@ -13,25 +9,25 @@ namespace Game {
 		down = 2,
 		right = 3
 	}
-	public class DungeonRoom
+	public class Room
 	{
 		public int IdRoom { get; }
 		public List<Door> Doors { set; get; }
-		public List<Enemy> Enemies { set; get; }
+		public List<Monster> Monsters { set; get; }
 		public string[,] Titles { set; get; }
 		public string RoomMap { set; get; }
 
-		public DungeonRoom(int idRoom) {
+		public Room(int idRoom) {
 			this.IdRoom = idRoom;
 			this.Doors = new List<Door>();
-			this.Enemies = new List<Enemy>();
+			this.Monsters = new List<Monster>();
 			this.Titles = Titles;
 			this.RoomMap = "";
 		}
-		public DungeonRoom(int idRoom, List<Door> Doors, List<Enemy> Enemies, string[,] Titles, string RoomMap="") {
+		public Room(int idRoom, List<Door> Doors, List<Monster> Monsters, string[,] Titles, string RoomMap="") {
 			this.IdRoom = idRoom;
 			this.Doors = Doors;
-			this.Enemies = Enemies;
+			this.Monsters = Monsters;
 			this.Titles = Titles;
 			this.RoomMap = RoomMap;
 		}
@@ -61,13 +57,8 @@ namespace Game {
 			}
 			return room;
 		}
-
-		public Battle Hostil() {
-			Battle battle = new Battle(Party.GetInstance().Heroes, this.Enemies);
-			return battle;
-		}
 		
-		public string[,] RemoveEnemyOf(string[,] titles)
+		public string[,] RemoveMonsterOf(string[,] titles)
 		{
 			Vector2 roomSize = new Vector2();
 			roomSize.X = titles.GetLength(0);

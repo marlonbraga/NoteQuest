@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	public class VoidEnemy:Enemy {
+	public class VoidEnemy:Monster {
 		public VoidEnemy() {
 			this.Name = "💀";
 			this.Icon = "*";

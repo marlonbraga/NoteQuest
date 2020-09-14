@@ -10,7 +10,7 @@
   <Class Name="Game.Battle">
     <Position X="13.75" Y="7" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAAAACAAAAABAQAAAAAAgAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAEQCAAAAAIAAACAAAAABAQAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Battle.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -28,17 +28,17 @@
       <FileName>Door.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Game.DungeonRoom">
+  <Class Name="Game.Room">
     <Position X="11.75" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAEAAAAAIAAAAAAEEAAAAAAABCAIAgAE=</HashCode>
-      <FileName>DungeonRoom.cs</FileName>
+      <HashCode>AABAAAAAAAAAAEAAAAAIAAAAAAAEAABAAAABAAIAgAA=</HashCode>
+      <FileName>Room.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.DungeonRoomBuilder">
     <Position X="7.75" Y="0.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAIBAACAACAAAEAABAAAAAAAACAIACAAwAAAA=</HashCode>
+      <HashCode>AAAAAAAAIBAACAACAAAEAABAAACAAAACAIACAAgAAAA=</HashCode>
       <FileName>DungeonRoomBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -119,10 +119,39 @@
       <FileName>VoidEnemy.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Game.Heroes.Warrior">
+    <Position X="0.75" Y="10" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Heroes\Warrior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.Heroes.Mage">
+    <Position X="3.75" Y="10" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Heroes\Mage.cs</FileName>
+      <NewMemberFileName>Heroes\Warrior.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.Heroes.Thief">
+    <Position X="2.25" Y="10" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Heroes\Thief.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.Heroes.Cleric">
+    <Position X="5.25" Y="10" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Heroes\Cleric.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Game.MatchGame">
     <Position X="15.25" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AEAAAAQAACAAAAAAAAAACACABAAAAAAAAAAAAAAQACA=</HashCode>
+      <HashCode>AEAAAAQAACAAAAAAAAAACACABAAAAIAAAAAAAAAQACA=</HashCode>
       <FileName>MatchGame.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -130,7 +159,7 @@
     <Position X="18.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAIAAAAAAAAAgAAgAA=</HashCode>
-      <FileName>DungeonRoom.cs</FileName>
+      <FileName>Room.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

@@ -22,9 +22,9 @@ namespace Test_Game {
 
 		[Test]
 		public void BuildRoom_ReturnGatewayRoom() {
-			DungeonRoom dungeonRoom;
-			DungeonRoom dummyRoom = new DungeonRoom(0);
-			List<Enemy> expectedEnemy = new List<Enemy>();
+			Room dungeonRoom;
+			Room dummyRoom = new Room(0);
+			List<Monster> expectedMonster = new List<Monster>();
 			List<Door> expectedDoors = new List<Door>();
 			expectedDoors.Add(new Door(Direction.left, dummyRoom));
 			expectedDoors.Add(new Door(Direction.up, dummyRoom));
@@ -49,7 +49,7 @@ namespace Test_Game {
 			
 			dungeonRoom = dungeonRoomBuilder.BuildRoom();
 			
-			Assert.AreEqual(0, dungeonRoom.Enemies.Count);
+			Assert.AreEqual(0, dungeonRoom.Monsters.Count);
 			Assert.AreEqual(expectedDoors[0].Direction, dungeonRoom.Doors[0].Direction);
 			Assert.AreEqual(expectedDoors[1].Direction, dungeonRoom.Doors[1].Direction);
 			Assert.AreEqual(expectedDoors[2].Direction, dungeonRoom.Doors[2].Direction);
@@ -79,11 +79,11 @@ namespace Test_Game {
 
 		[Test]
 		public void GenerateNewDoors__ReturnListAddedDoors() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 
 			List<Door> Doors = new List<Door>();
 			Doors.Add(new Door(Direction.up, dummyRoom));
-			List<Enemy> Enemies = new List<Enemy>();
+			List<Monster> Monsters = new List<Monster>();
 			string[,] Titles = {
 				{ "🔳","🚪","🔳"},
 				{ "🔳","  ","🔳"},
@@ -94,7 +94,7 @@ namespace Test_Game {
 				"\n🔳  🔳" +
 				"\n🔳🔳🔳";
 
-			DungeonRoom dungeonRoom = new DungeonRoom(0, Doors, Enemies, Titles, RoomMap);
+			Room dungeonRoom = new Room(0, Doors, Monsters, Titles, RoomMap);
 
 			List<Door> returnedDoors;
 
@@ -106,7 +106,7 @@ namespace Test_Game {
 			Assert.Greater(returnedDoors.Count, 1);
 		}
 		public void GenerateNewDoors__ReturnListAddedByDownDoor() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 
 			List<Door> expectedDoors = new List<Door>();
 			expectedDoors.Add(new Door(Direction.left, dummyRoom));
@@ -124,7 +124,7 @@ namespace Test_Game {
 			Assert.AreEqual(expectedDoors, returnedDoors);
 		}
 		public void GenerateNewDoors__ReturnListAddedByLeftDoor() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 
 			List<Door> expectedDoors = new List<Door>();
 			expectedDoors.Add(new Door(Direction.up, dummyRoom));
@@ -142,7 +142,7 @@ namespace Test_Game {
 			Assert.AreEqual(expectedDoors, returnedDoors);
 		}
 		public void GenerateNewDoors__ReturnListAddedByRightDoor() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 
 			List<Door> expectedDoors = new List<Door>();
 			expectedDoors.Add(new Door(Direction.up, dummyRoom));
@@ -174,7 +174,7 @@ namespace Test_Game {
 		}
 		[Test]
 		public void IsDoorAble_FullDoorList_ReturnFalse() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 			List<Door> Doors = new List<Door>();
 			Doors.Add(new Door(Direction.right, dummyRoom));
 			Doors.Add(new Door(Direction.left, dummyRoom));
@@ -189,7 +189,7 @@ namespace Test_Game {
 		}
 		[Test]
 		public void IsDoorAble_PartialEmptyDoorList_ReturnFalse() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 			List<Door> Doors = new List<Door>();
 			Doors.Add(new Door(Direction.right, dummyRoom));
 			Direction direction = Direction.right;
@@ -201,7 +201,7 @@ namespace Test_Game {
 		}
 		[Test]
 		public void IsDoorAble_PartialEmptyDoorList_ReturnTrue() {
-			DungeonRoom dummyRoom = new DungeonRoom(0);
+			Room dummyRoom = new Room(0);
 			List<Door> Doors = new List<Door>();
 			Doors.Add(new Door(Direction.up, dummyRoom));
 			Doors.Add(new Door(Direction.down, dummyRoom));
@@ -216,8 +216,8 @@ namespace Test_Game {
 
 		[Test]
 		public void GenerateGateway_SettingUpEnterdoorAndBackdoor_CreateUpEnterDoor() {
-			DungeonRoom dummyNewRoom = new DungeonRoom(0);
-			DungeonRoom dummyBackRoom = new DungeonRoom(0);
+			Room dummyNewRoom = new Room(0);
+			Room dummyBackRoom = new Room(0);
 			Door enterDoor = new Door(Direction.up, dummyNewRoom);
 			Door door;
 
@@ -229,8 +229,8 @@ namespace Test_Game {
 		}
 		[Test]
 		public void GenerateGateway_SettingLeftEnterdoorAndBackdoor_CreateLeftEnterDoor() {
-			DungeonRoom dummyNewRoom = new DungeonRoom(0);
-			DungeonRoom dummyBackRoom = new DungeonRoom(0);
+			Room dummyNewRoom = new Room(0);
+			Room dummyBackRoom = new Room(0);
 			Door enterDoor = new Door(Direction.left, dummyBackRoom);
 			Door door;
 
@@ -242,8 +242,8 @@ namespace Test_Game {
 		}
 		[Test]
 		public void GenerateGateway_SettingDownEnterdoorAndBackdoor_CreateDownEnterDoor() {
-			DungeonRoom dummyNewRoom = new DungeonRoom(0);
-			DungeonRoom dummyBackRoom = new DungeonRoom(0);
+			Room dummyNewRoom = new Room(0);
+			Room dummyBackRoom = new Room(0);
 			Door enterDoor = new Door(Direction.down, dummyBackRoom);
 			Door door;
 
@@ -255,8 +255,8 @@ namespace Test_Game {
 		}
 		[Test]
 		public void GenerateGateway_SettingRightEnterdoorAndBackdoor_CreateRightEnterDoor() {
-			DungeonRoom dummyNewRoom = new DungeonRoom(0);
-			DungeonRoom dummyBackRoom = new DungeonRoom(0);
+			Room dummyNewRoom = new Room(0);
+			Room dummyBackRoom = new Room(0);
 			Door enterDoor = new Door(Direction.right, dummyBackRoom);
 			Door door;
 

@@ -7,12 +7,12 @@ using System.IO;
 
 namespace Test_Game {
 	[TestFixture]
-	class Test_DungeonRoom {
-		private DungeonRoom dummyRoom;
+	class Test_Room {
+		private Room dummyRoom;
 
 		[SetUp]
 		public void Init() {
-			dummyRoom = new DungeonRoom(0); 
+			dummyRoom = new Room(0); 
 		}
 
 		[TearDown]
@@ -21,9 +21,9 @@ namespace Test_Game {
 		[Test]
 		public void DungeonRoom_1parameter() {
 			int expectedIdRoom = 0;
-			DungeonRoom dungeonRoom;
+			Room dungeonRoom;
 
-			dungeonRoom = new DungeonRoom(0);
+			dungeonRoom = new Room(0);
 
 			Assert.AreEqual(expectedIdRoom, dungeonRoom.IdRoom);
 		}
@@ -34,9 +34,9 @@ namespace Test_Game {
 			Doors.Add(new Door(Direction.up, dummyRoom));
 			Doors.Add(new Door(Direction.right, dummyRoom));
 			
-			List<Enemy> Enemies = new List<Enemy>();
-			Enemies.Add(new Rat());
-			Enemies.Add(new Rat());
+			List<Monster> Monsters = new List<Monster>();
+			Monsters.Add(new Rat());
+			Monsters.Add(new Rat());
 
 			string[,] Titles = {
 				{ "🔳","🚪","🔳"},
@@ -48,11 +48,11 @@ namespace Test_Game {
 				"\n🚪  🚪" +
 				"\n🔳🚪🔳";
 
-			DungeonRoom dungeonRoom = new DungeonRoom(0, Doors,Enemies,Titles,RoomMap);
+			Room dungeonRoom = new Room(0, Doors,Monsters,Titles,RoomMap);
 
 			Assert.AreEqual(0, dungeonRoom.IdRoom);
 			Assert.AreEqual(Doors, dungeonRoom.Doors);
-			Assert.AreEqual(Enemies, dungeonRoom.Enemies);
+			Assert.AreEqual(Monsters, dungeonRoom.Monsters);
 			Assert.AreEqual(Titles, dungeonRoom.Titles);
 			Assert.AreEqual(RoomMap, dungeonRoom.RoomMap);
 		}
@@ -84,45 +84,8 @@ namespace Test_Game {
 
 			Assert.AreEqual(map, drawMap);
 		}
-
 		[Test]
-		public void Hostil_ReturnSomething() {
-			List<Hero> Heroes = new List<Hero>();
-			List<Enemy> Enemies = new List<Enemy>();
-			FactoryHero factory = new FactoryHero();
-			Hero hero = factory.CreateHero(HeroClass.Warrior);
-			Enemy enemy = new VoidEnemy();
-			Heroes.Add(hero);
-			Enemies.Add(enemy);
-			dummyRoom.Enemies = Enemies;
-			Party.GetInstance().Heroes = Heroes;
-			var input = new StringReader("1");
-			Console.SetIn(input);
-			Console.SetIn(input);
-
-			Assert.IsNotNull(dummyRoom.Hostil());
-		}
-		[Test]
-		public void Hostil_GetBattle() {
-			List<Hero> Heroes = new List<Hero>();
-			List<Enemy> Enemies = new List<Enemy>();
-			FactoryHero factory = new FactoryHero();
-			Hero hero = factory.CreateHero(HeroClass.Warrior);
-			Enemy enemy = new VoidEnemy();
-			Heroes.Add(hero);
-			Enemies.Add(enemy);
-			dummyRoom.Enemies = Enemies;
-			Party.GetInstance().Heroes = Heroes;
-			var input = new StringReader("1");
-			Console.SetIn(input);
-			Console.SetIn(input);
-
-			Type t = dummyRoom.Hostil().GetType();
-
-			Assert.AreEqual(t, typeof(Battle));
-		}
-		[Test]
-		public void RemoveEnemy_SettingEnemyOn_CreateEnemy() {
+		public void RemoveMonster_SettingMonsterOn_CreateMonster() {
 			string[,] map = {
 				{ "🔳","🚪","🔳"},
 				{ "🚪","💀","🚪"},
@@ -134,7 +97,7 @@ namespace Test_Game {
 				{"🔳","🚪","🔳"}
 			};
 
-			string[,] newDrawMap = dummyRoom.RemoveEnemyOf(drawMap);
+			string[,] newDrawMap = dummyRoom.RemoveMonsterOf(drawMap);
 
 			Assert.AreEqual(map, newDrawMap);
 		}

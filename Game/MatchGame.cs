@@ -8,7 +8,7 @@ namespace Game {
 	{
 		internal Party Party { set; get; }
 		internal DungeonRoomBuilder DungeonRoomBuilder { private set; get; }
-		internal static DungeonRoom ActualDungeonRoom;
+		internal static Room ActualDungeonRoom;
 		private static MatchGame _matchGame;
 		private MatchGame() { }
 		public static MatchGame GetInstance()
@@ -50,9 +50,35 @@ namespace Game {
 			Console.WriteLine(options);
 			int option = (int)int.Parse(Console.ReadLine());
 			ActualDungeonRoom = ActualDungeonRoom.Doors[option].PassDoor();
-			ActualDungeonRoom.Hostil();
+			CheckMonstersInRoom(ActualDungeonRoom);
 		}
-
+		private void CheckMonstersInRoom(Room ActualRoom) {
+			if(ActualRoom.Monsters.Count > 0){
+				Battle battle = new Battle(ActualRoom);
+				BattleStatus status = battle.Start();
+				switch(status) {
+					case BattleStatus.Defeat:
+						isGameOver();
+						break;
+					case BattleStatus.Stopped:
+						ActualDungeonRoom.Doors[0].PassDoor();
+						break;
+					case BattleStatus.Victory:
+						ActualDungeonRoom.RemoveMonsterOf(MatchGame.ActualDungeonRoom.Titles);
+						ActualDungeonRoom.Enter(); 
+						break;
+					case BattleStatus.Ready:
+						Console.WriteLine("ERROR: [Battle doesn't change state] 1");
+						break;
+					case BattleStatus.Started:
+						Console.WriteLine("ERROR: [Battle doesn't change state] 2");
+						break;
+					default:
+						Console.WriteLine("ERROR: [Battle doesn't change state] 3");
+						break;
+				}
+			}
+		}
 		private bool isGameOver()
 		{
 			if(Party.GetInstance().Heroes.Count > 0)
