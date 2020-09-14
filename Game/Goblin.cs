@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	class Goblin : Enemy
+	class Goblin : Monster
 	{
 		public Goblin()
 		{

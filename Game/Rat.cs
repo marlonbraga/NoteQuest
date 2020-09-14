@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	class Rat:Enemy {
+	public class Rat:Monster {
 		public Rat()
 		{
 			this.Name = "Rat";

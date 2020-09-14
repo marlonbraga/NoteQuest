@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	 class Party {
+	public class Party {
 		public List<Hero> Heroes { set; get; }
 
 		private static Party _party;
@@ -16,7 +16,6 @@ namespace Game {
 
 		private Party()
 		{
-
 			ChoseClass();
 		}
 
@@ -24,10 +23,12 @@ namespace Game {
 		{
 			Console.Write(":: Chose your class\n1-Warrior🧔🏽\n2-‍Mage🧙\n3-Thief👲🏼\n4-Cleric👴🏼\n :: ");
 			string line = Console.ReadLine();
+			FactoryHero factoryHero = new FactoryHero();
 			if (line == "1" || line == "2" || line == "3" || line == "4")
 			{
 				Heroes = new List<Hero>();
-				Heroes.Add(new Hero(line));
+				Hero newHero = factoryHero.CreateHero((HeroClass)Int32.Parse(line));
+				Heroes.Add(newHero);
 				Console.WriteLine($"A {Heroes[Heroes.Count - 1].Icon}{Heroes[Heroes.Count-1].Name} joins to party!");
 			}
 		}

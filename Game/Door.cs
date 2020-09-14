@@ -5,14 +5,14 @@ using System.Text;
 namespace Game {
 	public class Door
 	{
-		public DungeonRoom FrontRoom { get; set; }
-		public DungeonRoom BackRoom { get; set; }
+		public Room FrontRoom { get; set; }
+		public Room BackRoom { get; set; }
 		public string mapIcon = "🚪";
 		public string optionIcon = "*";
 		public bool isLocked;
 		public Direction Direction { get; set; }
 
-		public Door(Direction direction, DungeonRoom BackRoom)
+		public Door(Direction direction, Room BackRoom)
 		{
 			this.BackRoom = BackRoom;
 			this.Direction = direction;
@@ -26,11 +26,12 @@ namespace Game {
 				optionIcon = "⏩";
 			}
 		}
-		public DungeonRoom PassDoor()
+		public Room PassDoor()
 		{
 			if (FrontRoom == null)
 			{
-				FrontRoom = new DungeonRoom(this, BackRoom);
+				DungeonRoomBuilder dungeonRoomBuilder = new DungeonRoomBuilder();
+				FrontRoom = dungeonRoomBuilder.BuildRoom(this, BackRoom);
 			}
 			FrontRoom.Enter();
 

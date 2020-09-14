@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	class Bat:Enemy {
+	class Bat:Monster {
 		public Bat() {
 			this.Name = "Bat";
 			this.Icon = "🦇";

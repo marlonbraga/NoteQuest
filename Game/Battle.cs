@@ -3,41 +3,61 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
+	public enum BattleStatus:int {
+		Ready = 0,//🔼
+		Started = 1,
+		Stopped = 2,
+		Victory = 3,
+		Defeat = 4
+	}
 	public class Battle {
-		public Battle(List<Hero> Heroes, List<Enemy> Enemies) {
-			if(!IsBattleFinished(Heroes, Enemies)) {
-				Console.WriteLine(PrintEnemies(Enemies));
-				while(!IsBattleFinished(Heroes, Enemies)) {
-					Turn(Heroes, Enemies);
-				}
-
-				MatchGame.ActualDungeonRoom.RemoveEnemy(MatchGame.ActualDungeonRoom.Titles);
-				MatchGame.ActualDungeonRoom.Enter();
+		public List<Hero> Heroes{ get;  private set; }
+		public List<Monster> Monsters { get; private set; }
+		public BattleStatus Status { get; private set; }
+		public Battle(List<Hero> Heroes, List<Monster> Enemies) {
+			this.Heroes = Heroes;
+			this.Monsters = Enemies;
+			Status = BattleStatus.Ready;
+		}
+		public Battle(Room dungeonRoom) {
+			this.Heroes = Party.GetInstance().Heroes;
+			this.Monsters = dungeonRoom.Monsters;
+			Status = BattleStatus.Ready;
+		}
+		public BattleStatus Start() {
+			Status = BattleStatus.Started;
+			Console.WriteLine(PrintMonsters());
+			while(!IsBattleFinished()) {
+				Turn();
 			}
+
+			return Status;
 		}
 
-		private bool IsBattleFinished(List<Hero> Heroes, List<Enemy> Enemies) {
-			if ((Enemies.Count > 0) && (Heroes.Count > 0)){
+		private bool IsBattleFinished() {
+			if ((Monsters.Count > 0) && (Heroes.Count > 0)){
 				return false;
 			}
 			if(Heroes.Count <= 0) {
-					MatchGame.GetInstance().EndGame();
+				Status = BattleStatus.Defeat;
+				MatchGame.GetInstance().EndGame();
 			}
+			Status = BattleStatus.Victory;
 			return true;
 		}
-		private string PrintEnemies(List<Enemy> Enemies) {
+		private string PrintMonsters() {
 			string enemies = "[";
-			for(int i = 0; i < Enemies.Count; i++) {
-				enemies += Enemies[i].Icon;
+			for(int i = 0; i < Monsters.Count; i++) {
+				enemies += Monsters[i].Icon;
 			}
-			enemies += "] " + Enemies[0].Name + "s!";
+			enemies += "] " + Monsters[0].Name + "s!";
 			return $"This room has {enemies}\n";
-			}
-		private void Turn(List<Hero> Heroes, List<Enemy> Enemies) {
-			RoundHeroes(Heroes, Enemies);
-			RoundEnemies(Heroes, Enemies);
 		}
-		private void RoundHeroes(List<Hero> Heroes, List<Enemy> Enemies)
+		private void Turn() {
+			RoundHeroes();
+			RoundMonsters();
+		}
+		private void RoundHeroes()
 		{
 			Hero hero;
 			int response = 0;
@@ -49,10 +69,10 @@ namespace Game {
 				response = (int)int.Parse(Console.ReadLine());
 				switch(response) {
 					case 1:
-						killedEnemy = hero.Attack(Enemies[0]);
+						killedEnemy = hero.Attack(Monsters[0]);
 						if(killedEnemy)
 						{
-							Enemies.Remove(Enemies[0]);
+							Monsters.Remove(Monsters[0]);
 						}
 						break;
 					case 2:
@@ -65,11 +85,11 @@ namespace Game {
 				}
 			}
 		}
-		private void RoundEnemies(List<Hero> Heroes, List<Enemy> Enemies)
+		private void RoundMonsters()
 		{
 			bool killedHero = false;
-			for(int i = 0; i < Enemies.Count; i++) {
-				killedHero = Enemies[i].Attack(Heroes[i]);
+			for(int i = 0; i < Monsters.Count; i++) {
+				killedHero = Monsters[i].Attack(Heroes[i]);
 				if(killedHero) {
 					Heroes.Remove(Heroes[i]);
 				}

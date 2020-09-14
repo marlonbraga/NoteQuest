@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	class Spider:Enemy {
+	class Spider:Monster {
 		public Spider() {
 			this.Name = "Spider";
 			this.Icon = "🕷🕷";

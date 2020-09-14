@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Game {
-	class VoidEnemy:Enemy {
+	public class VoidEnemy:Monster {
 		public VoidEnemy() {
 			this.Name = "💀";
-			this.Icon = "  ";
+			this.Icon = "*";
 			this.Strength = 0;
 			this.Dextrity = 0;
 			this.Contitution = 0;
