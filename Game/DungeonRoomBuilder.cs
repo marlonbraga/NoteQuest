@@ -192,40 +192,20 @@ namespace Game {
 		}
 
 		private List<Monster> GenerateMonsters(Room room) {
+			FactoryMonster factory = new FactoryMonster();
+			List<Monster> Monsters = new List<Monster>();
 			var maxX = room.Titles.GetLength(0);
 			var maxY = room.Titles.GetLength(1);
+
 			var random = new Random();
-			int enemyType = random.Next(5);
-			List<Monster> Monsters = new List<Monster>();
-			Monster enemy = null;
-			switch(enemyType) {
-				case 0:
-					enemy = new VoidEnemy();
-					break;
-				case 1:
-					enemy = new Rat();
-					break;
-				case 2:
-					enemy = new Bat();
-					break;
-				case 3:
-					enemy = new Spider();
-					break;
-				case 4:
-					enemy = new VoidEnemy();
-					break;
-				case 5:
-					enemy = new VoidEnemy();
-					break;
-			}
-			Monsters.Add(enemy);
-			int positionX = random.Next(maxX - 2) + 1;
-			int positionY = random.Next(maxY - 2) + 1;
+			if(random.Next(100) > 50) {
+				Monster monster = factory.CreateMonster(MatchGame.GetInstance().GameLevel);
+				Monsters.Add(monster);
 
-			room.Titles[positionX, positionY] = Monsters[0].Icon;
+				int positionX = random.Next(maxX - 2) + 1;
+				int positionY = random.Next(maxY - 2) + 1;
 
-			if(enemyType == 0) {
-				Monsters.RemoveRange(0, Monsters.Count);
+				room.Titles[positionX, positionY] = Monsters[0].Icon;
 			}
 
 			return Monsters;

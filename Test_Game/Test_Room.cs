@@ -35,8 +35,8 @@ namespace Test_Game {
 			Doors.Add(new Door(Direction.right, dummyRoom));
 			
 			List<Monster> Monsters = new List<Monster>();
-			Monsters.Add(new Rat());
-			Monsters.Add(new Rat());
+			Monsters.Add(new Monster(){Name = "Rat" });
+			Monsters.Add(new Monster(){Name = "Rat" });
 
 			string[,] Titles = {
 				{ "🔳","🚪","🔳"},

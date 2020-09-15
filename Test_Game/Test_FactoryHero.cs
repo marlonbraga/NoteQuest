@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Game;
-using Moq;
-using System.IO;
 using Game.Heroes;
 
 namespace Test_Game {

@@ -18,14 +18,14 @@ namespace Test_Game {
 
         [Test]
         public void StartBattle_1HeroAnd1Monster_BattleRuns() {
-            string expectedOutput1 = "This room has [*] 💀s!";
-            string expectedOutput2 = "💀 died!";
+            string expectedOutput1 = "This room has [🐀] Rats!";
+            string expectedOutput2 = "Rat died!";
             FactoryHero factory = new FactoryHero();
 
             List<Hero> Heroes = new List<Hero>();
             List<Monster> Monsters = new List<Monster>();
             Hero hero = factory.CreateHero(HeroClass.Warrior);
-            Monster monster = new VoidEnemy();
+            Monster monster = new Monster() { Name = "Rat", Icon = "🐀", HeathPoint = 0, Defense = 0 };
             Heroes.Add(hero);
             Monsters.Add(monster);
             BattleStatus result;
@@ -45,14 +45,14 @@ namespace Test_Game {
         }
         [Test]
         public void StartBattle_1Room_BattleRuns() {
-            string expectedOutput1 = "This room has [*] 💀s!";
-            string expectedOutput2 = "💀 died!";
+            string expectedOutput1 = "This room has [🐀] Rats!";
+            string expectedOutput2 = "Rat died!";
             FactoryHero factory = new FactoryHero();
             DungeonRoomBuilder roomBuilder = new DungeonRoomBuilder();
             Room room = roomBuilder.BuildRoom();
 
             //Hero hero = factory.CreateHero(HeroClass.Warrior);
-            Monster monster = new VoidEnemy();
+            Monster monster = new Monster() { Name = "Rat", Icon = "🐀", HeathPoint = 0, Defense = 0 };
             room.Monsters.Add(monster);
             BattleStatus result;
 

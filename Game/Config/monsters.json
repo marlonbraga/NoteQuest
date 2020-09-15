@@ -1,0 +1,87 @@
+﻿[
+  {
+    "Name": "-",
+    "Icon": "* ",
+    "Level": [ 0 ],
+    "Strength": 0,
+
+    "Dextrity": 0,
+    "Contitution": 0,
+    "Inteligence": 0,
+    "Wisdow": 0,
+    "Charisma": 0,
+
+    "Defense": 0,
+    "Damage": 0,
+    "HeathPoint": 0,
+    "SkillPoint": 0
+  },
+  {
+    "Name": "Rat",
+    "Icon": "🐀",
+    "Level": [ 1, 2, 3 ],
+    "Strength": 2,
+
+    "Dextrity": 0,
+    "Contitution": 0,
+    "Inteligence": 0,
+    "Wisdow": 0,
+    "Charisma": 0,
+
+    "Defense": 10,
+    "Damage": 6,
+    "HeathPoint": 4,
+    "SkillPoint": 0
+  },
+  {
+    "Name": "Bat",
+    "Icon": "🦇",
+    "Level": [ 1, 2, 3 ],
+    "Strength": 2,
+
+    "Dextrity": 0,
+    "Contitution": 0,
+    "Inteligence": 0,
+    "Wisdow": 0,
+    "Charisma": 0,
+
+    "Defense": 10,
+    "Damage": 8,
+    "HeathPoint": 6,
+    "SkillPoint": 0
+  },
+  {
+    "Name": "Spider",
+    "Icon": "🕷🕷",
+    "Level": [ 1, 2, 3 ],
+    "Strength": 2,
+
+    "Dextrity": 0,
+    "Contitution": 0,
+    "Inteligence": 0,
+    "Wisdow": 0,
+    "Charisma": 0,
+
+    "Defense": 10,
+    "Damage": 8,
+    "HeathPoint": 8,
+    "SkillPoint": 0
+  },
+  {
+    "Name": "Goblin",
+    "Icon": "👺",
+    "Level": [ 2, 3, 4 ],
+    "Strength": 4,
+
+    "Dextrity": 0,
+    "Contitution": 0,
+    "Inteligence": 0,
+    "Wisdow": 0,
+    "Charisma": 0,
+
+    "Defense": 12,
+    "Damage": 8,
+    "HeathPoint": 10,
+    "SkillPoint": 0
+  }
+]
