@@ -32,7 +32,7 @@ namespace Game {
 					monstersAtLevel.Add(m);
 				}
 			}
-			int index = random.Next(monstersAtLevel.Count-1);
+			int index = random.Next(monstersAtLevel.Count);
 			return monstersAtLevel[index];
 		}
 
