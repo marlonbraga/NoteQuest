@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Game {
 	public class Monster:Creature {
-		public int[] Level = { 1, 2, 3 };
+		public int[] Level { get; set; }
 		public Monster() {
 		
 		}
