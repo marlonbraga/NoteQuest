@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Text;
 
 namespace Game {
-	public class DungeonRoomBuilder {
+	public class RoomBuilder {
 		private Room dungeonRoom;
 		private static int numbersOfRooms = 0;
 
@@ -56,18 +56,18 @@ namespace Game {
 			return dungeonRoom;
 		}
 
-		public Room BuildRoom(Door enterDoor, Room backRoom) {
+		public Room BuildRoom(Door enterDoor) {
 			dungeonRoom = new Room(++numbersOfRooms);
 			dungeonRoom.RoomMap = "";
 			dungeonRoom.Titles = GenerateTitles();
-			dungeonRoom.Doors = GenerateDoors(dungeonRoom, enterDoor, backRoom);
+			dungeonRoom.Doors = GenerateDoors(dungeonRoom, enterDoor);
 			dungeonRoom.Monsters = GenerateMonsters(dungeonRoom);
 
 			return dungeonRoom;
 		}
 
-		public Room ObtainDungeonRoom(Door enterDoor, Room backRoom) {
-			Room dungeonRoom = BuildRoom(enterDoor, backRoom);
+		public Room ObtainDungeonRoom(Door enterDoor) {
+			Room dungeonRoom = BuildRoom(enterDoor);
 
 			return dungeonRoom;
 		}
@@ -101,7 +101,7 @@ namespace Game {
 			return titles;
 		}
 
-		private List<Door> GenerateDoors(Room room, Door enterDoor, Room backRoom) {
+		private List<Door> GenerateDoors(Room room, Door enterDoor) {
 
 			var random = new Random();
 			int doorsQuantity = random.Next(3);
@@ -110,38 +110,40 @@ namespace Game {
 			roomSize.X = room.Titles.GetLength(0);
 			roomSize.Y = room.Titles.GetLength(1);
 
-			room.Doors.Add(GenerateGateway(room, enterDoor, backRoom));
-			room.Titles = AddGatewayToMap(room, enterDoor, roomSize);
+			room.Doors.Add(GenerateGateway(room, enterDoor));
+			room.Titles = AddGatewayToMap(room, roomSize);
 			room.Doors = GenerateNewDoors(room, roomSize, doorsQuantity);
 			return room.Doors;
 		}
 		
-		public string[,] AddGatewayToMap(Room room, Door enterDoor, Vector2 RoomSize) {
+		public string[,] AddGatewayToMap(Room room, Vector2 RoomSize) {
+			Door enterDoor = room.Doors[0];
 			string[,] Titles = room.Titles;
 			var random = new Random();
 			Vector2 doorPosition = new Vector2();
 			doorPosition.X = random.Next((int)RoomSize.X - 2) + 1;
 			doorPosition.Y = random.Next((int)RoomSize.Y - 2) + 1;
 			switch(enterDoor.Direction) {
-				case Direction.up:
+				case Direction.down:
 					Titles[(int)RoomSize.X - 1, (int)doorPosition.Y] = enterDoor.mapIcon;
 					break;
-				case Direction.left:
+				case Direction.right:
 					Titles[(int)doorPosition.X, (int)RoomSize.Y - 1] = enterDoor.mapIcon;
 					break;
-				case Direction.down:
+				case Direction.up:
 					Titles[0, (int)doorPosition.Y] = enterDoor.mapIcon;
 					break;
-				case Direction.right:
+				case Direction.left:
 					Titles[(int)doorPosition.X, 0] = enterDoor.mapIcon;
 					break;
 			}
 			return Titles;
 		}
-		public Door GenerateGateway(Room room, Door enterDoor, Room backRoom) {
+		public Door GenerateGateway(Room room, Door enterDoor) {
+			Room previousRoom = enterDoor.previousRoom;
 			Direction direction = enterDoor.InvertDoor().Direction;
 			Door backDoor = new Door(direction, room);
-			backDoor.FrontRoom = backRoom;
+			backDoor.FrontRoom = previousRoom;
 			return backDoor;
 		}
 		

@@ -48,7 +48,7 @@ namespace Test_Game {
             string expectedOutput1 = "This room has [🐀] Rats!";
             string expectedOutput2 = "Rat died!";
             FactoryHero factory = new FactoryHero();
-            DungeonRoomBuilder roomBuilder = new DungeonRoomBuilder();
+            RoomBuilder roomBuilder = new RoomBuilder();
             Room room = roomBuilder.BuildRoom();
 
             //Hero hero = factory.CreateHero(HeroClass.Warrior);
