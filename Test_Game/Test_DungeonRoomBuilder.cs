@@ -10,11 +10,11 @@ using System.Numerics;
 namespace Test_Game {
 	[TestFixture]
 	class Test_DungeonRoomBuilder {
-		DungeonRoomBuilder dungeonRoomBuilder;
+		RoomBuilder dungeonRoomBuilder;
 
 		[SetUp]
 		public void Init() {
-			dungeonRoomBuilder = new DungeonRoomBuilder();
+			dungeonRoomBuilder = new RoomBuilder();
 		}
 
 		[TearDown]
@@ -56,6 +56,18 @@ namespace Test_Game {
 			Assert.AreEqual(expectedroomSize.X, dungeonRoom.Titles.GetLength(0));
 			Assert.AreEqual(expectedroomSize.Y, dungeonRoom.Titles.GetLength(1));
 			Assert.AreEqual(expectedRoomMap, dungeonRoom.RoomMap);
+		}
+
+		[Test]
+		public void BuildRoom_givenPreviousRoom_ReturnNewRoomWithDoorToReturn() {
+			Room room;
+			Room previouslyRoom = dungeonRoomBuilder.BuildRoom();
+			Direction direction = Direction.up;
+			Door enterDoor = new Door(direction, previouslyRoom);
+
+			room = dungeonRoomBuilder.BuildRoom(enterDoor);
+
+			Assert.AreEqual(previouslyRoom, room.Doors[0].FrontRoom);
 		}
 
 		[Test]
@@ -221,10 +233,10 @@ namespace Test_Game {
 			Door enterDoor = new Door(Direction.up, dummyNewRoom);
 			Door door;
 
-			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor, dummyBackRoom);
+			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor);
 
 			Assert.AreEqual(Direction.down, door.Direction);
-			Assert.AreEqual(dummyBackRoom, door.FrontRoom);
+			Assert.AreEqual(dummyBackRoom.IdRoom, door.FrontRoom.IdRoom);
 			Assert.AreEqual("⏬", door.optionIcon);
 		}
 		[Test]
@@ -234,10 +246,10 @@ namespace Test_Game {
 			Door enterDoor = new Door(Direction.left, dummyBackRoom);
 			Door door;
 
-			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor, dummyBackRoom);
+			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor);
 
 			Assert.AreEqual(Direction.right, door.Direction);
-			Assert.AreEqual(dummyBackRoom, door.FrontRoom);
+			Assert.AreEqual(dummyBackRoom.IdRoom, door.FrontRoom.IdRoom);
 			Assert.AreEqual("⏩", door.optionIcon);
 		}
 		[Test]
@@ -247,7 +259,7 @@ namespace Test_Game {
 			Door enterDoor = new Door(Direction.down, dummyBackRoom);
 			Door door;
 
-			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor, dummyBackRoom);
+			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor);
 
 			Assert.AreEqual(Direction.up, door.Direction);
 			Assert.AreEqual(dummyBackRoom, door.FrontRoom);
@@ -260,7 +272,7 @@ namespace Test_Game {
 			Door enterDoor = new Door(Direction.right, dummyBackRoom);
 			Door door;
 
-			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor, dummyBackRoom);
+			door = dungeonRoomBuilder.GenerateGateway(dummyNewRoom, enterDoor);
 
 			Assert.AreEqual(Direction.left, door.Direction);
 			Assert.AreEqual(dummyBackRoom, door.FrontRoom);

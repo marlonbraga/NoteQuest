@@ -5,33 +5,40 @@ using System.Text;
 namespace Game {
 	public class Door
 	{
+		public Direction Direction { get; set; }
+		public Room previousRoom { get; set; }
 		public Room FrontRoom { get; set; }
-		public Room BackRoom { get; set; }
 		public string mapIcon = "🚪";
 		public string optionIcon = "*";
 		public bool isLocked;
-		public Direction Direction { get; set; }
 
-		public Door(Direction direction, Room BackRoom)
+		public Door(Direction direction, Room previousRoom)
 		{
-			this.BackRoom = BackRoom;
 			this.Direction = direction;
-			if(direction == Direction.up) {
-				optionIcon = "⏫";
-			} else if(direction == Direction.left) {
-				optionIcon = "⏪";
-			} else if(direction == Direction.down) {
-				optionIcon = "⏬";
-			} else if(direction == Direction.right) {
-				optionIcon = "⏩";
-			}
+			this.previousRoom = previousRoom;
+
+			optionIcon = SetOptionIconBy(direction);
 		}
+		private string SetOptionIconBy(Direction direction) {
+			string icon = "";
+			if(direction == Direction.up) {
+				icon = "⏫";
+			} else if(direction == Direction.left) {
+				icon = "⏪";
+			} else if(direction == Direction.down) {
+				icon = "⏬";
+			} else if(direction == Direction.right) {
+				icon = "⏩";
+			}
+			return icon;
+		}
+
 		public Room PassDoor()
 		{
 			if (FrontRoom == null)
 			{
-				DungeonRoomBuilder dungeonRoomBuilder = new DungeonRoomBuilder();
-				FrontRoom = dungeonRoomBuilder.BuildRoom(this, BackRoom);
+				RoomBuilder dungeonRoomBuilder = new RoomBuilder();
+				FrontRoom = dungeonRoomBuilder.BuildRoom(this);
 			}
 			FrontRoom.Enter();
 
@@ -50,7 +57,8 @@ namespace Game {
 			} else if(direction == Direction.right) {
 				direction = Direction.left;
 			}
-			door = new Door(direction, door.BackRoom);
+			this.Direction = direction;
+			door.SetOptionIconBy(direction);
 			return door;
 		}
 	}
