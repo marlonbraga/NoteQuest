@@ -41,7 +41,7 @@ namespace Game {
 			if(titles == "") {
 				titles = DrawRoom(this.Titles);
 			}
-			Console.WriteLine(titles);
+			InputOutputData.GetInstance().Write(titles);
 			return titles;
 		}
 		private string DrawRoom(string[,] titles) {

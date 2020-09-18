@@ -26,7 +26,7 @@ namespace Game {
 		}
 		public BattleStatus Start() {
 			Status = BattleStatus.Started;
-			Console.WriteLine(PrintMonsters());
+			InputOutputData.GetInstance().Write(PrintMonsters());
 			while(!IsBattleFinished()) {
 				Turn();
 			}
@@ -65,8 +65,8 @@ namespace Game {
 			for(int i = 0; i < Heroes.Count; i++) {
 				hero = Heroes[i];
 				hero.isDefending = false;
-				Console.Write($"{hero.Icon}{hero.Name}({hero.HeathPoint}❤)\n[🗡-1|🛡-2|💼-3|🌟-4]: ");
-				response = (int)int.Parse(Console.ReadLine());
+				InputOutputData.GetInstance().Write($"{hero.Icon}{hero.Name}({hero.HeathPoint}❤)\n[🗡-1|🛡-2|💼-3|🌟-4]: ");
+				response = (int)int.Parse(InputOutputData.GetInstance().Read());
 				switch(response) {
 					case 1:
 						killedEnemy = hero.Attack(Monsters[0]);
@@ -94,7 +94,7 @@ namespace Game {
 					Heroes.Remove(Heroes[i]);
 				}
 			}
-			Console.WriteLine(" ");
+			InputOutputData.GetInstance().Write(" ");
 		}
 	}
 }

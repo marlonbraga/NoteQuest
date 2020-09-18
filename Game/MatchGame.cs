@@ -21,7 +21,7 @@ namespace Game {
 		}
 		public void Start()
 		{
-			Console.WriteLine("\n\n\n      🎲🎲🎲  WELCOME TO DUNGEON  🎲🎲🎲\n");
+			InputOutputData.GetInstance().Write("\n\n\n      🎲🎲🎲  WELCOME TO DUNGEON  🎲🎲🎲\n");
 			
 			GameLevel = 1;
 			Party = Party.GetInstance();
@@ -49,8 +49,8 @@ namespace Game {
 				}
 			}
 			options += "]";
-			Console.WriteLine(options);
-			int option = (int)int.Parse(Console.ReadLine());
+			InputOutputData.GetInstance().Write(options);
+			int option = (int)int.Parse(InputOutputData.GetInstance().Read());
 			ActualDungeonRoom = ActualDungeonRoom.Doors[option].PassDoor();
 			CheckMonstersInRoom(ActualDungeonRoom);
 		}
@@ -70,13 +70,13 @@ namespace Game {
 						ActualDungeonRoom.Enter(); 
 						break;
 					case BattleStatus.Ready:
-						Console.WriteLine("ERROR: [Battle doesn't change state] 1");
+						InputOutputData.GetInstance().Write("ERROR: [Battle doesn't change state] 1");
 						break;
 					case BattleStatus.Started:
-						Console.WriteLine("ERROR: [Battle doesn't change state] 2");
+						InputOutputData.GetInstance().Write("ERROR: [Battle doesn't change state] 2");
 						break;
 					default:
-						Console.WriteLine("ERROR: [Battle doesn't change state] 3");
+						InputOutputData.GetInstance().Write("ERROR: [Battle doesn't change state] 3");
 						break;
 				}
 			}
@@ -94,14 +94,14 @@ namespace Game {
 		}
 		internal void EndGame()
 		{
-			Console.WriteLine("     \n💀💀💀 GAME OVER 💀💀💀\n");
+			InputOutputData.GetInstance().Write("     \n💀💀💀 GAME OVER 💀💀💀\n");
 			_matchGame = null;
 			Thread.Sleep(2000);
-			Console.Write(".");
+			InputOutputData.GetInstance().Write(".");
 			Thread.Sleep(2000);
-			Console.Write(".");
+			InputOutputData.GetInstance().Write(".");
 			Thread.Sleep(2000);
-			Console.Write(".\n");
+			InputOutputData.GetInstance().Write(".\n");
 			Thread.Sleep(2000);
 			Start();
 		}

@@ -27,15 +27,15 @@ namespace Game {
 			int test = random.Next(20)+1;
 			test += this.Modify(Strength);
 			//Thread.Sleep(1500);
-			Console.WriteLine($"{this.Icon}{this.Name} attacks[{test}]...");
+			InputOutputData.GetInstance().Write($"{this.Icon}{this.Name} attacks[{test}]...");
 			//Thread.Sleep(750);
 			if(test >= creature.Defense) {
-				Console.WriteLine($"{this.Icon}{this.Name} hits! 💥");
+				InputOutputData.GetInstance().Write($"{this.Icon}{this.Name} hits! 💥");
 				isDead = creature.Hit(random.Next(this.Damage)+1);
 			}
 			else
 			{
-				Console.WriteLine($"{this.Icon}{this.Name} missed!");
+				InputOutputData.GetInstance().Write($"{this.Icon}{this.Name} missed!");
 				isDead = false;
 			}
 			return isDead;
@@ -47,10 +47,10 @@ namespace Game {
 			{
 				Double aux = damage/2;
 				damage = Convert.ToInt16(Math.Floor(aux));
-				Console.WriteLine($"{this.Icon}{this.Name} blocks🛡 [{damage}] of damage!");
+				InputOutputData.GetInstance().Write($"{this.Icon}{this.Name} blocks🛡 [{damage}] of damage!");
 			}
 			//Thread.Sleep(750);
-			Console.WriteLine($"{this.Icon}{this.Name} lost [{damage}]HP🩸");
+			InputOutputData.GetInstance().Write($"{this.Icon}{this.Name} lost [{damage}]HP🩸");
 			this.HeathPoint -= damage;
 			if (this.HeathPoint <= 0)
 			{
@@ -64,7 +64,7 @@ namespace Game {
 
 		public bool Die()
 		{
-			Console.WriteLine($" 💀 {this.Name} died!");
+			InputOutputData.GetInstance().Write($" 💀 {this.Name} died!");
 			return true;
 		}
 

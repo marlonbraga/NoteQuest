@@ -21,15 +21,15 @@ namespace Game {
 
 		private void ChoseClass()
 		{
-			Console.Write(":: Chose your class\n1-Warrior🧔🏽\n2-‍Mage🧙\n3-Thief👲🏼\n4-Cleric👴🏼\n :: ");
-			string line = Console.ReadLine();
+			InputOutputData.GetInstance().Write(":: Chose your class\n1-Warrior🧔🏽\n2-‍Mage🧙\n3-Thief👲🏼\n4-Cleric👴🏼\n :: ");
+			string line = InputOutputData.GetInstance().Read();
 			FactoryHero factoryHero = new FactoryHero();
 			if (line == "1" || line == "2" || line == "3" || line == "4")
 			{
 				Heroes = new List<Hero>();
 				Hero newHero = factoryHero.CreateHero((HeroClass)Int32.Parse(line));
 				Heroes.Add(newHero);
-				Console.WriteLine($"A {Heroes[Heroes.Count - 1].Icon}{Heroes[Heroes.Count-1].Name} joins to party!");
+				InputOutputData.GetInstance().Write($"A {Heroes[Heroes.Count - 1].Icon}{Heroes[Heroes.Count-1].Name} joins to party!");
 			}
 		}
 	}

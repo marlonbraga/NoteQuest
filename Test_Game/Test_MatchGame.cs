@@ -10,7 +10,7 @@ namespace Test_Game {
 
 		[Test]
 		[Ignore("Ignore a test")]
-		public void Starts_NormalConditions_CallParty () {
+		public void Starts_NormalConditions_CallParty () {//TODO
 			MatchGame.GetInstance().Start();
 
 			Assert.IsTrue(true);
