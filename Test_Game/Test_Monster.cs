@@ -43,7 +43,7 @@ namespace Test_Game {
 			Assert.True(monster is Monster);
 			Assert.AreEqual(monster.Name, dummyMonster.Name);
 			Assert.AreEqual(monster.Icon, dummyMonster.Icon);
-			Assert.AreEqual(monster.Level, dummyMonster.Level);//BUG
+			Assert.AreEqual(monster.Level, dummyMonster.Level);
 			Assert.AreEqual(monster.Strength, dummyMonster.Strength);
 			Assert.AreEqual(monster.Defense, dummyMonster.Defense);
 			Assert.AreEqual(monster.Damage, dummyMonster.Damage);

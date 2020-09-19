@@ -10,22 +10,23 @@ namespace Test_Game {
 
     [TestFixture]
     class Test_Battle {
-        [SetUp]
-        public void Init() { /* ... */ }
+        Monster monster;
+        string expectedOutput1;
+        string expectedOutput2;
 
-        [TearDown]
-        public void Cleanup() { /* ... */ }
+        [SetUp]
+        public void Init() {
+            expectedOutput1 = "This room has [🐀] Rats!";
+            expectedOutput2 = "Rat died!";
+            monster = new Monster() { Name = "Rat", Icon = "🐀", HeathPoint = 0, Defense = 0 };
+        }
 
         [Test]
         public void StartBattle_1HeroAnd1Monster_BattleRuns() {
-            string expectedOutput1 = "This room has [🐀] Rats!";
-            string expectedOutput2 = "Rat died!";
             FactoryHero factory = new FactoryHero();
-
             List<Hero> Heroes = new List<Hero>();
             List<Monster> Monsters = new List<Monster>();
             Hero hero = factory.CreateHero(HeroClass.Warrior);
-            Monster monster = new Monster() { Name = "Rat", Icon = "🐀", HeathPoint = 0, Defense = 0 };
             Heroes.Add(hero);
             Monsters.Add(monster);
             BattleStatus result;
@@ -39,20 +40,14 @@ namespace Test_Game {
             result = battle.Start();
 
             Assert.AreEqual(BattleStatus.Victory, result);
-            //Assert.That(output.ToString(), Is.EqualTo(string.Format("", Environment.NewLine)));
             Assert.True(output.ToString().Contains(expectedOutput1));
             Assert.True(output.ToString().Contains(expectedOutput2));
         }
         [Test]
         public void StartBattle_1Room_BattleRuns() {
-            string expectedOutput1 = "This room has [🐀] Rats!";
-            string expectedOutput2 = "Rat died!";
-            FactoryHero factory = new FactoryHero();
             RoomBuilder roomBuilder = new RoomBuilder();
             Room room = roomBuilder.BuildRoom();
 
-            //Hero hero = factory.CreateHero(HeroClass.Warrior);
-            Monster monster = new Monster() { Name = "Rat", Icon = "🐀", HeathPoint = 0, Defense = 0 };
             room.Monsters.Add(monster);
             BattleStatus result;
 

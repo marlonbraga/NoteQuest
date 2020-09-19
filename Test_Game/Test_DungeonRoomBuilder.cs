@@ -111,7 +111,6 @@ namespace Test_Game {
 			List<Door> returnedDoors;
 
 			Vector2 roomSize = new Vector2(3);
-			//Door enterDoor = new Door(Direction.down, dummyRoom);
 
 			returnedDoors = dungeonRoomBuilder.GenerateNewDoors(dungeonRoom, roomSize, 3);
 
@@ -129,7 +128,6 @@ namespace Test_Game {
 			auxiliarListDoors.Add(new Door(Direction.down, dummyRoom));
 			List<Door> returnedDoors;
 			Vector2 roomSize = new Vector2(5);
-			Door enterDoor = new Door(Direction.up, dummyRoom);
 
 			returnedDoors = dungeonRoomBuilder.GenerateNewDoors(dummyRoom, roomSize, 2);
 
@@ -147,7 +145,6 @@ namespace Test_Game {
 			auxiliarListDoors.Add(new Door(Direction.left, dummyRoom));
 			List<Door> returnedDoors;
 			Vector2 roomSize = new Vector2(5);
-			Door enterDoor = new Door(Direction.right, dummyRoom);
 
 			returnedDoors = dungeonRoomBuilder.GenerateNewDoors(dummyRoom, roomSize, 2);
 
@@ -165,7 +162,6 @@ namespace Test_Game {
 			auxiliarListDoors.Add(new Door(Direction.right, dummyRoom));
 			List<Door> returnedDoors;
 			Vector2 roomSize = new Vector2(5);
-			Door enterDoor = new Door(Direction.left, dummyRoom);
 
 			returnedDoors = dungeonRoomBuilder.GenerateNewDoors(dummyRoom, roomSize, 2);
 
@@ -178,7 +174,7 @@ namespace Test_Game {
 		public void IsDoorAble_EmptyDoorList_ReturnTrue() {
 			List<Door> Doors = new List<Door>();
 			Direction direction = Direction.right;
-			bool isDoorAble = false;
+			bool isDoorAble = false;//keep this line
 
 			isDoorAble = dungeonRoomBuilder.IsDoorAble(Doors, direction);
 
@@ -193,7 +189,7 @@ namespace Test_Game {
 			Doors.Add(new Door(Direction.up, dummyRoom));
 			Doors.Add(new Door(Direction.down, dummyRoom));
 			Direction direction = Direction.right;
-			bool isDoorAble = false;
+			bool isDoorAble = false;//keep this line
 
 			isDoorAble = dungeonRoomBuilder.IsDoorAble(Doors, direction);
 
@@ -205,7 +201,7 @@ namespace Test_Game {
 			List<Door> Doors = new List<Door>();
 			Doors.Add(new Door(Direction.right, dummyRoom));
 			Direction direction = Direction.right;
-			bool isDoorAble = false;
+			bool isDoorAble = false;//keep this line
 
 			isDoorAble = dungeonRoomBuilder.IsDoorAble(Doors, direction);
 
@@ -219,7 +215,7 @@ namespace Test_Game {
 			Doors.Add(new Door(Direction.down, dummyRoom));
 			Doors.Add(new Door(Direction.left, dummyRoom));
 			Direction direction = Direction.right;
-			bool isDoorAble = false;
+			bool isDoorAble = false;//keep this line
 
 			isDoorAble = dungeonRoomBuilder.IsDoorAble(Doors, direction);
 

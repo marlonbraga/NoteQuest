@@ -1,133 +1,163 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="Game.Bat">
-    <Position X="4.75" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Bat.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Game.Battle">
-    <Position X="13.75" Y="7" Width="2.25" />
+    <Position X="7.5" Y="2.75" Width="2.25" />
+    <AssociationLine Name="Heroes" Type="Game.Hero" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.688" Y="5.007" />
+        <Point X="8.688" Y="6.601" />
+        <Point X="6.571" Y="6.601" />
+        <Point X="6.571" Y="8" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.552" Y="0.069" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Monsters" Type="Game.Monster">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.1" Y="0.494" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Status" Type="Game.BattleStatus" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.188" Y="5.007" />
+        <Point X="8.188" Y="6.031" />
+        <Point X="7.75" Y="6.031" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.296" Y="0.345" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AABAAAAEQCAAAAAIAAACAAAAABAQAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Battle.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Heroes" />
+      <Property Name="Monsters" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Game.Creature">
-    <Position X="5" Y="0.5" Width="2" />
+    <Position X="4.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAIACAAAEAAAAggEIBAAQAAJhAAAAAAAEACgEAAAE=</HashCode>
       <FileName>Creature.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Door">
-    <Position X="18.75" Y="2" Width="2.25" />
+    <Position X="14.75" Y="11.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAgAAAAAAAABCAAAAAAAAAAAAAACEAAgAAAQAg=</HashCode>
+      <HashCode>AAAAAAAgAAAAAAAABCAAAAAAAAAAAAAACEAAgAgACAg=</HashCode>
       <FileName>Door.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Direction" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Game.Room">
-    <Position X="11.75" Y="0.5" Width="3.25" />
+    <Position X="14.75" Y="5.5" Width="3.25" />
+    <AssociationLine Name="Monsters" Type="Game.Monster" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="6.375" />
+        <Point X="11.562" Y="6.375" />
+        <Point X="11.562" Y="8" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.864" Y="1.316" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAEAAAAAIAAAAAAAEAABAAAABAAIAgAA=</HashCode>
       <FileName>Room.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Doors" />
+      <Property Name="Monsters" />
+    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Game.DungeonRoomBuilder">
-    <Position X="7.75" Y="0.5" Width="3.75" />
+  <Class Name="Game.RoomBuilder">
+    <Position X="16.5" Y="0.5" Width="2.75" />
+    <AssociationLine Name="dungeonRoom" Type="Game.Room">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.241" Y="1.682" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAIBAACAACAAAEAABAAACAAAACAIACAAgAAAA=</HashCode>
-      <FileName>DungeonRoomBuilder.cs</FileName>
+      <FileName>RoomBuilder.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Game.Enemy" Collapsed="true">
-    <Position X="8.25" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Enemy.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Game.Goblin">
-    <Position X="10" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Goblin.cs</FileName>
-    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="dungeonRoom" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Game.HeathPotion">
-    <Position X="2.75" Y="2" Width="1.5" />
+    <Position X="2.25" Y="15" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>HeathPotion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Hero">
-    <Position X="2.75" Y="6.5" Width="1.75" />
+    <Position X="5" Y="8" Width="2" />
+    <InheritanceLine Type="Game.Creature" FixedFromPoint="true">
+      <Path>
+        <Point X="6" Y="5.391" />
+        <Point X="6" Y="8" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACSAA=</HashCode>
       <FileName>Hero.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Inventory">
-    <Position X="0.5" Y="5.25" Width="1.75" />
+    <Position X="0.5" Y="11" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Inventory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Item">
-    <Position X="1.75" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="13" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Key">
-    <Position X="0.75" Y="2" Width="1.5" />
+    <Position X="0.5" Y="15" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Key.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Party">
-    <Position X="0.5" Y="6.5" Width="1.75" />
+    <Position X="0.5" Y="5.5" Width="1.75" />
+    <AssociationLine Name="Heroes" Type="Game.Hero">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.155" Y="0.124" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAABAAAAIAAAAAAAAAAAAg=</HashCode>
       <FileName>Party.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Game.Rat">
-    <Position X="6.5" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Rat.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Game.Spider">
-    <Position X="8.25" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Spider.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Game.VoidEnemy">
-    <Position X="11.75" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>VoidEnemy.cs</FileName>
-    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Heroes" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Game.Heroes.Warrior">
-    <Position X="0.75" Y="10" Width="1.25" />
+    <Position X="4.75" Y="11.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Heroes\Warrior.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Heroes.Mage">
-    <Position X="3.75" Y="10" Width="1.25" />
+    <Position X="7.75" Y="11.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Heroes\Mage.cs</FileName>
@@ -135,31 +165,112 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Heroes.Thief">
-    <Position X="2.25" Y="10" Width="1.25" />
+    <Position X="6.25" Y="11.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Heroes\Thief.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Heroes.Cleric">
-    <Position X="5.25" Y="10" Width="1.25" />
+    <Position X="9.25" Y="11.5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Heroes\Cleric.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.MatchGame">
-    <Position X="15.25" Y="0.5" Width="3.25" />
+    <Position X="13.5" Y="0.5" Width="2.75" />
+    <AssociationLine Name="ActualDungeonRoom" Type="Game.Room">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.087" Y="1.207" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AEAAAAQAACAAAAAAAAAACACABAAAAIAAAAAAAAAQACA=</HashCode>
+      <HashCode>AEAAAAQAACAAAAAAAAAACACABAAAQIAAAAAAAAAQACA=</HashCode>
       <FileName>MatchGame.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="ActualDungeonRoom" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Game.Monster">
+    <Position X="8.75" Y="8" Width="3.25" />
+    <InheritanceLine Type="Game.Creature" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6" Y="5.391" />
+        <Point X="6" Y="7.269" />
+        <Point X="6.488" Y="7.269" Type="JumpStart" />
+        <Point X="6.655" Y="7.269" Type="JumpEnd" />
+        <Point X="9.167" Y="7.269" Type="JumpStart" />
+        <Point X="9.333" Y="7.269" Type="JumpEnd" />
+        <Point X="10.375" Y="7.269" />
+        <Point X="10.375" Y="8" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Monster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.FactoryHero">
+    <Position X="2.75" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FactoryHero.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.FactoryMonster">
+    <Position X="10" Y="2.75" Width="3" />
+    <AssociationLine Name="AllMonsters" Type="Game.Monster" FixedToPoint="true">
+      <Path>
+        <Point X="10.938" Y="4.69" />
+        <Point X="10.938" Y="8" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-2.032" Y="3.039" Height="0.182" Width="1.925" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAIgACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FactoryMonster.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="AllMonsters" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Game.InputOutputConsole">
+    <Position X="1" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>InputOutputConsole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game.InputOutputData">
+    <Position X="0.5" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgBAEAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>InputOutputData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="Game.Direction">
-    <Position X="18.75" Y="0.5" Width="2.25" />
+    <Position X="18.25" Y="12" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAIAAAAAAAAAgAAgAA=</HashCode>
       <FileName>Room.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Game.BattleStatus" Collapsed="true">
+    <Position X="6.5" Y="5.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAIAAAEAAAAAAAAAAAIAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Battle.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Game.HeroClass">
+    <Position X="3" Y="9.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAIAAAABAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Hero.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
