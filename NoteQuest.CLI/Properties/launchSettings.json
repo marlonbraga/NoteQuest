@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NoteQuest.CLI": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

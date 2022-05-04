@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="MasmorraContext\Agregate\" />
+    <Folder Include="MasmorraContext\Services\" />
+    <Folder Include="MasmorraContext\ObjectValue\" />
+    <Folder Include="CombateContext\Agregate\" />
+    <Folder Include="CombateContext\Entities\" />
+    <Folder Include="CombateContext\Interfaces\" />
+    <Folder Include="CombateContext\ObjectValue\" />
+    <Folder Include="CombateContext\Services\" />
+    <Folder Include="ItensContext\Agregate\" />
+    <Folder Include="ItensContext\Entities\" />
+    <Folder Include="ItensContext\Interfaces\" />
+    <Folder Include="ItensContext\ObjectValue\" />
+    <Folder Include="ItensContext\Services\" />
+  </ItemGroup>
+
+</Project>
