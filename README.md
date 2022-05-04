@@ -9,6 +9,10 @@ Ele funciona como um RPG mas de forma bem simples e direta, dando tempo para a c
 Criado por Tiago Junges | Ilustrado por Bruno H. Junges
 https://coisinhaverde.com.br/jogos/portfolio/notequest/
 
+![Screenshot_17](https://user-images.githubusercontent.com/7953577/166622873-ae82c032-000b-48fa-9966-43786af79835.png)
+
 - [Glossário-(Linguagem-Ubíqua)](https://github.com/marlonbraga/NoteQuest/wiki/Gloss%C3%A1rio-(Linguagem-Ub%C3%ADqua))
 - [Mapa de contextos](https://github.com/marlonbraga/NoteQuest/wiki/Mapa-de-Contexto-(Context-Map))
 ![ContextMap](https://user-images.githubusercontent.com/7953577/166556274-e018f849-7e38-48eb-b811-5ff7bbab471a.png)
+
+
