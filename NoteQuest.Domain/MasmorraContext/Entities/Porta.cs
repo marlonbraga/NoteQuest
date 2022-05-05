@@ -1,5 +1,6 @@
 ﻿using NoteQuest.Domain.Core;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Services;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
@@ -15,10 +16,18 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
     {
         public int IdPorta { get; set; }
         public EstadoDePorta EstadoDePorta { get; set; }
+        public Posicao Posicao { get; set; }
+        public Segmento SegmentoAlvo { get; set; }
+        public Segmento SegmentoAtual { get; set; }
+        public SegmentoFactory segmentoFactory { get; }
 
-        public string Entrar()
+        public Porta()
         {
-            throw new System.NotImplementedException();
+            segmentoFactory = new();
+        }
+        public Segmento Entrar()
+        {
+            return SegmentoAlvo.Entrar(this);
         }
 
         public void VerificarFechadura(int valorD6)
@@ -48,6 +57,11 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public void QuebrarPorta()
         {
             EstadoDePorta = EstadoDePorta.aberta;
+        }
+
+        public Segmento ExpiarSala(IPorta portaDeEntrada)
+        {
+            return segmentoFactory.GeraSegmento(portaDeEntrada, D6.Rolagem(1));
         }
     }
 }

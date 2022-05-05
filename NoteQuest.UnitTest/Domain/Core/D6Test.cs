@@ -9,12 +9,10 @@ namespace NoteQuest.UnitTest
         [TestMethod]
         public void D6_Rolagem_Sucesso()
         {
-            ID6 d6 = new D6();
-
             int resultado;
             for (int i = 0; i < 50; i++)
             {
-                resultado = d6.Rolagem();
+                resultado = D6.Rolagem();
 
                 Assert.IsTrue(resultado <= 6, $"D6: {resultado}");
                 Assert.IsTrue(resultado >= 1, $"D6: {resultado}");
