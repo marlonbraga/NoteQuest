@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Ninject" Version="3.3.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NoteQuest.Domain\NoteQuest.Domain.csproj" />
     <ProjectReference Include="..\NoteQuest.Infrastructure\NoteQuest.Infrastructure.csproj" />
   </ItemGroup>

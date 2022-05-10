@@ -1,31 +1,29 @@
 ﻿using NoteQuest.Domain.Core;
+using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Services;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public enum EstadoDePorta : int
-    {
-        desconhcido = 0,
-        aberta = 1,
-        fechada = 2,
-        quebrada = 3
-    }
-    public class Porta : IPorta
+    public class Porta : IPortaComum
     {
         public int IdPorta { get; set; }
+        public IMasmorraRepository MasmorraRepository { get; set; }
         public EstadoDePorta EstadoDePorta { get; set; }
         public Posicao Posicao { get; set; }
-        public Segmento SegmentoAlvo { get; set; }
-        public Segmento SegmentoAtual { get; set; }
-        public SegmentoFactory segmentoFactory { get; }
+        public BaseSegmento SegmentoAlvo { get; set; }
+        public BaseSegmento SegmentoAtual { get; set; }
+        public ISegmentoFactory SegmentoFactory { get; }
 
-        public Porta()
+        public Porta(IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory)
         {
-            segmentoFactory = new();
+            MasmorraRepository = masmorraRepository;
+            SegmentoFactory = segmentoFactory;
         }
-        public Segmento Entrar()
+
+        public BaseSegmento Entrar()
         {
             return SegmentoAlvo.Entrar(this);
         }
@@ -59,9 +57,22 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             EstadoDePorta = EstadoDePorta.aberta;
         }
 
-        public Segmento ExpiarSala(IPorta portaDeEntrada)
+        public BaseSegmento ExpiarSala(IPortaComum portaDeEntrada)
         {
-            return segmentoFactory.GeraSegmento(portaDeEntrada, D6.Rolagem(1));
+            SegmentoAlvo = SegmentoFactory.GeraSegmento(portaDeEntrada, D6.Rolagem(1));
+            return SegmentoAlvo;
+        }
+
+        public IPortaComum InvertePorta()
+        {
+            IPortaComum porta = new Porta(MasmorraRepository, SegmentoFactory)
+            {
+                Posicao = this.Posicao,//TODO: Inverter posição
+                EstadoDePorta = this.EstadoDePorta,
+                SegmentoAlvo = this.SegmentoAtual,
+                SegmentoAtual = this.SegmentoAlvo
+            };
+            return porta;
         }
     }
 }

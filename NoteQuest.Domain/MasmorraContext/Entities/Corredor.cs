@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-	public class Corredor : Segmento
+	public class Corredor : BaseSegmento
 	{
-        public Corredor(IPorta portaDeEntrada, string descricao) : base(portaDeEntrada, descricao)
+        public Corredor(IPortaComum portaDeEntrada, string descricao) : base(portaDeEntrada, descricao)
 		{
 			Descricao = descricao;
 		}

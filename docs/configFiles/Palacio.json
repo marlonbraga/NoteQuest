@@ -1,30 +1,31 @@
 {
-  "Descrição": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre. Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.",
+  "Descrição": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre.",
+  "SegmentoInicial": {"segmento":"sala", "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.", "portas":3},
   "TabelaSegmentos":
   {
     "TabelaAPartirDeEscadaria": [
-      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "portas":"1"},
-      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":"2"},
-      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":"2"},
-      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":"2"},
-      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":"3"},
-      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":"3"}
+      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "portas":1},
+      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":2},
+      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":2},
+      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":2},
+      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":3},
+      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":3}
     ],
     "TabelaAPartirDeCorredor": [
-      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":"1"},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":"1"},
-      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "portas":"1"},
-      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "portas":"2"},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "portas":"2"},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":"1"}
+      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":1},
+      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":1},
+      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "portas":1},
+      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "portas":2},
+      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "portas":2},
+      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":1}
     ],
     "TabelaAPartirDeSala": [
-      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "portas":"0"},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "portas":"0"},
-      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "portas":"0"},
-      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "portas":"0"},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "portas":"0"},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":"1"}
+      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "portas":0},
+      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "portas":0},
+      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "portas":0},
+      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "portas":0},
+      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "portas":0},
+      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":1}
     ]
   },
   "TabelaPassagemSecreta": [

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Sala : Segmento
+    public class Sala : BaseSegmento
     {
         public string DescricaoConteudo { get; set; }
         public string DescricaoMonstros { get; set; }
         public List<Monstro> Monstros { get; set; }
         public List<IConteudo> Conteudo { get; set; }
 
-        public Sala(IPorta portaDeEntrada, string descricao) : base(portaDeEntrada, descricao)
+        public Sala(IPortaComum portaDeEntrada, string descricao) : base(portaDeEntrada, descricao)
         {
             Descricao = descricao;
         }

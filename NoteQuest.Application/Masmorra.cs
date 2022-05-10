@@ -1,5 +1,12 @@
-﻿using NoteQuest.Domain.MasmorraContext.Entities;
+﻿using Ninject;
+using NoteQuest.Application.IoC;
+using NoteQuest.Domain.Core.Acoes;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Services;
+using NoteQuest.Infrastructure.Data.Masmorra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +17,16 @@ namespace NoteQuest.Application
 {
     public class Masmorra
     {
-        public Segmento EntrarDeMasmorra()
+        public IAcao EntrarEmMasmorra(int indice)
         {
-            throw new NotImplementedException();
+            IKernel kernel = Bootstrap.GetKernel();
+            IPortaEntrada portaEntrada = kernel.Get<PortaEntrada>();
+            IMasmorraRepository masmorraRepository = kernel.Get<MasmorraRepository>();
+            ISegmentoFactory segmentoFactory = kernel.Get<SegmentoFactory>();
+            IMasmorraData masmorraData = kernel.Get<MasmorraData>();
+            IAcao acao = new EntrarEmMasmorra(indice, masmorraRepository, segmentoFactory, portaEntrada, masmorraData);
+            
+            return acao;
         }
 
         public void SairDeMasmorra()
@@ -20,7 +34,7 @@ namespace NoteQuest.Application
             throw new NotImplementedException();
         }
 
-        public IPorta DestrancarPorta()
+        public IPortaComum DestrancarPorta()
         {
             throw new NotImplementedException();
         }
@@ -30,17 +44,17 @@ namespace NoteQuest.Application
 
         }
 
-        public Segmento VerificarSala()
+        public BaseSegmento VerificarSala()
         {
             throw new NotImplementedException();
         }
 
-        public Segmento QuebrarPorta()
+        public BaseSegmento QuebrarPorta()
         {
             throw new NotImplementedException();
         }
 
-        public Segmento PassarPelaPorta(IPorta porta)
+        public BaseSegmento PassarPelaPorta(IPortaComum porta)
         {
             throw new NotImplementedException();
         }

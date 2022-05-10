@@ -5,10 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="MasmorraContext\Agregate\" />
-    <Folder Include="MasmorraContext\ObjectValue\" />
-    <Folder Include="CombateContext\Agregate\" />
     <Folder Include="CombateContext\Interfaces\" />
+    <Folder Include="MasmorraContext\Agregate\" />
+    <Folder Include="CombateContext\Agregate\" />
     <Folder Include="CombateContext\ObjectValue\" />
     <Folder Include="CombateContext\Services\" />
     <Folder Include="ItensContext\Agregate\" />
