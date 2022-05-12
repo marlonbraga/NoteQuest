@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core
 {
@@ -17,7 +13,7 @@ namespace NoteQuest.Domain.Core
             Valor = 0;
             for (int i = 0; i < qtdDados; i++)
             {
-                Valor += random.Next(1, 6+1);
+                Valor += random.Next(1, 6 + 1);
             }
             return Valor;
         }

@@ -1,11 +1,10 @@
 ﻿using NoteQuest.Domain.CombateContext.Entities;
 using NoteQuest.Domain.Core;
-using NoteQuest.Domain.ItensContext.Interfaces;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.ObjectValue;
-using NoteQuest.Domain.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using BaseSegmento = NoteQuest.Domain.MasmorraContext.Entities.BaseSegmento;
@@ -14,7 +13,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services
 {
     public class SegmentoFactory : ISegmentoFactory
     {
-        readonly IMasmorraData masmorraData;
+        readonly MasmorraDataDTO masmorraData;
         readonly IMasmorraRepository MasmorraRepository;
 
         public SegmentoFactory(IMasmorraRepository masmorraRepository, int D6 = 1)
@@ -24,12 +23,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             masmorraData = masmorraRepository.PegarDadosMasmorra("Palacio");
         }
 
-        public BaseSegmento GeraSegmentoInicial()
+        public Tuple<string, BaseSegmento> GeraSegmentoInicial()
         {
             //SegmentoTipo tipoSegmento = TipoSegmento(portaDeEntrada.SegmentoAtual, indice);
             BaseSegmento segmento = (BaseSegmento)masmorraData.SegmentoInicial;
-
-            return segmento;
+            var entradaEmMasmorra = Tuple.Create(masmorraData.Descricao, segmento);
+            return entradaEmMasmorra;
         }
 
         public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice)
@@ -77,7 +76,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             }
             return segmento;
         }
-        
+
         private List<Monstro> GeraMonstros(TabelaMonstro tabelaMonstro)
         {
             Monstro monstro = new(tabelaMonstro.Nome, tabelaMonstro.Dano, tabelaMonstro.Pvs)

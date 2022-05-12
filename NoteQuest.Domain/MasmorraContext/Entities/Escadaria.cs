@@ -1,5 +1,4 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Interfaces;
-using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {

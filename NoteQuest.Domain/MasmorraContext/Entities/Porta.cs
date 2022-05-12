@@ -2,8 +2,6 @@
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Services;
-using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {

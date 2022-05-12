@@ -1,9 +1,13 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
+    public enum SegmentoTipo
+    {
+        sala, corredor, escadaria
+    }
+
     public abstract class BaseSegmento
     {
         public int Nivel { get; }

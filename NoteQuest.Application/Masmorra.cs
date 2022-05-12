@@ -8,10 +8,6 @@ using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Services;
 using NoteQuest.Infrastructure.Data.Masmorra;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Application
 {
@@ -23,9 +19,8 @@ namespace NoteQuest.Application
             IPortaEntrada portaEntrada = kernel.Get<PortaEntrada>();
             IMasmorraRepository masmorraRepository = kernel.Get<MasmorraRepository>();
             ISegmentoFactory segmentoFactory = kernel.Get<SegmentoFactory>();
-            IMasmorraData masmorraData = kernel.Get<MasmorraData>();
-            IAcao acao = new EntrarEmMasmorra(indice, masmorraRepository, segmentoFactory, portaEntrada, masmorraData);
-            
+            IAcao acao = new EntrarEmMasmorra(indice, masmorraRepository, segmentoFactory, portaEntrada);
+
             return acao;
         }
 

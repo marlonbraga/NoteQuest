@@ -1,5 +1,4 @@
 ﻿using NoteQuest.Application;
-using NoteQuest.Domain.Core.Acoes;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
 

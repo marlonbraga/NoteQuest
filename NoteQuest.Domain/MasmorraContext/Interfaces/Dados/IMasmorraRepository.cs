@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NoteQuest.Domain.MasmorraContext.DTO;
 
 namespace NoteQuest.Domain.MasmorraContext.Interfaces.Dados
 {
     public interface IMasmorraRepository
     {
-        public IMasmorraData PegarDadosMasmorra(string nomeMasmorra);
+        public MasmorraDataDTO PegarDadosMasmorra(string nomeMasmorra);
     }
 }

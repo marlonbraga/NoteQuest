@@ -1,16 +1,15 @@
-﻿using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.ObjectValue;
+﻿using Newtonsoft.Json;
+using NoteQuest.Domain.MasmorraContext.DTO;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.IO;
-using Newtonsoft.Json;
-using System;
 
 namespace NoteQuest.Infrastructure.Data.Masmorra
 {
     public class MasmorraRepository : IMasmorraRepository
     {
-        public MasmorraData DadosDeMasmorra { get; set; }
+        public MasmorraDataDTO DadosDeMasmorra { get; set; }
 
-        public IMasmorraData PegarDadosMasmorra(string nomeMasmorra = "Palacio")
+        public MasmorraDataDTO PegarDadosMasmorra(string nomeMasmorra = "Palacio")
         {
             string json = LerArquivoTexto(@$"{nomeMasmorra}.json");
             DadosDeMasmorra = ConverterDados(json);
@@ -24,11 +23,11 @@ namespace NoteQuest.Infrastructure.Data.Masmorra
             return json;
         }
 
-        private MasmorraData ConverterDados(string json)
+        private MasmorraDataDTO ConverterDados(string json)
         {
             try
             {
-                MasmorraData resultado = JsonConvert.DeserializeObject<MasmorraData>(json);
+                MasmorraDataDTO resultado = JsonConvert.DeserializeObject<MasmorraDataDTO>(json);
                 return resultado;
             }
             catch (JsonSerializationException ex)

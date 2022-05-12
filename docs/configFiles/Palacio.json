@@ -1,6 +1,6 @@
 {
-  "Descrição": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre.",
-  "SegmentoInicial": {"segmento":"sala", "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.", "portas":3},
+  "Descricao": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre.",
+  "SegmentoInicial": {"segmento":"sala", "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.", "qtdPortas":3},
   "TabelaSegmentos":
   {
     "TabelaAPartirDeEscadaria": [
@@ -44,7 +44,7 @@
     {"indice":5, "descricao":"Um click, mas nada acontece."},
     {"indice":6, "descricao":"Um click, mas nada acontece."}
   ],
-  "TabelaConteúdo": [
+  "TabelaConteudo": [
     {"indice":2, "descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},
     {"indice":3, "descricao":"Cozinha destruída e 1d6 moedas.", "moedas":"1D6"},
     {"indice":4, "descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta."},
@@ -88,7 +88,7 @@
       {"indice":5, "descricao":"Poção da Fúria", "efeito":"(Dano +2 até o final do combate)"},
       {"indice":6, "descricao":"Lamparina", "efeito":"(Não precisa usar mãos pra iluminar)"}
     ],
-    "TabelaItemMágico": [
+    "TabelaItemMagico": [
       {"indice":1, "descricao":"[Armadura] da Realeza ", "efeito":"(É muito elegante)"},
       {"indice":2, "descricao":"[Armadura] do Leprechaun", "efeito":"(Ganha o dobro de moedas em baús)"},
       {"indice":3, "descricao":"[Armadura] do Centurião", "efeito":"(+1 PV)"},

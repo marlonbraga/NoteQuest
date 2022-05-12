@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NoteQuest.Domain.CombateContext.Entities
+﻿namespace NoteQuest.Domain.CombateContext.Entities
 {
     public class Monstro
     {
@@ -26,7 +20,7 @@ namespace NoteQuest.Domain.CombateContext.Entities
         {
             return Dano;
         }
-        
+
         public void LevarDano(int dano)
         {
             PV -= dano;

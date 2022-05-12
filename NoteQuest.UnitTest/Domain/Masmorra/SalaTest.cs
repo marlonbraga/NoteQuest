@@ -1,9 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NoteQuest.Domain.Core;
-using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Services;
-using System.Collections.Generic;
 
 namespace NoteQuest.UnitTest
 {

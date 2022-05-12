@@ -1,15 +1,14 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using System;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class SegmentoInicial : BaseSegmento, ISegmentoInicial
+    public class SegmentoInicial : BaseSegmento
     {
         public SegmentoTipo Segmento { get; set; }
-        int ISegmentoInicial.Portas { get; set; }
+        public List<IPorta> Portas { get; set; }
 
         public SegmentoInicial(IPorta portaDeEntrada, int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory) : base(null, descricao)
         {

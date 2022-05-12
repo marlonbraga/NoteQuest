@@ -13,6 +13,7 @@
     <Folder Include="ItensContext\Agregate\" />
     <Folder Include="ItensContext\ObjectValue\" />
     <Folder Include="ItensContext\Services\" />
+    <Folder Include="MasmorraContext\ObjectValue\" />
   </ItemGroup>
 
 </Project>
