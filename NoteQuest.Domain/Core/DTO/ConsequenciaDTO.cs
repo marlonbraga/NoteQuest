@@ -1,10 +1,6 @@
-﻿using NoteQuest.Domain.MasmorraContext.Entities;
-using System;
+﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoteQuest.Domain.Core.Interfaces;
 
 namespace NoteQuest.Domain.Core.DTO
 {

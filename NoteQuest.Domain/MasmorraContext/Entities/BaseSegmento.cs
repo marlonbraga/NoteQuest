@@ -2,7 +2,6 @@
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
