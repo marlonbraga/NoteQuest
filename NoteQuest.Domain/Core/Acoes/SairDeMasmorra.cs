@@ -3,15 +3,15 @@ using NoteQuest.Domain.Core.Interfaces;
 
 namespace NoteQuest.Domain.Core.Acoes
 {
-    public class AbrirUmBau : IAcao
+    public class SairDeMasmorra : IAcao
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public AbrirUmBau()
+        public SairDeMasmorra()
         {
-            Titulo = "Abrir Baú";
-            Descricao = "Encontra moedas e tesouros; Raramente aciona armadilhas.";
+            Titulo = "Sair de Masmorra";
+            Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
         }
 
         public ConsequenciaDTO Executar()

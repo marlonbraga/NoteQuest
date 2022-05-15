@@ -1,10 +1,13 @@
 ﻿using NoteQuest.Application;
+using NoteQuest.Domain.Core;
+using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.CLI
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -27,10 +30,19 @@ namespace NoteQuest.CLI
 
         static void CriarNovoJogo()
         {
-            IAcao acao = null;
-            Masmorra masmorra = null;
-            Console.WriteLine("→↓↔←↑▲►▼◄▓▒▐░█▌");
-            IResultadoAcao resultado = null;
+            //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
+            Masmorra masmorra = new();//TODO: DI em construtor? Pode ser uma boa!
+            IAcao acao = masmorra.EntrarEmMasmorra(1);
+            ConsequenciaDTO consequencia = acao.Executar();
+            Console.WriteLine(consequencia.Descricao);
+            List<IEscolha> escolhas = consequencia.Escolhas;
+            for (int i = 0; i < escolhas.Count; i++)
+            {
+                string Titulo = escolhas[i].Acao.Titulo;
+                string Descricao = escolhas[i].Acao.Descricao;
+                Console.WriteLine($"{i} → {Titulo} ({Descricao})");
+            }
+            int numeroDeEscolha = 0;
             do
             {
                 switch (Console.ReadKey().Key)
@@ -44,8 +56,6 @@ namespace NoteQuest.CLI
                         break;
                     case ConsoleKey.Enter:
                     case ConsoleKey.Spacebar:
-                        masmorra = new Masmorra();
-                        acao = masmorra.EntrarEmMasmorra(1);
                         break;
                     case ConsoleKey.LeftArrow:
                         Console.WriteLine("◄");
@@ -61,43 +71,56 @@ namespace NoteQuest.CLI
                         break;
                     case ConsoleKey.D0:
                     case ConsoleKey.NumPad0:
+                        numeroDeEscolha = 0;
                         break;
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
+                        numeroDeEscolha = 1;
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
+                        numeroDeEscolha = 2;
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
+                        numeroDeEscolha = 3;
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
+                        numeroDeEscolha = 4;
                         break;
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
+                        numeroDeEscolha = 5;
                         break;
                     case ConsoleKey.D6:
                     case ConsoleKey.NumPad6:
+                        numeroDeEscolha = 6;
                         break;
                     case ConsoleKey.D7:
                     case ConsoleKey.NumPad7:
+                        numeroDeEscolha = 7;
                         break;
                     case ConsoleKey.D8:
                     case ConsoleKey.NumPad8:
+                        numeroDeEscolha = 8;
                         break;
                     case ConsoleKey.D9:
                     case ConsoleKey.NumPad9:
+                        numeroDeEscolha = 9;
                         break;
                     default:
                         break;
                 }
-
-                masmorra = new Masmorra();
-                acao = masmorra.EntrarEmMasmorra(1);
-                resultado = acao.executar();
-                Console.WriteLine(resultado.Descrição);
-
+                consequencia = escolhas[numeroDeEscolha].Acao.Executar();
+                Console.WriteLine(consequencia.Descricao);
+                escolhas = consequencia.Escolhas;
+                for (int i = 0; i < escolhas.Count; i++)
+                {
+                    string Titulo = escolhas[i].Acao.Titulo;
+                    string Descricao = escolhas[i].Acao.Descricao;
+                    Console.WriteLine($"{i} → {Titulo}");
+                }
             } while (true);
         }
     }

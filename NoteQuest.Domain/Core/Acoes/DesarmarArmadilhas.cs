@@ -5,7 +5,16 @@ namespace NoteQuest.Domain.Core.Acoes
 {
     public class DesarmarArmadilhas : IAcao
     {
-        public ResultadoAcao executar()
+        public string Titulo { get; set; }
+        public string Descricao { get; set; }
+
+        public DesarmarArmadilhas()
+        {
+            Titulo = "Desarmar armadilhas";
+            Descricao = "Torna sala segura quanto a armadilhas. Ação demorada. Gasta 1 tocha";
+        }
+
+        public ConsequenciaDTO Executar()
         {
             return null;
         }

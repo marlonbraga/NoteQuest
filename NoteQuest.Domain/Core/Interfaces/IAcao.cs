@@ -4,6 +4,9 @@ namespace NoteQuest.Domain.Core.Interfaces
 {
     public interface IAcao
     {
-        public ResultadoAcao executar();
+        public string Titulo { get; set; }
+        public string Descricao { get; set; }
+
+        public ConsequenciaDTO Executar();
     }
 }

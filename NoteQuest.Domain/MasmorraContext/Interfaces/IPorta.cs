@@ -1,4 +1,6 @@
-﻿using NoteQuest.Domain.MasmorraContext.Entities;
+﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Entities;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Interfaces
 {
@@ -6,12 +8,12 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
     {
         frente = 0,
         direita = 1,
-        atras = 2,
+        tras = 2,
         esquerda = 3
     }
     public enum EstadoDePorta : int
     {
-        desconhcido = 0,
+        inverificada = 0,
         aberta = 1,
         fechada = 2,
         quebrada = 3
@@ -20,5 +22,6 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
     {
         public Posicao Posicao { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
+        public List<IEscolha> Escolhas { get; set; }
     }
 }

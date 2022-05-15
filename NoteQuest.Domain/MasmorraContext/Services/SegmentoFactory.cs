@@ -58,20 +58,24 @@ namespace NoteQuest.Domain.MasmorraContext.Services
         {
             BaseSegmento segmento = null;
             string descricao = null;
+            int qtdPortas = 0;
             switch (tipoSegmento.ToString())
             {
                 case "sala":
                     descricao = masmorraData.TabelaSegmentos.TabelaAPartirDeSala[6].Descricao;
-                    segmento = new Sala(portaDeEntrada, descricao);
+                    qtdPortas = masmorraData.TabelaSegmentos.TabelaAPartirDeSala[6].QtdPortas;
+                    segmento = new Sala(portaDeEntrada, descricao, qtdPortas);
                     segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros((TabelaMonstro)masmorraData.TabelaMonstro[12]));
                     break;
                 case "corredor":
                     descricao = masmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[1].Descricao;
-                    segmento = new Corredor(portaDeEntrada, descricao);
+                    qtdPortas = masmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[6].QtdPortas;
+                    segmento = new Corredor(portaDeEntrada, descricao, qtdPortas);
                     break;
                 case "escadaria":
                     descricao = masmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[1].Descricao;
-                    segmento = new Escadaria(portaDeEntrada, descricao);
+                    qtdPortas = masmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[6].QtdPortas;
+                    segmento = new Escadaria(portaDeEntrada, descricao, qtdPortas);
                     break;
             }
             return segmento;

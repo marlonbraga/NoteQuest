@@ -13,14 +13,22 @@ namespace NoteQuest.Application
 {
     public class Masmorra
     {
+        public IKernel Kernel { get; set; }
+        public IPortaEntrada PortaEntrada { get; set; }
+        public IMasmorraRepository MasmorraRepository { get; set; }
+        public ISegmentoFactory SegmentoFactory { get; set; }
+
+        public Masmorra()
+        {
+            Kernel = Bootstrap.GetKernel();
+            PortaEntrada = Kernel.Get<PortaEntrada>();
+            MasmorraRepository = Kernel.Get<MasmorraRepository>();
+            SegmentoFactory = Kernel.Get<SegmentoFactory>();
+        }
+
         public IAcao EntrarEmMasmorra(int indice)
         {
-            IKernel kernel = Bootstrap.GetKernel();
-            IPortaEntrada portaEntrada = kernel.Get<PortaEntrada>();
-            IMasmorraRepository masmorraRepository = kernel.Get<MasmorraRepository>();
-            ISegmentoFactory segmentoFactory = kernel.Get<SegmentoFactory>();
-            IAcao acao = new EntrarEmMasmorra(indice, masmorraRepository, segmentoFactory, portaEntrada);
-
+            IAcao acao = new EntrarEmMasmorra(indice, MasmorraRepository, SegmentoFactory, PortaEntrada);
             return acao;
         }
 

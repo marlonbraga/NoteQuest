@@ -1,4 +1,6 @@
-﻿using NoteQuest.Domain.Core.Interfaces;
+﻿using NoteQuest.Domain.Core.Acoes;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.Collections.Generic;
@@ -8,36 +10,16 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
     public class SegmentoInicial : BaseSegmento
     {
         public SegmentoTipo Segmento { get; set; }
-        public List<IPorta> Portas { get; set; }
 
-        public SegmentoInicial(IPorta portaDeEntrada, int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory) : base(null, descricao)
+        public SegmentoInicial(IPorta portaDeEntrada, int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory) : base(descricao, qtdPortas)
         {
-            IPortaComum porta;
-            for (int i = 0; i < qtdPortas; i++)
+            IAcao acaoSairDeMasmorra = new SairDeMasmorra();
+            IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra);
+            portaDeEntrada = new PortaEntrada()
             {
-                porta = new Porta(masmorraRepository, segmentoFactory)
-                {
-                    Posicao = Posicao.atras,
-                    SegmentoAlvo = null
-                };
-                Portas = new() { porta };
-            }
-            Descricao = descricao;
-        }
-
-        public BaseSegmento Entrar(IPortaComum portaDeEntrada)
-        {
-            return this;
-        }
-
-        public void DesarmarArmadilhas(int valorD6)
-        {
-
-        }
-
-        private void GerarPortas()
-        {
-
+                Escolhas = new() { sairDeMasmorra }
+            };
+            this.Portas.Add(portaDeEntrada);
         }
     }
 }

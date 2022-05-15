@@ -12,7 +12,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public List<Monstro> Monstros { get; set; }
         public List<IConteudo> Conteudo { get; set; }
 
-        public Sala(IPortaComum portaDeEntrada, string descricao) : base(portaDeEntrada, descricao)
+        public Sala(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
         {
             Descricao = descricao;
         }
@@ -25,7 +25,6 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public void AbrirBau(int valorD6_1, int valorD6_2)
         {
         }
-
         public Sala AdicionaMonstros(List<Monstro> monstros)
         {
             Monstros = monstros;

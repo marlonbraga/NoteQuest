@@ -4,28 +4,28 @@
   "TabelaSegmentos":
   {
     "TabelaAPartirDeEscadaria": [
-      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "portas":1},
-      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":2},
-      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":2},
-      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":2},
-      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":3},
-      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":3}
+      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "qtdPortas":1},
+      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3},
+      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3}
     ],
     "TabelaAPartirDeCorredor": [
-      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":1},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":1},
-      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "portas":1},
-      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "portas":2},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "portas":2},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":1}
+      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
+      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
+      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "qtdPortas":1},
+      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "qtdPortas":2},
+      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "qtdPortas":2},
+      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
     ],
     "TabelaAPartirDeSala": [
-      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "portas":0},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "portas":0},
-      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "portas":0},
-      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "portas":0},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "portas":0},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":1}
+      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "qtdPortas":0},
+      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
+      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
+      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "qtdPortas":0},
+      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "qtdPortas":0},
+      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
     ]
   },
   "TabelaPassagemSecreta": [
