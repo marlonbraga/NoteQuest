@@ -1,3 +1,14 @@
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=bugs)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=code_smells)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=coverage)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=ncloc)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=security_rating)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=sqale_index)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=marlonbraga_NoteQuest&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=marlonbraga_NoteQuest)
 # NoteQuest
 
 Jogo de RPG procedural. Adaptação digital do Notequest. 
