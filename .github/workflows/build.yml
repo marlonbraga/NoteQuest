@@ -50,6 +50,5 @@ jobs:
           echo trying to run tests
           dotnet test .\NoteQuest.sln
           dotnet test .\DungeonMasterBot.sln
-          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
