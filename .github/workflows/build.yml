@@ -45,7 +45,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"marlonbraga_NoteQuest" /o:"marlonbraga" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
           
           echo building project
-          dotnet build --configuration Release
+          dotnet build
           
           echo trying to run tests
           dotnet test .\NoteQuest.sln
