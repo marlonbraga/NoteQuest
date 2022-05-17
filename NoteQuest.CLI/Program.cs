@@ -30,9 +30,8 @@ namespace NoteQuest.CLI
         static void CriarNovoJogo()
         {
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
-            Masmorra masmorra = new();//TODO: DI em construtor? Pode ser uma boa!
-            IAcao acao = masmorra.EntrarEmMasmorra(1);
-            ConsequenciaDTO consequencia = acao.Executar();
+            Masmorra masmorra = new(1);//TODO: DI em construtor? Pode ser uma boa!
+            ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
             Console.WriteLine(consequencia.Descricao);
             List<IEscolha> escolhas = consequencia.Escolhas;
             for (int i = 0; i < escolhas.Count; i++)

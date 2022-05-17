@@ -1,17 +1,17 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 
-namespace NoteQuest.Domain.Core.Acoes
+namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class SairDeMasmorra : IAcao
+    public class AcharPassagemSecreta : IAcao
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public SairDeMasmorra()
+        public AcharPassagemSecreta()
         {
-            Titulo = "Sair de Masmorra";
-            Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
+            Titulo = "Procurar passagem secreta";
+            Descricao = "Ação demorada. Gasta 1 tocha";
         }
 
         public ConsequenciaDTO Executar()

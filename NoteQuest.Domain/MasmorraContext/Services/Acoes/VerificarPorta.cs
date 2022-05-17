@@ -1,10 +1,11 @@
-﻿using NoteQuest.Domain.Core.DTO;
+﻿using NoteQuest.Domain.Core;
+using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System.Collections.Generic;
 
-namespace NoteQuest.Domain.Core.Acoes
+namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
     public class VerificarPorta : IAcao
     {
@@ -12,7 +13,7 @@ namespace NoteQuest.Domain.Core.Acoes
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public VerificarPorta(IPortaComum porta)
+        public VerificarPorta(object indice, IPortaComum porta)
         {
             Porta = porta;
             Titulo = "Verificar porta";

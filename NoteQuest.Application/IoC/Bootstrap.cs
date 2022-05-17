@@ -16,7 +16,7 @@ namespace NoteQuest.Application.IoC
             IKernel kernel = new StandardKernel();
             //kernel.Load(Assembly.GetExecutingAssembly());
             kernel.Bind<IMasmorraRepository>().To<MasmorraRepository>();
-            kernel.Bind<ISegmentoFactory>().To<SegmentoFactory>();
+            //kernel.Bind<ISegmentoFactory>().To<SegmentoFactory>();
             kernel.Bind<IPortaEntrada>().To<PortaEntrada>();
             kernel.Bind<IPortaComum>().To<Porta>();
 
@@ -38,7 +38,7 @@ namespace NoteQuest.Application.IoC
         public override void Load()
         {
             Bind<IMasmorraRepository>().To<MasmorraRepository>();
-            Bind<ISegmentoFactory>().To<SegmentoFactory>();
+            //Bind<ISegmentoFactory>().To<SegmentoFactory>();
             Bind<IPortaEntrada>().To<PortaEntrada>();
             Bind<IPortaComum>().To<Porta>();
         }

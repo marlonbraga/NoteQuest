@@ -15,7 +15,7 @@ namespace NoteQuest.Domain.Core
             {
                 Valor += random.Next(1, 6 + 1);
             }
-            return Valor;
+            return Valor - qtdDados;
         }
     }
 }

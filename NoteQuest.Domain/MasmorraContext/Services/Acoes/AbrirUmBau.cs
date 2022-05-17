@@ -1,17 +1,17 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 
-namespace NoteQuest.Domain.Core.Acoes
+namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class DesarmarArmadilhas : IAcao
+    public class AbrirUmBau : IAcao
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public DesarmarArmadilhas()
+        public AbrirUmBau()
         {
-            Titulo = "Desarmar armadilhas";
-            Descricao = "Torna sala segura quanto a armadilhas. Ação demorada. Gasta 1 tocha";
+            Titulo = "Abrir Baú";
+            Descricao = "Encontra moedas e tesouros; Raramente aciona armadilhas.";
         }
 
         public ConsequenciaDTO Executar()

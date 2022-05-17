@@ -1,7 +1,7 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 
-namespace NoteQuest.Domain.Core.Acoes
+namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
     public class MoverEmSilencio : IAcao
     {

@@ -1,4 +1,4 @@
-﻿using NoteQuest.Domain.Core.Acoes;
+﻿using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
