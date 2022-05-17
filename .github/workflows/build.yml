@@ -42,13 +42,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"marlonbraga_NoteQuest" /o:"marlonbraga" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"marlonbraga_NoteQuest" /o:"marlonbraga" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           
           echo building project
-          dotnet build
+          dotnet build --no-incremental
           
           echo trying to run tests
-          dotnet test .\NoteQuest.sln --collect "Code Coverage"
-          dotnet test .\DungeonMasterBot.sln --collect "Code Coverage"
+          dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
