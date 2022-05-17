@@ -48,7 +48,7 @@ jobs:
           dotnet build
           
           echo trying to run tests
-          dotnet test .\NoteQuest.sln
-          dotnet test .\DungeonMasterBot.sln
+          dotnet test .\NoteQuest.sln --collect "Code Coverage"
+          dotnet test .\DungeonMasterBot.sln --collect "Code Coverage"
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
