@@ -21,7 +21,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 
         public ConsequenciaDTO Executar()
         {
-            BaseSegmento novoSegmento = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
+            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
+            BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Você abre a porta revelando um segmento da masmorra.";
             texto += $"\n  #{novoSegmento.IdSegmento}";
