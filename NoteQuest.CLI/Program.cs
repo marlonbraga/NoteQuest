@@ -1,8 +1,10 @@
 ﻿using NoteQuest.Application;
+using NoteQuest.CLI.IoC;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+
 
 namespace NoteQuest.CLI
 {
@@ -24,14 +26,16 @@ namespace NoteQuest.CLI
                        .*.                                     .&@@@@(                                             
            
 ");
+            
             CriarNovoJogo();
         }
 
         static void CriarNovoJogo()
         {
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
-            Masmorra masmorra = new(1);//TODO: DI em construtor? Pode ser uma boa!
-            ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
+            IContainer Container = new Container();
+            EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
+            ConsequenciaDTO consequencia = EscolhaFacade.EntrarEmMasmorra(1);
             Console.WriteLine(consequencia.Descricao);
             List<IEscolha> escolhas = consequencia.Escolhas;
             for (int i = 0; i < escolhas.Count; i++)

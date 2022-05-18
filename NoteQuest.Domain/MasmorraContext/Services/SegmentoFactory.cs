@@ -14,7 +14,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services
     public class SegmentoFactory
     {
         private static MasmorraDataDTO masmorraData;
-        private static IMasmorraRepository MasmorraRepository;
         private static SegmentoFactory Singleton;
 
         public static SegmentoFactory Instancia(IMasmorraRepository masmorraRepository, int D6 = 1)
@@ -29,7 +28,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services
         private SegmentoFactory(IMasmorraRepository masmorraRepository, int D6 = 1)
         {
             //masmorraData = new(D6);
-            MasmorraRepository = masmorraRepository;
             masmorraData = masmorraRepository.PegarDadosMasmorra("Palacio");
         }
 
@@ -42,7 +40,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services
 
         public static BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice)
         {
-            SegmentoTipo tipoSegmento = TipoSegmento(portaDeEntrada.SegmentoAtual, indice);
+            BaseSegmento segmentoAtual = portaDeEntrada.SegmentoAtual;
+            SegmentoTipo tipoSegmento = TipoSegmento(segmentoAtual, indice);
             BaseSegmento segmento = GerarSegmentoPorSegmento(portaDeEntrada, tipoSegmento, indice);
 
             return segmento;
@@ -133,6 +132,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services
                 case "3d6":
                 case "3D6":
                     return D6.Rolagem(3);
+                case null:
+                    return 0;
                 default:
                     return Int32.Parse(qtd);
             }

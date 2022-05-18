@@ -17,13 +17,11 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public Posicao Posicao { get; set; }
         public BaseSegmento SegmentoAlvo { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
-        //public ISegmentoFactory SegmentoFactory { get; }
         public List<IEscolha> Escolhas { get; set; }
 
-        public Porta(IMasmorraRepository masmorraRepository/*, ISegmentoFactory segmentoFactory*/)
+        public Porta(IMasmorraRepository masmorraRepository)
         {
             MasmorraRepository = masmorraRepository;
-            //SegmentoFactory = segmentoFactory;
         }
 
         public Porta(BaseSegmento segmentoAtual, Posicao posicao)
@@ -71,7 +69,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public void AbrirFechadura()
         {
             EstadoDePorta = EstadoDePorta.aberta;
-            IAcao acao = new EntrarPelaPorta(this/*, SegmentoFactory*/);
+            IAcao acao = new EntrarPelaPorta(this);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
         }
@@ -90,23 +88,25 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         public IPortaComum InvertePorta()
         {
-            IAcao acao = new VerificarPorta(1, this);
-            IEscolha escolha = new Escolha(acao);
-            List<IEscolha> escolhas = new() { escolha };
             IPortaComum porta = new Porta(MasmorraRepository)
             {
                 Posicao = this.Posicao,//TODO: Inverter posição
                 EstadoDePorta = this.EstadoDePorta,
                 SegmentoAlvo = this.SegmentoAtual,
-                SegmentoAtual = this.SegmentoAlvo,
-                Escolhas = Escolhas = escolhas
+                SegmentoAtual = this.SegmentoAlvo
             };
+            IAcao acao = new EntrarPelaPorta(porta);
+            acao.Titulo = "▲ " + acao.Titulo;
+            IEscolha escolha = new Escolha(acao);
+            List<IEscolha> escolhas = new() { escolha };
+            porta.Escolhas = escolhas;
+
             return porta;
         }
 
         private List<IEscolha> AbrirPorta()
         {
-            IAcao acao = new EntrarPelaPorta(this/*, SegmentoFactory*/);
+            IAcao acao = new EntrarPelaPorta(this);
             Escolha escolha = new(acao);
             return new List<IEscolha>() { escolha };
         }

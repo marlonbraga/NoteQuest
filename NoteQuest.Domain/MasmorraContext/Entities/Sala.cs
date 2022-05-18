@@ -27,8 +27,12 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         }
         public Sala AdicionaMonstros(List<Monstro> monstros)
         {
-            Monstros = monstros;
-            DescricaoMonstros = $"{Descricao} Há {monstros.Count} {monstros[0].Nome} na sala! (PV:{monstros[0].PV}; Dano:{monstros[0].Dano})";
+            if(monstros.Count > 0)
+            {
+                Monstros = monstros;
+                DescricaoMonstros = $"\n  Há {monstros.Count} {monstros[0].Nome} na sala! (PV:{monstros[0].PV}; Dano:{monstros[0].Dano})";
+                DetalhesDescricao += DescricaoMonstros;
+            }
             return this;
         }
         public Sala AdicionaConteudo(List<IConteudo> conteudo)

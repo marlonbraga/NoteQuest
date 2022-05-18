@@ -7,7 +7,7 @@ using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Services;
 using NoteQuest.Infrastructure.Data.Masmorra;
 
-namespace NoteQuest.Application.IoC
+namespace NoteQuest.CLI.IoC
 {
     public static class Bootstrap
     {
@@ -38,9 +38,9 @@ namespace NoteQuest.Application.IoC
         public override void Load()
         {
             Bind<IMasmorraRepository>().To<MasmorraRepository>();
-            //Bind<ISegmentoFactory>().To<SegmentoFactory>();
             Bind<IPortaEntrada>().To<PortaEntrada>();
             Bind<IPortaComum>().To<Porta>();
+            //Bind<ISegmentoFactory>().To<SegmentoFactory>();
         }
     }
 }

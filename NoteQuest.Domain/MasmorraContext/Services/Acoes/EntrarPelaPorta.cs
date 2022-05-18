@@ -11,23 +11,25 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public IPortaComum Porta { get; set; }
-        //public ISegmentoFactory SegmentoFactory { get; set; }
 
-        public EntrarPelaPorta(IPortaComum porta/*, ISegmentoFactory SegmentoFactory*/)
+        public EntrarPelaPorta(IPortaComum porta)
         {
             Porta = porta;
             Titulo = $"Entrar pela porta de {porta.Posicao}";
             Descricao = "Acessa nova sala. Se houver monstros, você ataca primeiro.";
-            //this.SegmentoFactory = SegmentoFactory;
         }
 
         public ConsequenciaDTO Executar()
         {
-            BaseSegmento novoSegmento = SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
-
+            BaseSegmento novoSegmento = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
+            string texto = string.Empty;
+            texto += $"\n  Você abre a porta revelando um segmento da masmorra.";
+            texto += $"\n  #{novoSegmento.IdSegmento}";
+            texto += $"\n  {novoSegmento.Descricao}";
+            texto += novoSegmento.DetalhesDescricao;
             ConsequenciaDTO consequencia = new()
             {
-                Descricao = $"\n  {novoSegmento.Descricao}",
+                Descricao = texto,
                 Segmento = novoSegmento,
                 Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
             };

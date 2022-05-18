@@ -15,25 +15,32 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
     {
         public int Nivel { get; }
         public int IdSegmento { get; }
+        public static int ContagemDeSalas { get; set; }
         public string Descricao { get; set; }
+        public string DetalhesDescricao { get; set; }
         public List<IPorta> Portas { get; set; }
         public List<IEscolha> Escolhas { get; set; }
 
         public BaseSegmento(IPorta portaDeEntrada, string descricao, int qtdPortas)
         {
-            IPorta porta = portaDeEntrada;
+            IdSegmento = ContagemDeSalas++;
+            IPorta porta = null;
             if (portaDeEntrada is IPortaComum)
             {
                 porta = ((IPortaComum)portaDeEntrada).InvertePorta();
+                porta.SegmentoAtual = this;
             }
             Portas = new() { porta };
             Descricao = descricao;
+            DetalhesDescricao = string.Empty;
             Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
         }
 
         public BaseSegmento(string descricao, int qtdPortas)
         {
+            ContagemDeSalas = 0;
+            IdSegmento = ContagemDeSalas++;
             Portas = new();
             Descricao = descricao;
             Escolhas = GerarEscolhasBasicas();
@@ -95,7 +102,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         public List<IEscolha> RecuperaTodasAsEscolhas()
         {
-            List<IEscolha> escolhas = GerarEscolhasBasicas();
+            //TODO: Adicionar demais escolhas em segmento
+            //List<IEscolha> escolhas = GerarEscolhasBasicas();
+            List<IEscolha> escolhas = new();
             escolhas.AddRange(RecuperaEscolhasDePortas());
             return escolhas;
         }
