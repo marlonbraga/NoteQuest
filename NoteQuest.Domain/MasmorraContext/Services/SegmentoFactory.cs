@@ -7,13 +7,12 @@ using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System;
 using System.Collections.Generic;
-using BaseSegmento = NoteQuest.Domain.MasmorraContext.Entities.BaseSegmento;
 
 namespace NoteQuest.Domain.MasmorraContext.Services
 {
     public class SegmentoFactory
     {
-        private static MasmorraDataDTO masmorraData;
+        private static IMasmorraData masmorraData;
         private static SegmentoFactory Singleton;
 
         public static SegmentoFactory Instancia(IMasmorraRepository masmorraRepository, int D6 = 1)
@@ -33,7 +32,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services
 
         public static Tuple<string, BaseSegmento> GeraSegmentoInicial()
         {
-            BaseSegmento segmento = (BaseSegmento)masmorraData.SegmentoInicial;
+            BaseSegmento segmento = masmorraData.SegmentoInicial;
             var entradaEmMasmorra = Tuple.Create(masmorraData.Descricao, segmento);
             return entradaEmMasmorra;
         }

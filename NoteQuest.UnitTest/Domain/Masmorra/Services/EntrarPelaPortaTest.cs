@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NoteQuest.UnitTest
 {
     [TestClass]
-    public class SalaTest
+    public class EntrarPelaPortaTest
     {
         //[TestMethod]
         //public void Sala_Entrar_Sucesso()

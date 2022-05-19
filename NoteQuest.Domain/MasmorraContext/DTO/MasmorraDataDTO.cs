@@ -1,9 +1,10 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Entities;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
 
 namespace NoteQuest.Domain.MasmorraContext.DTO
 {
 
-    public partial class MasmorraDataDTO
+    public partial class MasmorraDataDTO : IMasmorraData
     {
         public string Descricao { get; set; }
         public SegmentoInicial SegmentoInicial { get; set; }

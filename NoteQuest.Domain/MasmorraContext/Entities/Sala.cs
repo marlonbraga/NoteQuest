@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Sala : BaseSegmento
+    public class Sala : BaseSegmento, ISegmento
     {
         public string DescricaoConteudo { get; set; }
         public string DescricaoMonstros { get; set; }

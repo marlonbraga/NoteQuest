@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NoteQuest.Domain.MasmorraContext.DTO;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.IO;
 
@@ -7,9 +8,9 @@ namespace NoteQuest.Infrastructure.Data.Masmorra
 {
     public class MasmorraRepository : IMasmorraRepository
     {
-        public MasmorraDataDTO DadosDeMasmorra { get; set; }
+        public IMasmorraData DadosDeMasmorra { get; set; }
 
-        public MasmorraDataDTO PegarDadosMasmorra(string nomeMasmorra = "Palacio")
+        public IMasmorraData PegarDadosMasmorra(string nomeMasmorra = "Palacio")
         {
             string json = LerArquivoTexto(@$"{nomeMasmorra}.json");
             DadosDeMasmorra = ConverterDados(json);

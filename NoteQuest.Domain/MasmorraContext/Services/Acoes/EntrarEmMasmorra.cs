@@ -14,15 +14,13 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IMasmorra Masmorra { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
-        //public ISegmentoFactory SegmentoFactory { get; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, /*ISegmentoFactory segmentoFactory,*/ IPortaEntrada portaEntrada)
+        public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IPortaEntrada portaEntrada)
         {
             Indice = indice;
             MasmorraRepository = masmorraRepository;
-            //SegmentoFactory = segmentoFactory;
             PortaEntrada = portaEntrada;
             Titulo = "Entrar em masmorra";
             Descricao = "Ambiente escuro e perigoso. Gasta 1 tocha";

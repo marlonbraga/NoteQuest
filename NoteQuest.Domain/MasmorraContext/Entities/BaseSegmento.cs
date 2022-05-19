@@ -47,11 +47,6 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             GerarPortas(qtdPortas);
         }
 
-        public BaseSegmento Entrar(IPortaComum portaDeEntrada)
-        {
-            return this;
-        }
-
         public void DesarmarArmadilhas(int valorD6)
         {
 

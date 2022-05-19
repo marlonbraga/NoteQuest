@@ -2,7 +2,7 @@
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Corredor : BaseSegmento
+    public class Corredor : BaseSegmento, ISegmento
     {
         public Corredor(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
         {

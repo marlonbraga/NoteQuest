@@ -33,11 +33,6 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Escolhas = new List<IEscolha>() { escolha };
         }
 
-        public BaseSegmento Entrar()
-        {
-            return SegmentoAlvo.Entrar(this);
-        }
-
         public EstadoDePorta VerificarFechadura(int valorD6)
         {
             switch (valorD6)
@@ -78,12 +73,6 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             EstadoDePorta = EstadoDePorta.quebrada;
             Escolhas = AbrirPorta();
-        }
-
-        public BaseSegmento ExpiarSala(IPortaComum portaDeEntrada)
-        {
-            SegmentoAlvo = SegmentoFactory.GeraSegmento(portaDeEntrada, D6.Rolagem(1));
-            return SegmentoAlvo;
         }
 
         public IPortaComum InvertePorta()

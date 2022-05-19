@@ -2,7 +2,7 @@
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Escadaria : BaseSegmento
+    public class Escadaria : BaseSegmento, ISegmento
     {
         public Escadaria(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
         {
