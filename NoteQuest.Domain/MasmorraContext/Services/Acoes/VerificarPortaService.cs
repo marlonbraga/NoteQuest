@@ -4,16 +4,17 @@ using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System.Collections.Generic;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class VerificarPorta : IAcao
+    public class VerificarPortaService : IVerificarPortaService
     {
         public IPortaComum Porta { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public VerificarPorta(object indice, IPortaComum porta)
+        public VerificarPortaService(IPortaComum porta)
         {
             Porta = porta;
             Titulo = "Verificar porta";

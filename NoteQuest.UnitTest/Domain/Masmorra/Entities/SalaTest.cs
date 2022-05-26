@@ -1,13 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.UnitTest.Base;
 using Moq;
-using System.Threading.Tasks;
-using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.CombateContext.Entities;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Entities;
+using NoteQuest.Domain.MasmorraContext.Factories;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.UnitTest.Base;
 using System.Collections.Generic;
 
 namespace NoteQuest.UnitTest
@@ -15,9 +14,25 @@ namespace NoteQuest.UnitTest
     [TestClass]
     public class SalaTest : BaseTest
     {
+        private Mock<IMasmorraRepository> _masmorraRepositoryMock = new();
+        private Mock<ISegmentoBuilder> _segmentoFactoryMock = new();
+        private IMasmorraRepository _masmorraRepository;
+        private ISegmentoBuilder _segmentoFactory;
+
+        [TestInitialize]
+        public void Test_Initialize()
+        {
+            _masmorraRepositoryMock = new();
+            _segmentoFactoryMock = new();
+            _masmorraRepository = _masmorraRepositoryMock.Object;
+            _segmentoFactory = new SegmentoBuilder(_masmorraRepository);
+        }
+
         [TestMethod]
         public void Sala_Criar_InverterPortaComSucesso()
         {
+            Mock<ISegmentoBuilder> portaFactoryMock = new();
+            ISegmentoBuilder portaFactory = portaFactoryMock.Object;
             Mock<IPortaComum> portaInicial = new();
             portaInicial.SetupAllProperties();
             portaInicial.Setup(w => w.InvertePorta()).Returns(portaInicial.Object);
@@ -29,26 +44,30 @@ namespace NoteQuest.UnitTest
             portaDeEntrada.SetupAllProperties();
             portaDeEntrada.Setup(w => w.InvertePorta()).Returns(portaDeSaida.Object);
 
-            BaseSegmento salaAtual = new Sala(portaInicial.Object, "Sala inicial", 0);
-            BaseSegmento salaAlvo = new Sala(portaDeEntrada.Object, "Sala posterior", 3);
+            BaseSegmento salaAtual = new Sala(portaFactory);
+            salaAtual.Build(portaInicial.Object, "Sala inicial", 0);
+            BaseSegmento salaAlvo = new Sala(portaFactory);
+            salaAlvo.Build(portaDeEntrada.Object, "Sala posterior", 3);
 
-            Assert.AreEqual(salaAtual.Descricao, "Sala inicial");
-            Assert.AreEqual(salaAtual.Portas.Count, 1);
-
-            Assert.AreEqual(salaAlvo.Descricao, "Sala posterior");
-            Assert.AreEqual(salaAlvo.Portas.Count, 4);
+            Assert.AreEqual("Sala inicial", salaAtual.Descricao);
+            Assert.AreEqual(1, salaAtual.Portas.Count);
+            Assert.AreEqual("Sala posterior", salaAlvo.Descricao);
+            Assert.AreEqual(4, salaAlvo.Portas.Count);
             Assert.AreEqual(salaAlvo.Portas[0], portaDeSaida.Object);
         }
 
         [TestMethod]
         public void Sala_AdicionarMonstros_Sucesso()
         {
+            Mock<ISegmentoBuilder> portaFactoryMock = new();
+            ISegmentoBuilder portaFactory = portaFactoryMock.Object;
             Mock<IPortaComum> portaInicial = new();
             portaInicial.SetupAllProperties();
             portaInicial.Setup(w => w.InvertePorta()).Returns(portaInicial.Object);
             Monstro monstro = new("NOME_DE_MONSTRO", 5, 10);
             List<Monstro> monstros = new() { monstro };
-            Sala sala = new (portaInicial.Object, "Sala", 0);
+            Sala sala = new(portaFactory);
+            sala.Build(portaInicial.Object, "Sala", 0);
             sala = sala.AdicionaMonstros(monstros);
 
             Assert.AreEqual(sala.Monstros, monstros);
@@ -169,6 +188,6 @@ namespace NoteQuest.UnitTest
                     }
                 }
             */
-}
+        }
     }
 }

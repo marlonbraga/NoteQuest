@@ -9,6 +9,5 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
 {
     public interface ISegmentoInicial
     {
-        public SegmentoTipo Segmento { get; set; }
     }
 }

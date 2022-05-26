@@ -1,0 +1,68 @@
+[
+    {
+        "indice":2,
+        "nome":"Homem-Gosma",
+        "pv":10,
+        "vantagem":"Se engolfar o corpo de um inimigo morto recupera todos PV"
+    },
+    {
+        "indice":3,
+        "nome":"Vagalóide",
+        "pv":16,
+        "vantagem":"Começa o jogo com 3 usos da Magia Básica: Luz"
+    },
+    {
+        "indice":4,
+        "nome":"Fada",
+        "pv":8,
+        "vantagem":"Começa o jogo com 5 Magias Básicas aleatórias"
+    },
+    {
+        "indice":5,
+        "nome":"Gnomo",
+        "pv":14,
+        "vantagem":"Começa o jogo com 3 Magias Básicas aleatórias"
+    },
+    {
+        "indice":6,
+        "nome":"Elfo",
+        "pv":16,
+        "vantagem":"Começa o jogo com 1 Magia Básicas aleatória"
+    },
+    {
+        "indice":7,
+        "nome":"Humano",
+        "pv":20,
+        "vantagem":"Nenhuma"
+    },
+    {
+        "indice":8,
+        "nome":"Anão",
+        "pv":18,
+        "vantagem":"Quando for rolar para Achar Passagens Secretas, role dois dados e descarte o menor."
+    },
+    {
+        "indice":9,
+        "nome":"Pequenino",
+        "pv":14,
+        "vantagem":"Quando Mover em Silêncio, para cada monstro role dois dados e descarte o menor."
+    },
+    {
+        "indice":10,
+        "nome":"Povo-Gato",
+        "pv":19,
+        "vantagem":"Pode vender equipamento na cidade pelo dobro do valor."
+    },
+    {
+        "indice":11,
+        "nome":"Rinoceróide",
+        "pv":24,
+        "vantagem":"Pode atacar com seu chifre (Dano 1d6) em vez de atacar com uma arma."
+    },
+    {
+        "indice":12,
+        "nome":"Meio-Dragão",
+        "pv":30,
+        "vantagem":"Começa o jogo com 3 usos da Magia Básica: Bola de Fogo."
+    }
+]

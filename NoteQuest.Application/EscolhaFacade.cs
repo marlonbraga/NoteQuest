@@ -1,28 +1,35 @@
-﻿using NoteQuest.Domain.Core.DTO;
+﻿using NoteQuest.Application.Interface;
+using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using NoteQuest.Domain.MasmorraContext.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Application
 {
-    public class EscolhaFacade
+    public class EscolhaFacade : IEscolhaFacade
     {
-        public IContainer Container { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
+        public IEntrarEmMasmorraService EntrarEmMasmorraService { get; set; }
+        public IVerificarPortaService VerificarPortaService { get; set; }
+        public IEntrarPelaPortaService EntrarPelaPortaService { get; set; }
+        public IAbrirFechaduraService AbrirFechaduraService { get; set; }
+        public IQuebrarPortaService QuebrarPortaService { get; set; }
+        public ISairDeMasmorraService SairDeMasmorraService { get; set; }
 
-        public EscolhaFacade(IContainer container)
+        public EscolhaFacade(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository, IEntrarEmMasmorraService entrarEmMasmorraService, IVerificarPortaService verificarPortaService, IEntrarPelaPortaService entrarPelaPortaService, IAbrirFechaduraService abrirFechaduraService, IQuebrarPortaService quebrarPortaService, ISairDeMasmorraService sairDeMasmorraService)
         {
-            Container = container;
-            PortaEntrada = Container.PortaEntrada;
-            MasmorraRepository = Container.MasmorraRepository;
+            PortaEntrada = portaEntrada;
+            MasmorraRepository = masmorraRepository;
+            EntrarEmMasmorraService = entrarEmMasmorraService;
+            VerificarPortaService = verificarPortaService;
+            EntrarPelaPortaService = entrarPelaPortaService;
+            AbrirFechaduraService = abrirFechaduraService;
+            QuebrarPortaService = quebrarPortaService;
+            SairDeMasmorraService = sairDeMasmorraService;
         }
 
         public ConsequenciaDTO SelecionaEscolha(IEscolha escolha)
@@ -35,11 +42,9 @@ namespace NoteQuest.Application
             return escolha.Acao.Executar();
         }
 
-        public ConsequenciaDTO EntrarEmMasmorra(int indice)
+        public ConsequenciaDTO EntrarEmMasmorra()
         {
-            SegmentoFactory.Instancia(MasmorraRepository, indice);
-            IAcao acao = new EntrarEmMasmorra(indice, MasmorraRepository, PortaEntrada);
-            ConsequenciaDTO consequencia = acao.Executar();
+            ConsequenciaDTO consequencia = EntrarEmMasmorraService.Executar();
             return consequencia;
         }
 

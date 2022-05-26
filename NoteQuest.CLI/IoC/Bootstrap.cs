@@ -1,11 +1,17 @@
 ﻿using Ninject;
 using Ninject.Modules;
+using NoteQuest.Application;
+using NoteQuest.Application.Interface;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
+using NoteQuest.Domain.MasmorraContext.Factories;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using NoteQuest.Domain.MasmorraContext.Services;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Infrastructure.Data.Masmorra;
+using System.Reflection;
 
 namespace NoteQuest.CLI.IoC
 {
@@ -14,11 +20,7 @@ namespace NoteQuest.CLI.IoC
         public static IKernel GetKernel(Bindings bindings = null)
         {
             IKernel kernel = new StandardKernel();
-            //kernel.Load(Assembly.GetExecutingAssembly());
-            kernel.Bind<IMasmorraRepository>().To<MasmorraRepository>();
-            //kernel.Bind<ISegmentoFactory>().To<SegmentoFactory>();
-            kernel.Bind<IPortaEntrada>().To<PortaEntrada>();
-            kernel.Bind<IPortaComum>().To<Porta>();
+            kernel.Load(Assembly.GetExecutingAssembly());
 
             //Bindings
             if (bindings is null)
@@ -28,8 +30,6 @@ namespace NoteQuest.CLI.IoC
             //bindings.Load();
 
             return kernel;
-
-            //IMasmorraRepository masmorraRepository = kernel.Get<IMasmorraRepository>();
         }
     }
 
@@ -39,8 +39,22 @@ namespace NoteQuest.CLI.IoC
         {
             Bind<IMasmorraRepository>().To<MasmorraRepository>();
             Bind<IPortaEntrada>().To<PortaEntrada>();
-            Bind<IPortaComum>().To<Porta>();
-            //Bind<ISegmentoFactory>().To<SegmentoFactory>();
+            Bind<IPortaComum>().To<PortaComum>();
+
+            Bind<ISegmentoBuilder>().To<SegmentoBuilder>();
+            Bind<ISegmentoInicial>().To<SegmentoInicial>();
+            //Bind<ISegmentoFactory>().To<SegmentoFactory>().InSingletonScope();
+            //Bind<SegmentoFactory>().ToSelf().InSingletonScope();
+
+            Bind<IEscolhaFacade>().To<EscolhaFacade>();
+            Bind<IEntrarEmMasmorraService>().To<EntrarEmMasmorraService>();
+            Bind<IVerificarPortaService>().To<VerificarPortaService>();
+            Bind<IEntrarPelaPortaService>().To<EntrarPelaPortaService>();
+            Bind<IAbrirFechaduraService>().To<AbrirFechaduraService>();
+            Bind<IQuebrarPortaService>().To<QuebrarPortaService>();
+            Bind<ISairDeMasmorraService>().To<SairDeMasmorraService>();
+
+            Bind<IMasmorra>().To<Masmorra>();
         }
     }
 }

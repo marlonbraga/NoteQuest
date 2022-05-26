@@ -1,16 +1,38 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Entities;
+using NoteQuest.Domain.MasmorraContext.Factories;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.UnitTest
 {
     [TestClass]
     public class VerificarPortaTest
     {
+        private Mock<IMasmorraRepository> _masmorraRepositoryMock = new();
+        private Mock<ISegmentoBuilder> _segmentoFactoryMock = new();
+        private IMasmorraRepository _masmorraRepository;
+        private ISegmentoBuilder _segmentoFactory;
+
+        [TestInitialize]
+        public void Test_Initialize()
+        {
+            _masmorraRepositoryMock = new();
+            _segmentoFactoryMock = new();
+            _masmorraRepository = _masmorraRepositoryMock.Object;
+            _segmentoFactory = new SegmentoBuilder(_masmorraRepository);
+        }
+
         //[TestMethod]
         //public void Sala_Entrar_Sucesso()
         //{
-        //    IPortaComum porta = new Porta();
-        //    BaseSegmento salaAtual = new Sala(porta, "Sala inicial");
-        //    BaseSegmento salaAlvo = new Sala(porta, "Sala posterior");
+        //    BaseSegmento salaAtual = new Sala(_segmentoFactory);
+        //    BaseSegmento salaAlvo = new Sala(_segmentoFactory);
+        //    IPortaComum porta = _segmentoFactory.CriarPortaComum(salaAtual, Posicao.frente);
+        //    salaAtual.Build(porta, "Sala inicial", 0);
+        //    salaAtual.Build(porta, "Sala posterior", 0);
 
         //    porta.SegmentoAtual = salaAtual;
         //    porta.SegmentoAlvo = salaAlvo;

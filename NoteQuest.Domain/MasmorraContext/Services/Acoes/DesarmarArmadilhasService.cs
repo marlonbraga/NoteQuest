@@ -1,17 +1,18 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class SairDeMasmorra : IAcao
+    public class DesarmarArmadilhasService : IDesarmarArmadilhasService
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public SairDeMasmorra()
+        public DesarmarArmadilhasService()
         {
-            Titulo = "Sair de Masmorra";
-            Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
+            Titulo = "Desarmar armadilhas";
+            Descricao = "Torna sala segura quanto a armadilhas. Ação demorada. Gasta 1 tocha";
         }
 
         public ConsequenciaDTO Executar()

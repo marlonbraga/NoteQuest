@@ -1,0 +1,90 @@
+[
+    {
+        "indice":2,
+        "nome":"Mendigo",
+        "pv":4,
+        "vantagem":"Nenhuma",
+        "armaInicial":"Pedaço de pau",
+        "dano": -2
+    },
+    {
+        "indice":3,
+        "nome":" Coveiro",
+        "pv":2,
+        "vantagem":"Causa +2 de dano em Mortos-Vivos.",
+        "armaInicial":"Pá",
+        "dano": -1
+    },
+    {
+        "indice":4,
+        "nome":" Nobre",
+        "pv":0,
+        "vantagem":"Começa o jogo com 1 Magia Básica aleatória.",
+        "armaInicial":"Rapieira",
+        "dano": 1
+    },
+    {
+        "indice":5,
+        "nome":" Estudante",
+        "pv":0,
+        "vantagem":"Começa o jogo com 3 Magia Básica aleatória.",
+        "armaInicial":"Adaga",
+        "dano": -1
+    },
+    {
+        "indice":6,
+        "nome":" Ferreiro",
+        "pv":4,
+        "vantagem":"Pode recuperar armaduras gastando 1 Tocha.",
+        "armaInicial":"Martelo",
+        "dano": 0
+    },
+    {
+        "indice":7,
+        "nome":" Guarda",
+        "pv":4,
+        "vantagem":"Nenhuma.",
+        "armaInicial":"Espada Curta",
+        "dano": 0
+    },
+    {
+        "indice":8,
+        "nome":" Cozinheiro",
+        "pv":2,
+        "vantagem":"Ganha 1 Provisão por monstro (que não seja morto-vivo).",
+        "armaInicial":"Cutelo",
+        "dano": 0
+    },
+    {
+        "indice":9,
+        "nome":" Chaveiro",
+        "pv":2,
+        "vantagem":"Não gasta tochas quando Abrir Fechaduras.",
+        "armaInicial":"Adaga",
+        "dano": -1
+    },
+    {
+        "indice":10,
+        "nome":" Lenhador",
+        "pv":4,
+        "vantagem":"Quando destruir portas, role o dado. Se cair 6, ganha 1 tocha.",
+        "armaInicial":"Machado",
+        "dano": 0
+    },
+    {
+        "indice":11,
+        "nome":" Minerador",
+        "pv":4,
+        "vantagem":"Se acabar as tochas pode sair caso tenha caminho livre.",
+        "armaInicial":"Picareta",
+        "dano": -1
+    },
+    {
+        "indice":12,
+        "nome":" Gladiador",
+        "pv":6,
+        "vantagem":"Nenhuma.",
+        "armaInicial":"Espada Curta",
+        "dano": 0
+    }
+]

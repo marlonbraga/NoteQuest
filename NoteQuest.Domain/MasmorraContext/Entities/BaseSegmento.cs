@@ -3,6 +3,8 @@ using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System.Collections.Generic;
+using NoteQuest.Domain.MasmorraContext.Factories;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
@@ -14,14 +16,20 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
     public abstract class BaseSegmento
     {
         public int Nivel { get; }
-        public int IdSegmento { get; }
+        public int IdSegmento { get; set; }
         public static int ContagemDeSalas { get; set; }
         public string Descricao { get; set; }
         public string DetalhesDescricao { get; set; }
         public List<IPorta> Portas { get; set; }
         public List<IEscolha> Escolhas { get; set; }
+        public ISegmentoBuilder SegmentoFactory { get; set; }
 
-        public BaseSegmento(IPorta portaDeEntrada, string descricao, int qtdPortas)
+        public BaseSegmento(ISegmentoBuilder segmentoFactory)
+        {
+            SegmentoFactory = segmentoFactory;
+        }
+
+        public void Build(IPorta portaDeEntrada, string descricao, int qtdPortas)
         {
             IdSegmento = ContagemDeSalas++;
             IPorta porta = null;
@@ -37,11 +45,10 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             GerarPortas(qtdPortas);
         }
 
-        public BaseSegmento(string descricao, int qtdPortas)
+        public void Build(string descricao, int qtdPortas)
         {
             ContagemDeSalas = 0;
             IdSegmento = ContagemDeSalas++;
-            Portas = new();
             Descricao = descricao;
             Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
@@ -54,9 +61,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         private List<IEscolha> GerarEscolhasBasicas()
         {
-            IAcao acaoDesarmarArmadilhas = new DesarmarArmadilhas();
+            IAcao acaoDesarmarArmadilhas = new DesarmarArmadilhasService();
             Escolha desarmarArmadilhas = new(acaoDesarmarArmadilhas);
-            IAcao acaoAcharPassagemSecreta = new AcharPassagemSecreta();
+            IAcao acaoAcharPassagemSecreta = new AcharPassagemSecretaService();
             Escolha acharPassagemSecreta = new(acaoAcharPassagemSecreta);
             List<IEscolha> escolhas = new() { desarmarArmadilhas, acharPassagemSecreta };
             return escolhas;
@@ -64,12 +71,12 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         private void GerarPortas(int qtdPortas)
         {
-            //IPortaComum porta = ;
             //TODO: elaborar regra de posição
-
             for (int i = 1; i <= qtdPortas; i++)
             {
-                Portas.Add(new Porta(this, RecuperaPosicaoPorIndice(i)));
+                IPortaComum porta = SegmentoFactory.CriarPortaComum(this, RecuperaPosicaoPorIndice(i));
+                porta.Build(this, RecuperaPosicaoPorIndice(i));
+                Portas.Add(porta);
             }
         }
 

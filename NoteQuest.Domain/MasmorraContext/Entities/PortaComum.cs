@@ -6,10 +6,11 @@ using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.Collections.Generic;
 using NoteQuest.Domain.MasmorraContext.Services;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Porta : IPortaComum
+    public class PortaComum : IPortaComum
     {
         public int IdPorta { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
@@ -18,17 +19,20 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public BaseSegmento SegmentoAlvo { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
         public List<IEscolha> Escolhas { get; set; }
+        public ISegmentoBuilder SegmentoFactory { get; set; }
 
-        public Porta(IMasmorraRepository masmorraRepository)
+        public PortaComum(IMasmorraRepository masmorraRepository, ISegmentoBuilder segmentoFactory)
         {
             MasmorraRepository = masmorraRepository;
+            SegmentoFactory = segmentoFactory;
+            Escolhas = new List<IEscolha>();
         }
 
-        public Porta(BaseSegmento segmentoAtual, Posicao posicao)
+        public void Build(BaseSegmento segmentoAtual, Posicao posicao)
         {
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
-            IAcao acao = new VerificarPorta(1,this);
+            IAcao acao = SegmentoFactory.CriarVerificarPortaService(this);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
         }
@@ -45,9 +49,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 case 2:
                 case 3:
                     EstadoDePorta = EstadoDePorta.fechada;
-                    IAcao acaoQuebrarPorta = new QuebrarPorta(1, this);
+                    IAcao acaoQuebrarPorta = SegmentoFactory.CriarQuebrarPortaService(this);
                     Escolha escolhaQuebrarPorta = new(acaoQuebrarPorta);
-                    IAcao acaoAbrirFechadura = new AbrirFechadura(1, this);
+                    IAcao acaoAbrirFechadura = SegmentoFactory.CriarAbrirFechaduraService(this);
                     Escolha escolhaAbrirFechadura = new(acaoAbrirFechadura);
                     Escolhas = new List<IEscolha>() { escolhaQuebrarPorta, escolhaAbrirFechadura };
                     break;
@@ -64,7 +68,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public void AbrirFechadura()
         {
             EstadoDePorta = EstadoDePorta.aberta;
-            IAcao acao = new EntrarPelaPorta(this);
+            IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(this);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
         }
@@ -77,14 +81,14 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         public IPortaComum InvertePorta()
         {
-            IPortaComum porta = new Porta(MasmorraRepository)
+            IPortaComum porta = new PortaComum(MasmorraRepository, SegmentoFactory)
             {
-                Posicao = this.Posicao,//TODO: Inverter posição
+                Posicao = this.Posicao,//TODO: Inverter posição ←┘ ←Ꝋ
                 EstadoDePorta = this.EstadoDePorta,
                 SegmentoAlvo = this.SegmentoAtual,
                 SegmentoAtual = this.SegmentoAlvo
             };
-            IAcao acao = new EntrarPelaPorta(porta);
+            IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(porta);
             acao.Titulo = "▲ " + acao.Titulo;
             IEscolha escolha = new Escolha(acao);
             List<IEscolha> escolhas = new() { escolha };
@@ -95,7 +99,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         private List<IEscolha> AbrirPorta()
         {
-            IAcao acao = new EntrarPelaPorta(this);
+            IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(this);
             Escolha escolha = new(acao);
             return new List<IEscolha>() { escolha };
         }

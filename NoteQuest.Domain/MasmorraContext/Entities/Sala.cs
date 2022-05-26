@@ -1,6 +1,8 @@
 ﻿using NoteQuest.Domain.CombateContext.Entities;
+using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
@@ -12,9 +14,8 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public List<Monstro> Monstros { get; set; }
         public List<IConteudo> Conteudo { get; set; }
 
-        public Sala(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
+        public Sala(ISegmentoBuilder segmentoFactory) : base(segmentoFactory)
         {
-            Descricao = descricao;
         }
         public void MoverEmSilencio(int valorD6)
         {
@@ -27,7 +28,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         }
         public Sala AdicionaMonstros(List<Monstro> monstros)
         {
-            if(monstros.Count > 0)
+            if (monstros.Count > 0)
             {
                 Monstros = monstros;
                 DescricaoMonstros = $"\n  Há {monstros.Count} {monstros[0].Nome} na sala! (PV:{monstros[0].PV}; Dano:{monstros[0].Dano})";

@@ -1,12 +1,13 @@
-﻿using NoteQuest.Domain.MasmorraContext.Interfaces;
+﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
     public class Escadaria : BaseSegmento, ISegmento
     {
-        public Escadaria(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
+        public Escadaria(ISegmentoBuilder segmentoFactory) : base(segmentoFactory)
         {
-            Descricao = descricao;
             //TODO: 1 única porta com um nível abaixo
         }
     }

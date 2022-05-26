@@ -1,0 +1,32 @@
+[
+    {
+        "indice": 1,
+        "nome": "Cura",
+        "descricao": "Recupera 5 PV"
+    },
+    {
+        "indice": 2,
+        "nome": "Luz",
+        "descricao": "Cria um globo de luz que vale como uma Tocha"
+    },
+    {
+        "indice": 3,
+        "nome": "Teletransporte",
+        "descricao": "Te teletransporta para qualquer sala que já visitou. Pode ser usado para fugir de combate"
+    },
+    {
+        "indice": 4,
+        "nome": "Raio de Gelo",
+        "descricao": "Ataque que causa 4 de dano e o oponente não atacará no próximo turno"
+    },
+    {
+        "indice": 5,
+        "nome": "Relâmpago",
+        "descricao": "Ataque que causa 6 de dano"
+    },
+    {
+        "indice": 6,
+        "nome": "Bola de Fogo",
+        "descricao": "Ataque que causa 5 de dano em todos oponentes da sala onde estiver"
+    }
+]

@@ -6,8 +6,8 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
     {
         public BaseSegmento SegmentoAlvo { get; set; }
         public EstadoDePorta EstadoDePorta { get; set; }
-
         public IPortaComum InvertePorta();
         public EstadoDePorta VerificarFechadura(int valorD6);
+        public void Build(BaseSegmento segmentoAtual, Posicao posicao);
     }
 }

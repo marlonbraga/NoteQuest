@@ -1,9 +1,4 @@
-﻿using NoteQuest.Domain.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NoteQuest.CLI.Interfaces;
 
 namespace NoteQuest.UnitTest.Base
 {
