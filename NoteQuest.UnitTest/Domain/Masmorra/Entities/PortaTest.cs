@@ -1,25 +1,20 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.UnitTest.Base;
 using Moq;
-using System.Threading.Tasks;
 using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using NoteQuest.Domain.Core.DTO;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Services;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Factories;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using NoteQuest.UnitTest.Base;
 
 namespace NoteQuest.UnitTest
 {
     [TestClass]
     public class PortaTest : BaseTest
     {
-        private Mock<IMasmorraRepository> _masmorraRepositoryMock = new();
+        private Mock<IClasseBasicaRepository> _masmorraRepositoryMock = new();
         private Mock<ISegmentoBuilder> _segmentoFactoryMock = new();
-        private IMasmorraRepository _masmorraRepository;
+        private IClasseBasicaRepository _masmorraRepository;
         private ISegmentoBuilder _segmentoFactory;
 
         [TestInitialize]
@@ -34,7 +29,7 @@ namespace NoteQuest.UnitTest
         [TestMethod]
         public void Porta_Criar_Sucesso()
         {
-            PortaComum porta = new (_masmorraRepository, _segmentoFactory);
+            PortaComum porta = new(_masmorraRepository, _segmentoFactory);
 
             Assert.AreEqual(porta.MasmorraRepository, _masmorraRepository);
         }
@@ -53,15 +48,15 @@ namespace NoteQuest.UnitTest
             Posicao posicao = Posicao.frente;
             #endregion
 
-            Mock<IMasmorraRepository> masmorraRepositoryMock = new();
-            IMasmorraRepository masmorraRepository = masmorraRepositoryMock.Object;
+            Mock<IClasseBasicaRepository> masmorraRepositoryMock = new();
+            IClasseBasicaRepository masmorraRepository = masmorraRepositoryMock.Object;
             Mock<IVerificarPortaService> acaoMock = new();
             IVerificarPortaService acao = acaoMock.Object;
             Mock<ISegmentoBuilder> acaoFactoryMock = new();
             acaoFactoryMock.Setup(x => x.CriarVerificarPortaService(It.IsAny<IPortaComum>())).Returns(acao);
             ISegmentoBuilder acaoFactory = acaoFactoryMock.Object;
 
-            PortaComum porta = new (masmorraRepository, acaoFactory);
+            PortaComum porta = new(masmorraRepository, acaoFactory);
             porta.Build(segmento, posicao);
 
             Assert.AreEqual(segmento, porta.SegmentoAtual);
@@ -82,8 +77,8 @@ namespace NoteQuest.UnitTest
             segmento.Build(portaInicial, "descrição", 2);
             Posicao posicao = Posicao.frente;
 
-            Mock<IMasmorraRepository> masmorraRepositoryMock = new();
-            IMasmorraRepository masmorraRepository = masmorraRepositoryMock.Object;
+            Mock<IClasseBasicaRepository> masmorraRepositoryMock = new();
+            IClasseBasicaRepository masmorraRepository = masmorraRepositoryMock.Object;
             Mock<ISegmentoBuilder> acaoFactoryMock = new();
             ISegmentoBuilder acaoFactory = acaoFactoryMock.Object;
             PortaComum porta = new(masmorraRepository, acaoFactory);
@@ -117,8 +112,8 @@ namespace NoteQuest.UnitTest
             Corredor segmento = new(portaFactory);
             #endregion
 
-            Mock<IMasmorraRepository> masmorraRepositoryMock = new();
-            IMasmorraRepository masmorraRepository = masmorraRepositoryMock.Object;
+            Mock<IClasseBasicaRepository> masmorraRepositoryMock = new();
+            IClasseBasicaRepository masmorraRepository = masmorraRepositoryMock.Object;
             Mock<IVerificarPortaService> acaoMock = new();
             IVerificarPortaService acao = acaoMock.Object;
             Mock<ISegmentoBuilder> acaoFactoryMock = new();

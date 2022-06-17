@@ -1,8 +1,7 @@
-﻿using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Entities;
+﻿using NoteQuest.Domain.MasmorraContext.Entities;
 using System.Collections.Generic;
 
-namespace NoteQuest.Domain.MasmorraContext.Interfaces
+namespace NoteQuest.Domain.Core.Interfaces.Masmorra
 {
     public enum Posicao : int
     {

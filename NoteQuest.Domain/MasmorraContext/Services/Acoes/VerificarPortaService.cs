@@ -1,10 +1,11 @@
-﻿using NoteQuest.Domain.Core;
-using NoteQuest.Domain.Core.DTO;
+﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Entities;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using System.Collections.Generic;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -13,6 +14,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaComum Porta { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public VerificarPortaService(IPortaComum porta)
         {

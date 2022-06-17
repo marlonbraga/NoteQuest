@@ -1,4 +1,5 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 
 namespace NoteQuest.Domain.MasmorraContext.Interfaces.Services
 {

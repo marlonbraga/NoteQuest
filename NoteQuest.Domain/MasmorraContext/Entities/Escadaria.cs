@@ -1,10 +1,8 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Escadaria : BaseSegmento, ISegmento
+    public class Escadaria : BaseSegmento
     {
         public Escadaria(ISegmentoBuilder segmentoFactory) : base(segmentoFactory)
         {

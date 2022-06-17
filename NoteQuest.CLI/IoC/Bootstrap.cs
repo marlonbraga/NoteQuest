@@ -3,12 +3,12 @@ using Ninject.Modules;
 using NoteQuest.Application;
 using NoteQuest.Application.Interface;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Factories;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
-using NoteQuest.Domain.MasmorraContext.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Infrastructure.Data.Masmorra;
 using System.Reflection;
@@ -37,7 +37,7 @@ namespace NoteQuest.CLI.IoC
     {
         public override void Load()
         {
-            Bind<IMasmorraRepository>().To<MasmorraRepository>();
+            Bind<IClasseBasicaRepository>().To<MasmorraRepository>();
             Bind<IPortaEntrada>().To<PortaEntrada>();
             Bind<IPortaComum>().To<PortaComum>();
 

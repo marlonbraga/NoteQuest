@@ -1,9 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Factories;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.UnitTest
@@ -11,9 +9,9 @@ namespace NoteQuest.UnitTest
     [TestClass]
     public class EntrarPelaPortaTest
     {
-        private Mock<IMasmorraRepository> _masmorraRepositoryMock = new();
+        private Mock<IClasseBasicaRepository> _masmorraRepositoryMock = new();
         private Mock<ISegmentoBuilder> _segmentoFactoryMock = new();
-        private IMasmorraRepository _masmorraRepository;
+        private IClasseBasicaRepository _masmorraRepository;
         private ISegmentoBuilder _segmentoFactory;
 
         [TestInitialize]

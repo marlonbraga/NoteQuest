@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Infrastructure.Data.Masmorra;
-using System.IO;
 
 namespace NoteQuest.UnitTest.Infrasctrucuture.Data.Masmorra
 {
@@ -13,7 +12,7 @@ namespace NoteQuest.UnitTest.Infrasctrucuture.Data.Masmorra
         public void MasmorraRepository_PegarDadosEmJson_Sucesso()
         {
             string nomeMasmorra = "Palacio";
-            IMasmorraRepository masmorraRepository = new MasmorraRepository();
+            IClasseBasicaRepository masmorraRepository = new MasmorraRepository();
 
             MasmorraDataDTO dadosMasmorra = (MasmorraDataDTO)masmorraRepository.PegarDadosMasmorra($@"MasmorrasBasicas\{nomeMasmorra}");
 
@@ -24,7 +23,7 @@ namespace NoteQuest.UnitTest.Infrasctrucuture.Data.Masmorra
         [TestMethod]
         public void MasmorraRepository_PegarNomesEmJson_Sucesso()
         {
-            IMasmorraRepository masmorraRepository = new MasmorraRepository();
+            IClasseBasicaRepository masmorraRepository = new MasmorraRepository();
 
             MasmorraNomesDTO dadosMasmorra = (MasmorraNomesDTO)masmorraRepository.PegarNomesMasmorra();
 

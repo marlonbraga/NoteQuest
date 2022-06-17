@@ -1,6 +1,5 @@
-﻿using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+﻿using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using System;
 using System.Collections.Generic;

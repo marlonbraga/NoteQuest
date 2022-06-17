@@ -1,13 +1,11 @@
 ﻿using NoteQuest.Domain.CombateContext.Entities;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.ItensContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Sala : BaseSegmento, ISegmento
+    public class Sala : BaseSegmento
     {
         public string DescricaoConteudo { get; set; }
         public string DescricaoMonstros { get; set; }

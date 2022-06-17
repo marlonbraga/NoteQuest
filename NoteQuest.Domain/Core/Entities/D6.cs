@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NoteQuest.Domain.Core
+namespace NoteQuest.Domain.Core.Entities
 {
     public static class D6
     {
@@ -15,7 +15,7 @@ namespace NoteQuest.Domain.Core
             {
                 Valor += random.Next(1, 6 + 1);
             }
-            return Valor/* - qtdDados*/;
+            return Valor;
         }
     }
 }

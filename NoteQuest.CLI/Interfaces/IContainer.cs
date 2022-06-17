@@ -1,8 +1,9 @@
-﻿using NoteQuest.Domain.MasmorraContext.Interfaces;
+﻿using NoteQuest.Application.Interface;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
-using NoteQuest.Application.Interface;
-using NoteQuest.Domain.Core.Interfaces;
 
 namespace NoteQuest.CLI.Interfaces
 {
@@ -10,7 +11,7 @@ namespace NoteQuest.CLI.Interfaces
     {
         public IPortaEntrada PortaEntrada { get; set; }
         public IMasmorra Masmorra { get; set; }
-        public IMasmorraRepository MasmorraRepository { get; set; }
+        public IClasseBasicaRepository MasmorraRepository { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
         public IEntrarEmMasmorraService EntrarEmMasmorraService { get; set; }
         public IVerificarPortaService VerificarPortaService { get; set; }

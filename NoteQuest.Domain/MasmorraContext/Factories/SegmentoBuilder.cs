@@ -1,27 +1,28 @@
 ﻿using NoteQuest.Domain.CombateContext.Entities;
-using NoteQuest.Domain.Core;
+using NoteQuest.Domain.Core.Entities;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using System;
-using System.Collections.Generic;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
+using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Factories
 {
     public class SegmentoBuilder : ISegmentoBuilder
     {
         public IMasmorraData MasmorraData { get; set; }
-        public IMasmorraRepository MasmorraRepository { get; set; }
+        public IClasseBasicaRepository MasmorraRepository { get; set; }
 
-        public SegmentoBuilder(IMasmorraRepository masmorraRepository)
+        public SegmentoBuilder(IClasseBasicaRepository masmorraRepository)
         {
             MasmorraRepository = masmorraRepository;
         }
-        
+
         #region SEGMENTO
         public void Build(int D6 = 1)
         {

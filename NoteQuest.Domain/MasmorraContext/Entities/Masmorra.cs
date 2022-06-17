@@ -1,4 +1,5 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System;
@@ -12,34 +13,47 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public IPortaEntrada PortaEntrada { get; set; }
         public ISegmentoInicial SegmentoInicial { get; set; }
         public ISegmentoBuilder SegmentoBuilder { get; set; }
-        public IMasmorraRepository MasmorraRepository { get; set; }
+        public IClasseBasicaRepository MasmorraRepository { get; set; }
 
-        public Masmorra(IMasmorraRepository masmorraRepository, ISegmentoBuilder segmentoBuilder, IPortaEntrada portaEntrada)
+        public Masmorra(IClasseBasicaRepository masmorraRepository, ISegmentoBuilder segmentoBuilder, IPortaEntrada portaEntrada)
         {
             MasmorraRepository = masmorraRepository;
             SegmentoBuilder = segmentoBuilder;
+            PortaEntrada = portaEntrada;
         }
 
         public void Build(int indice1, int indice2, int indice3)
         {
-            Tuple<string, BaseSegmento> entradaEmMasmorra;
+            Tuple<string, BaseSegmento> entradaDaMasmorra;
             SegmentoBuilder.Build(indice1);
-            entradaEmMasmorra = SegmentoBuilder.GeraSegmentoInicial();
-            Descricao = entradaEmMasmorra.Item1;
-            SegmentoInicial = (ISegmentoInicial)entradaEmMasmorra.Item2;
+            entradaDaMasmorra = SegmentoBuilder.GeraSegmentoInicial();
+            Descricao = entradaDaMasmorra.Item1;
+            SegmentoInicial = (ISegmentoInicial)entradaDaMasmorra.Item2;
             Nome = GerarNome(indice1, indice2, indice3);
         }
 
         public string GerarNome(int indice1, int indice2, int indice3)
         {
-            IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra(); 
+            IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
 
             string nomeParte1 = masmorraNomes.TipoDeMasmorra[indice1 - 1].tipo;
             string nomeParte2 = masmorraNomes.SegundaParte[indice2 - 1].nome;
             string nomeParte3 = masmorraNomes.TerceiraParte[indice3 - 1].nome;
+
+            nomeParte3 = TratarGenero(nomeParte2, nomeParte3);
+
             Nome = $"{nomeParte1} {nomeParte2} {nomeParte3}";
 
             return Nome;
+        }
+
+        private string TratarGenero(string nomeParte2, string nomeParte3)
+        {
+            if (nomeParte2[1] == 'o' || nomeParte2[1] == 'a')
+            {
+                nomeParte3 = nomeParte3.Replace("o(a)", nomeParte2[1].ToString());
+            }
+            return nomeParte3;
         }
         public string BuscarTipo(int indice)
         {

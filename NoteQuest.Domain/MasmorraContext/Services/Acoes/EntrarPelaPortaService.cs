@@ -1,18 +1,20 @@
-﻿using NoteQuest.Domain.Core;
-using NoteQuest.Domain.Core.DTO;
+﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Entities;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using System;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class EntrarPelaPortaService : IEntrarPelaPortaService
+    public class EntrarPelaPortaService : IEntrarPelaPortaService, IAcaoPorta
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public IPortaComum Porta { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
+        public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public EntrarPelaPortaService(IPortaComum porta, ISegmentoBuilder segmentoFactory)
         {
@@ -20,6 +22,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Titulo = $"Entrar pela porta de {porta.Posicao}";
             Descricao = "Acessa nova sala. Se houver monstros, você ataca primeiro.";
             SegmentoFactory = segmentoFactory;
+            Execucao = Executar;
         }
 
         public ConsequenciaDTO Executar()

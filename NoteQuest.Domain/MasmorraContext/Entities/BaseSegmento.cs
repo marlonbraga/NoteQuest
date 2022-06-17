@@ -1,10 +1,8 @@
-﻿using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using NoteQuest.Domain.Core.Interfaces;
+﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.ObjectValue;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System.Collections.Generic;
-using NoteQuest.Domain.MasmorraContext.Factories;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
@@ -13,7 +11,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         sala, corredor, escadaria
     }
 
-    public abstract class BaseSegmento
+    public abstract class BaseSegmento : ISegmento
     {
         public int Nivel { get; }
         public int IdSegmento { get; set; }
@@ -62,9 +60,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         private List<IEscolha> GerarEscolhasBasicas()
         {
             IAcao acaoDesarmarArmadilhas = new DesarmarArmadilhasService();
-            Escolha desarmarArmadilhas = new(acaoDesarmarArmadilhas);
+            Escolha desarmarArmadilhas = new(acaoDesarmarArmadilhas, null);
             IAcao acaoAcharPassagemSecreta = new AcharPassagemSecretaService();
-            Escolha acharPassagemSecreta = new(acaoAcharPassagemSecreta);
+            Escolha acharPassagemSecreta = new(acaoAcharPassagemSecreta, null);
             List<IEscolha> escolhas = new() { desarmarArmadilhas, acharPassagemSecreta };
             return escolhas;
         }

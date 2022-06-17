@@ -2,12 +2,11 @@
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using System;
 using System.IO;
 
 namespace NoteQuest.Infrastructure.Data.Masmorra
 {
-    public class MasmorraRepository : IMasmorraRepository
+    public class MasmorraRepository : IClasseBasicaRepository
     {
         public IMasmorraData DadosDeMasmorra { get; set; }
         public IMasmorraNomes MasmorraNomenclatura { get; set; }

@@ -1,14 +1,12 @@
-﻿using NoteQuest.Application;
-using NoteQuest.Application.Interface;
+﻿using NoteQuest.Application.Interface;
 using NoteQuest.CLI.Interfaces;
 using NoteQuest.CLI.IoC;
-using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Entities;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System;
 using System.Collections.Generic;
-
 
 namespace NoteQuest.CLI
 {
@@ -30,7 +28,7 @@ namespace NoteQuest.CLI
                        .*.                                     .&@@@@(                                             
            
 ");
-            
+
             CriarNovoJogo();
         }
 
@@ -43,7 +41,7 @@ namespace NoteQuest.CLI
             Masmorra.Build(D6.Rolagem(), D6.Rolagem(), D6.Rolagem());
             Console.WriteLine($"  {Masmorra.Nome.ToUpper()}\n");
 
-            ConsequenciaDTO consequencia = EscolhaFacade.EntrarEmMasmorra();
+            ConsequenciaDTO consequencia = EscolhaFacade.EntrarEmMasmorra(Masmorra);
             Console.WriteLine(consequencia.Descricao);
             List<IEscolha> escolhas = consequencia.Escolhas;
             for (int i = 0; i < escolhas.Count; i++)

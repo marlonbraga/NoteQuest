@@ -6,6 +6,15 @@
 
   <ItemGroup>
     <Folder Include="CombateContext\Interfaces\" />
+    <Folder Include="Core\Entities\Classes\Avancadas\" />
+    <Folder Include="Core\Entities\Magia\Basica\" />
+    <Folder Include="Core\Entities\Magia\Avancada\" />
+    <Folder Include="Core\Entities\Magia\Elemental\" />
+    <Folder Include="Core\Entities\Magia\Morte\" />
+    <Folder Include="Core\Entities\Magia\Natureza\" />
+    <Folder Include="Core\Entities\Raca\Monstruosa\" />
+    <Folder Include="Core\Entities\Raca\Exotica\" />
+    <Folder Include="Core\Entities\Raca\Incomum\" />
     <Folder Include="MasmorraContext\Agregate\" />
     <Folder Include="CombateContext\Agregate\" />
     <Folder Include="CombateContext\ObjectValue\" />

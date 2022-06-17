@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
+﻿using Ninject;
 using NoteQuest.Application.Interface;
 using NoteQuest.CLI.Interfaces;
 using NoteQuest.CLI.IoC;
@@ -20,7 +15,7 @@ namespace NoteQuest.UnitTest.Base
     {
         public IKernel Kernel { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
-        public IMasmorraRepository MasmorraRepository { get; set; }
+        public IClasseBasicaRepository MasmorraRepository { get; set; }
         public IMasmorra Masmorra { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
         public IEscolhaFacade EscolhaFacade { get; set; }

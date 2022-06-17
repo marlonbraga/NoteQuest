@@ -1,8 +1,8 @@
-﻿using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using NoteQuest.Domain.Core.Interfaces;
+﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
@@ -21,7 +21,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public void Build(ISegmentoBuilder segmentoFactory)
         {
             IAcao acaoSairDeMasmorra = new SairDeMasmorraService();
-            IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra);
+            IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra, null);
             List<IEscolha> escolhas = new() { sairDeMasmorra };
             IPorta portaDeEntrada = segmentoFactory.CriarPortaDeEntrada(escolhas);
 

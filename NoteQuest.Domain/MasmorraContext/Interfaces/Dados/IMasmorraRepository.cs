@@ -1,8 +1,6 @@
-﻿using NoteQuest.Domain.MasmorraContext.DTO;
-
-namespace NoteQuest.Domain.MasmorraContext.Interfaces.Dados
+﻿namespace NoteQuest.Domain.MasmorraContext.Interfaces.Dados
 {
-    public interface IMasmorraRepository
+    public interface IClasseBasicaRepository
     {
         public IMasmorraData DadosDeMasmorra { get; set; }
 

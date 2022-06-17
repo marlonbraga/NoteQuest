@@ -1,19 +1,15 @@
-﻿using NoteQuest.Domain.Core;
-using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using NoteQuest.Domain.Core.Interfaces;
+﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.ObjectValue;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.Collections.Generic;
-using NoteQuest.Domain.MasmorraContext.Services;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
     public class PortaComum : IPortaComum
     {
         public int IdPorta { get; set; }
-        public IMasmorraRepository MasmorraRepository { get; set; }
+        public IClasseBasicaRepository MasmorraRepository { get; set; }
         public EstadoDePorta EstadoDePorta { get; set; }
         public Posicao Posicao { get; set; }
         public BaseSegmento SegmentoAlvo { get; set; }
@@ -21,7 +17,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public List<IEscolha> Escolhas { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
 
-        public PortaComum(IMasmorraRepository masmorraRepository, ISegmentoBuilder segmentoFactory)
+        public PortaComum(IClasseBasicaRepository masmorraRepository, ISegmentoBuilder segmentoFactory)
         {
             MasmorraRepository = masmorraRepository;
             SegmentoFactory = segmentoFactory;
@@ -33,7 +29,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
             IAcao acao = SegmentoFactory.CriarVerificarPortaService(this);
-            Escolha escolha = new(acao);
+            Escolha escolha = new(acao, null);
             Escolhas = new List<IEscolha>() { escolha };
         }
 
@@ -50,9 +46,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 case 3:
                     EstadoDePorta = EstadoDePorta.fechada;
                     IAcao acaoQuebrarPorta = SegmentoFactory.CriarQuebrarPortaService(this);
-                    Escolha escolhaQuebrarPorta = new(acaoQuebrarPorta);
+                    Escolha escolhaQuebrarPorta = new(acaoQuebrarPorta, null);
                     IAcao acaoAbrirFechadura = SegmentoFactory.CriarAbrirFechaduraService(this);
-                    Escolha escolhaAbrirFechadura = new(acaoAbrirFechadura);
+                    Escolha escolhaAbrirFechadura = new(acaoAbrirFechadura, null);
                     Escolhas = new List<IEscolha>() { escolhaQuebrarPorta, escolhaAbrirFechadura };
                     break;
                 case 4:
@@ -69,7 +65,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             EstadoDePorta = EstadoDePorta.aberta;
             IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(this);
-            Escolha escolha = new(acao);
+            Escolha escolha = new(acao, null);
             Escolhas = new List<IEscolha>() { escolha };
         }
 
@@ -90,7 +86,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             };
             IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(porta);
             acao.Titulo = "▲ " + acao.Titulo;
-            IEscolha escolha = new Escolha(acao);
+            IEscolha escolha = new Escolha(acao, null);
             List<IEscolha> escolhas = new() { escolha };
             porta.Escolhas = escolhas;
 
@@ -100,7 +96,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         private List<IEscolha> AbrirPorta()
         {
             IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(this);
-            Escolha escolha = new(acao);
+            Escolha escolha = new(acao, null);
             return new List<IEscolha>() { escolha };
         }
     }
