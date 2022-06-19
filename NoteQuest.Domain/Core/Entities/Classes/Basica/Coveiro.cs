@@ -19,9 +19,9 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
 
         public IAcao AtualizarAcao(IAcao acao) => acao;
 
-        public void Build(IAcao acao)
+        public void Build(/*IAcao acao*/)
         {
-            Acao = null;
+            //Acao = acao;
             Pv = 4;
             Nome = "Coveiro";
             Vantagem = "Causa +2 de dano em Mortos-Vivos.";

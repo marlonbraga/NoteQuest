@@ -12,5 +12,7 @@ namespace NoteQuest.Domain.Core.Interfaces
         public string Vantagem { get; set; }
         public Type TipoAcao { get; set; }
         public IAcao Acao { get; set; }
+
+        public void Build();
     }
 }

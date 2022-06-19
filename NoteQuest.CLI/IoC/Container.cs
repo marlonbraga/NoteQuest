@@ -1,15 +1,19 @@
 ﻿using Ninject;
 using NoteQuest.Application;
 using NoteQuest.Application.Interface;
+using NoteQuest.Application.Interfaces;
 using NoteQuest.CLI.Interfaces;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Dados;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.Core.Services;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Factories;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
+using NoteQuest.Infrastructure.Data.Core;
 using NoteQuest.Infrastructure.Data.Masmorra;
 
 namespace NoteQuest.CLI.IoC
@@ -30,6 +34,10 @@ namespace NoteQuest.CLI.IoC
         public IQuebrarPortaService QuebrarPortaService { get; set; }
         public ISairDeMasmorraService SairDeMasmorraService { get; set; }
         public IEscolhaFacade EscolhaFacade { get; set; }
+        public IRacaRepository RacaRepository { get; set; }
+        public IClasseRepository ClasseRepository { get; set; }
+        public IPersonagemBuilder PersonagemBuilder { get; set; }
+        public IPersonagemService PersonagemService { get; set; }
 
         public Container()
         {
@@ -48,6 +56,13 @@ namespace NoteQuest.CLI.IoC
             QuebrarPortaService = Kernel.Get<QuebrarPortaService>();
             SairDeMasmorraService = Kernel.Get<SairDeMasmorraService>();
             EscolhaFacade = Kernel.Get<EscolhaFacade>();
+
+            RacaRepository = Kernel.Get<RacaRepository>();
+            ClasseRepository = Kernel.Get<ClasseRepository>();
+
+            PersonagemBuilder = Kernel.Get<PersonagemBuilder>();
+            PersonagemService = Kernel.Get<PersonagemService>();
+
 
             Masmorra = Kernel.Get<Masmorra>();
         }

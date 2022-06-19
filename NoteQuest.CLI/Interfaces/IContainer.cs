@@ -1,5 +1,7 @@
 ﻿using NoteQuest.Application.Interface;
+using NoteQuest.Application.Interfaces;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Dados;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
@@ -20,5 +22,9 @@ namespace NoteQuest.CLI.Interfaces
         public IQuebrarPortaService QuebrarPortaService { get; set; }
         public ISairDeMasmorraService SairDeMasmorraService { get; set; }
         public IEscolhaFacade EscolhaFacade { get; set; }
+        public IRacaRepository RacaRepository { get; set; }
+        public IClasseRepository ClasseRepository { get; set; }
+        public IPersonagemBuilder PersonagemBuilder { get; set; }
+        public IPersonagemService PersonagemService { get; set; }
     }
 }

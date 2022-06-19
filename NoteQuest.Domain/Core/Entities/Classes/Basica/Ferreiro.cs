@@ -18,9 +18,9 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
 
         public IAcao AtualizarAcao(IAcao acao) => acao;
 
-        public void Build(IAcao acao)
+        public void Build(/*IAcao acao*/)
         {
-            Acao = acao;
+            //Acao = acao;
             Pv = 4;
             Nome = "Ferreiro";
             Vantagem = "Pode recuperar armaduras gastando 1 Tocha.";

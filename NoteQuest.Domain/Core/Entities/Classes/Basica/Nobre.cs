@@ -18,9 +18,9 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
 
         public IAcao AtualizarAcao(IAcao acao) => acao;
 
-        public void Build(IAcao acao)
+        public void Build(/*IAcao acao*/)
         {
-            Acao = null;
+            //Acao = acao;
             Pv = 0;
             QtdMagias = 1;
             Nome = "Nobre";

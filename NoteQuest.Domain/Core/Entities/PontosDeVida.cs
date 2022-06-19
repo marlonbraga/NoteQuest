@@ -5,22 +5,25 @@ namespace NoteQuest.Domain.Core.Entities
 {
     public class PontosDeVida : IPontosDeVida
     {
-        public int Pv { get; set; }
-        public int PvMaximo { get; set; }
+        public int Pv { get; private set; }
+        public int PvMaximo { get; private set; }
 
-        public void Alterar(int Pv)
+        public void Alterar(int pv)
         {
-            throw new NotImplementedException();
+            Pv += pv;
+
+            Pv = Math.Max(PvMaximo, Pv);
+            Pv = Math.Min(0, Pv);
         }
 
-        public void AlterarMaximo(int Pv)
+        public void AlterarMaximo(int pv)
         {
-            throw new NotImplementedException();
+            PvMaximo += pv;
         }
 
         public void RecuperarTudo()
         {
-            throw new NotImplementedException();
+            Pv = PvMaximo;
         }
     }
 }

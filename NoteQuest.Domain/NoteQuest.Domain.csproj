@@ -15,14 +15,13 @@
     <Folder Include="Core\Entities\Raca\Monstruosa\" />
     <Folder Include="Core\Entities\Raca\Exotica\" />
     <Folder Include="Core\Entities\Raca\Incomum\" />
-    <Folder Include="MasmorraContext\Agregate\" />
     <Folder Include="CombateContext\Agregate\" />
     <Folder Include="CombateContext\ObjectValue\" />
     <Folder Include="CombateContext\Services\" />
     <Folder Include="ItensContext\Agregate\" />
     <Folder Include="ItensContext\ObjectValue\" />
     <Folder Include="ItensContext\Services\" />
-    <Folder Include="MasmorraContext\ObjectValue\" />
+    <Folder Include="MasmorraContext\Interfaces\Services\" />
   </ItemGroup>
 
 </Project>

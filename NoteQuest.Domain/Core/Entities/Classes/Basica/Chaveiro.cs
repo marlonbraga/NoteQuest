@@ -29,9 +29,9 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
             return acao;
         }
 
-        public void Build(IAcao acao)
+        public void Build(/*IAcao acao*/)
         {
-            Acao = acao;
+            //Acao = acao;
             Pv = 2;
             Nome = "Chaveiro";
             Vantagem = "Não gasta tochas ao Abrir Fechaduras.";

@@ -11,6 +11,7 @@ namespace NoteQuest.Infrastructure.Data.Core
 
         public ClasseRepository()
         {
+            ClassesBasicas = new Dictionary<int, IClasse>();
             ClassesBasicas.Add(2, new Mendigo());
             ClassesBasicas.Add(3, new Coveiro());
             ClassesBasicas.Add(4, new Nobre());

@@ -11,6 +11,6 @@
         public int Dano { get; set; }
         public int QtdMagias { get; set; }
 
-        public void Build(IAcao acao);
+        public void Build(/*IAcao acao*/);
     }
 }

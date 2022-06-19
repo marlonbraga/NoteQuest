@@ -10,5 +10,7 @@ namespace NoteQuest.Domain.Core.Interfaces
         public List<IClasse> Classes { get; set; }
 
         public IAcao ModificarAcao(IAcao acao);
+
+        public void Build(string nome, IRaca indiceRaca, IClasse indiceClasse);
     }
 }

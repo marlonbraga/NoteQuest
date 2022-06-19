@@ -17,10 +17,10 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
         public IAcao Acao { get; set; }
 
         public IAcao AtualizarAcao(IAcao acao) => acao;
-
-        public void Build(IAcao acao)
+        
+        public void Build(/*IAcao acao*/)
         {
-            Acao = acao;
+            //Acao = acao;
             Pv = 2;
             Nome = "Cozinheiro";
             Vantagem = "Ganha 1 Provisão por monstro (que não seja morto-vivo).";

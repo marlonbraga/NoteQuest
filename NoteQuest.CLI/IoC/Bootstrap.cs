@@ -11,7 +11,11 @@ using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Infrastructure.Data.Masmorra;
+using NoteQuest.Domain.Core.Interfaces.Dados;
 using System.Reflection;
+using NoteQuest.Application.Interfaces;
+using NoteQuest.Infrastructure.Data.Core;
+using NoteQuest.Domain.Core.Services;
 
 namespace NoteQuest.CLI.IoC
 {
@@ -37,6 +41,12 @@ namespace NoteQuest.CLI.IoC
     {
         public override void Load()
         {
+            Bind<IRacaRepository>().To<RacaRepository>();
+            Bind<IClasseRepository>().To<ClasseRepository>();
+
+            Bind<IPersonagemBuilder>().To<PersonagemBuilder>();
+            Bind<IPersonagemService>().To<PersonagemService>();
+
             Bind<IClasseBasicaRepository>().To<MasmorraRepository>();
             Bind<IPortaEntrada>().To<PortaEntrada>();
             Bind<IPortaComum>().To<PortaComum>();

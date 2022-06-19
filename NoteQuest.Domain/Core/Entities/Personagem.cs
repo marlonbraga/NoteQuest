@@ -10,6 +10,11 @@ namespace NoteQuest.Domain.Core.Entities
         public IRaca Raca { get; set; }
         public List<IClasse> Classes { get; set; }
 
+        public Personagem()
+        {
+            Pv = new PontosDeVida();
+        }
+
         public IAcao ModificarAcao(IAcao acao)
         {
             IAcao acaoModificada;
@@ -20,6 +25,13 @@ namespace NoteQuest.Domain.Core.Entities
             }
 
             return acaoModificada;
+        }
+
+        public void Build(string nome, IRaca indiceRaca, IClasse indiceClasse)
+        {
+            Nome = nome;
+            Raca = indiceRaca;
+            Classes = new List<IClasse>() { indiceClasse };
         }
     }
 }

@@ -20,9 +20,9 @@ namespace NoteQuest.Domain.Core.Entities.Raca.Basica
             throw new NotImplementedException();
         }
 
-        public void Build(IAcao acao)
+        public void Build(/*IAcao acao*/)
         {
-            Acao = acao;
+            //Acao = acao;
             Pv = 8;
             QtdMagias = 0;
             Nome = "Fada";
