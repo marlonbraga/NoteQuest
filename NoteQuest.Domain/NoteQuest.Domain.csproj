@@ -21,7 +21,7 @@
     <Folder Include="ItensContext\Agregate\" />
     <Folder Include="ItensContext\ObjectValue\" />
     <Folder Include="ItensContext\Services\" />
-    <Folder Include="MasmorraContext\Interfaces\Services\" />
+    <Folder Include="Core\Interfaces\Masmorra\Services\" />
   </ItemGroup>
 
 </Project>

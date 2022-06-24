@@ -5,7 +5,7 @@ using NoteQuest.Domain.Core.Interfaces.Dados;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 
 namespace NoteQuest.CLI.Interfaces
 {

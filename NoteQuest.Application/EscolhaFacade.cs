@@ -2,9 +2,9 @@
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 
 namespace NoteQuest.Application
 {

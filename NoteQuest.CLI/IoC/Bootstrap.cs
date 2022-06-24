@@ -8,7 +8,7 @@ using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Factories;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Infrastructure.Data.Masmorra;
 using NoteQuest.Domain.Core.Interfaces.Dados;

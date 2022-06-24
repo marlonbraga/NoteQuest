@@ -1,6 +1,6 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes

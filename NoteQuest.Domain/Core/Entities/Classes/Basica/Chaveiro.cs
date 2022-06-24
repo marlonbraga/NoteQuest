@@ -1,6 +1,7 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
 
 namespace NoteQuest.Domain.Core.Entities.Classes.Basica
@@ -16,7 +17,19 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
         public int Dano { get; set; }
         public int QtdMagias { get; set; }
         public Type TipoAcao { get; set; }
-        public IAcao Acao { get; set; }
+        //public IAcao Acao { get; set; }
+        public IAbrirFechaduraService Acao { get; }
+
+        public void Build(/*IAcao acao*/)
+        {
+            TipoAcao = Acao.GetType();
+            //Acao = acao;
+            Pv = 2;
+            Nome = "Chaveiro";
+            Vantagem = "Não gasta tochas ao Abrir Fechaduras.";
+            ArmaInicial = "Adaga (Dano 1D6-1)";
+            QtdMagias = 0;
+        }
 
         public IAcao AtualizarAcao(IAcao acao)
         {
@@ -28,17 +41,7 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
             }
             return acao;
         }
-
-        public void Build(/*IAcao acao*/)
-        {
-            //Acao = acao;
-            Pv = 2;
-            Nome = "Chaveiro";
-            Vantagem = "Não gasta tochas ao Abrir Fechaduras.";
-            ArmaInicial = "Adaga (Dano 1D6-1)";
-            QtdMagias = 0;
-        }
-
+        
         public ConsequenciaDTO Efeito()
         {
             IAcaoPorta acaoPorta = (IAcaoPorta)Acao;

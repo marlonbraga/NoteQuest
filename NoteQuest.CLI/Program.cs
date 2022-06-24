@@ -5,6 +5,7 @@ using NoteQuest.CLI.IoC;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Entities;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,9 @@ namespace NoteQuest.CLI
         static void CriarNovoJogo()
         {
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
-            Console.Write("░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓████████████████████████████████████▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░");
-            DesenharEntrada();
+            Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            //Console.Write("░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓████████████████████████████████████▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░");
+            //DesenharEntrada();
             IEscolhaFacade EscolhaFacade = Container.EscolhaFacade;
             IMasmorra Masmorra = Container.Masmorra;
             Masmorra.Build(D6.Rolagem(), D6.Rolagem(), D6.Rolagem());

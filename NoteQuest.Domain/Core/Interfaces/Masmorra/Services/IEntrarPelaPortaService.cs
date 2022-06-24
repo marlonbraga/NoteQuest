@@ -1,7 +1,7 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 
-namespace NoteQuest.Domain.MasmorraContext.Interfaces.Services
+namespace NoteQuest.Domain.Core.Interfaces.Masmorra.Services
 {
     public interface IEntrarPelaPortaService : IAcao
     {

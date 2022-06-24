@@ -1,7 +1,7 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
-namespace NoteQuest.Domain.MasmorraContext.Interfaces
+namespace NoteQuest.Domain.Core.Interfaces.Masmorra
 {
     public interface IMasmorra
     {

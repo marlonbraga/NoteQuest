@@ -4,7 +4,7 @@ using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
