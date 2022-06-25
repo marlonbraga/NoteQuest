@@ -9,6 +9,7 @@ using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 namespace NoteQuest.CLI
@@ -20,6 +21,7 @@ namespace NoteQuest.CLI
         static void Main(string[] args)
         {
             Container = new Container();
+            Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine(@"
                                                                                                                   
                                     (                                                                @              
@@ -35,11 +37,13 @@ namespace NoteQuest.CLI
            
 ");
             Personagem = CriarPersonagem();
+            CharacterProfile.ExibirFicha(Personagem);
             CriarNovoJogo();
         }
 
         static void CriarNovoJogo()
         {
+            Console.WriteLine($"\n[ESPAÇO] → Entrar na Masmorra\n");
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
             Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
             //Console.Write("░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓████████████████████████████████████▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░");
@@ -56,7 +60,7 @@ namespace NoteQuest.CLI
             {
                 string Titulo = escolhas[i].Acao.Titulo;
                 string Descricao = escolhas[i].Acao.Descricao;
-                Console.WriteLine($"{i} → {Titulo} ({Descricao})");
+                Console.WriteLine($"[{i}] → {Titulo} ({Descricao})");
             }
             int numeroDeEscolha = 0;
             do
@@ -146,7 +150,8 @@ namespace NoteQuest.CLI
             IPersonagemService personagemService = Container.PersonagemService;
             IPersonagem personagem = personagemService.CriarPersonagem();
 
-            Console.Write($"Rolar Raça\n ■ ■:");
+            Console.WriteLine($"Rolar Raça\n");
+            Console.WriteLine($"  ■ Pressione [ESPAÇO] ■");
             Console.ReadKey();
             int raca = D6.Rolagem(2);
             personagemService.DefinirRaca(personagem, raca);
@@ -156,7 +161,8 @@ namespace NoteQuest.CLI
             Console.WriteLine($"    Vantagem: {personagem.Raca.Vantagem}");
             Console.WriteLine($"    PV: {personagem.Raca.Pv}");
 
-            Console.Write($"\nRolar Classe\n ■ ■:");
+            Console.WriteLine($"\nRolar Classe\n");
+            Console.WriteLine($"  ■ Pressione [ESPAÇO] ■");
             Console.ReadKey();
             int classe = D6.Rolagem(2);
             personagemService.DefinirClasse(personagem, classe);
@@ -164,15 +170,12 @@ namespace NoteQuest.CLI
             Console.WriteLine($"\n  {personagem.Classes[0].Nome.ToUpper()}");
             Console.WriteLine($"    Vantagem: {personagem.Classes[0].Vantagem}");
             Console.WriteLine($"    PV Adicional: {personagem.Classes[0].Pv}");
-            Console.WriteLine($"    Arma Inicial: {personagem.Classes[0].ArmaInicial}");
+            Console.WriteLine($"    Arma Inicial: {personagem.Classes[0].ArmaInicial.Nome} ({personagem.Classes[0].ArmaInicial.Descricao})");
 
             Console.WriteLine($"\nQual é o nome do personagem?\n: ");
             string nomePersonagem = Console.ReadLine();
             personagem.Nome = nomePersonagem;
             FakeLoading();
-            Console.WriteLine($"\nPERSONAGEM {personagem.Nome} ");
-            Console.WriteLine($"  {personagem.Classes[0].Nome}-{personagem.Raca.Nome} ");
-            Console.WriteLine($"  PV Total: {personagem.Pv.PvMaximo}\n");
             return personagem;
         }
 
@@ -184,40 +187,6 @@ namespace NoteQuest.CLI
             Thread.Sleep(500);
             Console.Write(".");
             Thread.Sleep(500);
-        }
-
-        static void DesenharEntrada()
-        {
-            string desenho = @"
-&&&%%%%&#&@@@&%&%%%%(%#/,,(##&%(#%#%&####(%#*(*,%((/(//*.(/#/&#%&&##(#%((###%&/%##%/((%&%%%%&%&&&@%#
-%%/*//##/*&&&&&%%%(##.((%#*/(&##(%%(/######%#/((%#/*%#(..##%#((%/&*%##/(%#%%&&%&#%%#%#&%&%#%%&&%&&%%
-@%%%%&###&%%%#/(%%**/(%#%/(/(%#%//&#(%/#%(/(**  #,((*,*,.*,,*,,,.,#((##/%#%&%%&%%%%%%%&%&&%@%&&%&&&&
-%&&&#&&&&&%&%%/#((%%%%%%%%#%(/**%%##****##**(,%,,...*.,,,,.*,.,,.//#*,.#/%&%%&&%&&&&&%&&&&%%&&&&&&%%
-#/*%#%#&%#&(/%(&%&#&&&%%%%%%((###,%.**,,(,*(/*///**/*/**/** ,,.,,.,,,.*/*(#%&%&&&#&##%%%&%&&%&&&%%%%
-&&%%&&&%@%%%(&#(###&&&%%((%/(((/,(*%/((#(((#%%###%%######(#((*,*.**,,,,(*//#&%%%%%&%%%%%&%&@&&%(%%##
-&%&%&%(#####&%&(%%%##&((/(#.**%%%&%%%%%%%%(#%%%&%%%%%%%%%%%%%%%##(/,,**,//(#&&%&&%%(%#/(##/#%#((#(,*
-%%&@&#%&%#&&&&&&&&#%&&%%%%/%&&&&&&@@&%%&%(//////(//*#(#/&%&%&%%&%%%((****,/**%%&%%%(#(//(%(((##(&%(%
-/#&#,,,/(#%%%%#%###&&&#(*#&%&((((((, ..  .,,,,,,**,,,,  .  ,(/**//#&#%((,**,,,,%#%%((%%%#%%%%%/#%#&/
-%%&%((/&&%&%&&%%&#&##%#&&&&&#(..,,,,,,,,..,,,,..,,*,,,,,,,,,,*,*,  ///#((/,**/*/#(&%%%####%((///(##,
-(#(%%%%%*#(##&%%(%/*#(&@@@&%***/*...............................*/,/*%####(*((#/(%###%&#%%#%%%((%#%#
-*//(#####(///%%%&%((/@@@&@&&/,/#/,(                           ..*#,//&&%%#(/(*//(*#*/*(*/(&%%#%#%%%%
-(//((%(((/(#(%#((#(#@@@@@@&&#@,//.*                        , .../#*((&&&&%(/((*/#/#%#%&%#%%###%*///.
-#,###((#(/,,/#((#%(@@@@@@@@&&#,#(,.,                      ,  ..,(#*##@&@&%##/(**#//%&&&%&&&&%((##%%%
-#((/#%*#%%%##(*%%%(&@@@@@@@@&(*/(*.,,  ,       ,  .    , .   *./%%*/#&&&&&##(/, //(#&/%&/*((%%%%%&%%
-(//**(*/(,((#%#/(##&@@@@@@@@((*#(/..                      . ..,(#%*#(@&@@@%%%//#(/#(/(%%%%%%&&%&%/#%
-*#,((#(//(/#((###%%&@&@&&@@%/**(#/,.                      . .,//##*/(@&&&%&%##%###(#%#%&&#(%&&&%%&&&
-(#/(/#////(/*%(/%(%@@&@@@@@%***##/*. .                      .,/((%//#%@&&&#(#/%(#*#%%%%(#%%%%&&%&%&%
-(*,*(/((((/(%#(%%#%%@&&@@@@%///%#(,, .                    .,.*((#%//(&&&&&%&%#//((((#%%&&%&&&&&%&&##
-(/(%%%%/(###%#&%%#%%@&&&&&@@//((#/,,..                   ..,.,(###*/(&@&&&%/,(##(#/%%(%&&&&&&&&&&@&&
-/(*#%#####&#(#%%%,%#&@&&&&&&(((#(/,,. .                   ...**((((//%&&&%##,,####/#%%&&&&##&&%%#%%#
-,//(((/#(//%((%*.*%%(&%&&&&%(#%#(/**...                   ...*//*////%%%%##,**,/*(,/%%#((#&%&##%##%*
-//**/(/(((((((%((/((/#%(%%&(((&#/*/*...                  ..,,.*/((*//#####/*#*/###(#(((#((((#%%%(//%
-//(#/*/#///*((#/*((/(((((**((/#/*(/*.,.        ..      ..,,,*/*//*,//(((/*,(*(/(*//*(#/((#%######*((
-**/**/*,,*(.//(/*//*/,(((//(((##(((//****/(((####(#(#((#(######(/*/#(/((#(((//*.,(,,#,(,,(#/(##/#(**
-**/**(***,(/***,(.(//*/#(//((##(%#%#(##%###%%(#(##%(####(#%%(%%###(#((/#((#*#*/(/,///.,*#*(((*.((#(/
-*(#(//*,,,*(#%/((/###(((####%#%%%(#(/%((###(#(/###%#/#(#(((/%##(##(/#(/((/(*#//*.(/*#(/,/*,//#,..,//
-";
-            Console.WriteLine(desenho);
         }
     }
 }

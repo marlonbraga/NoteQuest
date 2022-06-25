@@ -1,4 +1,6 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
+using NoteQuest.Domain.Core.ObjectValue;
 using System;
 
 namespace NoteQuest.Domain.Core.Entities.Classes.Basica
@@ -10,7 +12,7 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
         public string Descricao { get; set; }
         public int Pv { get; set; }
         public string Vantagem { get; set; }
-        public string ArmaInicial { get; set; }
+        public IArma ArmaInicial { get; set; }
         public int Dano { get; set; }
         public int QtdMagias { get; set; }
         public Type TipoAcao { get; set; }
@@ -25,7 +27,8 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
             QtdMagias = 1;
             Nome = "Nobre";
             Vantagem = "Começa o jogo com +1 Magia Básica aleatória. Pode construir castelos.";
-            ArmaInicial = "Rapieira (Dano 1D6+1)";
+            ArmaInicial = new Arma();
+            ArmaInicial.Build("Rapieira", +1);
             QtdMagias = 1;
         }
     }

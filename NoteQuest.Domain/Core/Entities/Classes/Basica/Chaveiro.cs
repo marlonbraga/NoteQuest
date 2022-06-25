@@ -1,7 +1,9 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
+using NoteQuest.Domain.Core.ObjectValue;
 using System;
 
 namespace NoteQuest.Domain.Core.Entities.Classes.Basica
@@ -13,21 +15,21 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
         public string Descricao { get; set; }
         public int Pv { get; set; }
         public string Vantagem { get; set; }
-        public string ArmaInicial { get; set; }
+        public IArma ArmaInicial { get; set; }
         public int Dano { get; set; }
         public int QtdMagias { get; set; }
         public Type TipoAcao { get; set; }
-        //public IAcao Acao { get; set; }
         public IAbrirFechaduraService Acao { get; }
 
-        public void Build(/*IAcao acao*/)
+        public void Build()
         {
+            //TODO: GetType não pega Interface!
             TipoAcao = Acao.GetType();
-            //Acao = acao;
             Pv = 2;
             Nome = "Chaveiro";
             Vantagem = "Não gasta tochas ao Abrir Fechaduras.";
-            ArmaInicial = "Adaga (Dano 1D6-1)";
+            ArmaInicial = new Arma();
+            ArmaInicial.Build("Adaga",-1);
             QtdMagias = 0;
         }
 

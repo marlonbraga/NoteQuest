@@ -1,5 +1,7 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
+using NoteQuest.Domain.Core.ObjectValue;
 using System;
 
 namespace NoteQuest.Domain.Core.Entities.Classes.Basica
@@ -11,7 +13,7 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
         public string Descricao { get; set; }
         public int Pv { get; set; }
         public string Vantagem { get; set; }
-        public string ArmaInicial { get; set; }
+        public IArma ArmaInicial { get; set; }
         public int Dano { get; set; }
         public int QtdMagias { get; set; }
         public Type TipoAcao { get; set; }
@@ -25,7 +27,8 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
             Pv = 4;
             Nome = "Coveiro";
             Vantagem = "Causa +2 de dano em Mortos-Vivos.";
-            ArmaInicial = "Pá (Dano 1D6-1)";
+            ArmaInicial = new Arma();
+            ArmaInicial.Build("Pá", -1);
             QtdMagias = 0;
         }
 

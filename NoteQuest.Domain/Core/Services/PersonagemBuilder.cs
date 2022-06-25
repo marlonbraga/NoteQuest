@@ -47,6 +47,8 @@ namespace NoteQuest.Domain.Core.Services
             personagem.Classes ??= new List<IClasse>();
             personagem.Classes.Add(CriarClasse(indiceClasse));
             personagem.Pv.AlterarMaximo(personagem.Classes[0].Pv);
+            personagem.Pv.RecuperarTudo();
+            personagem.Inventario.Equipamentos.MaoDireita = personagem.Classes[0].ArmaInicial;
 
             return personagem;
         }

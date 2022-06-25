@@ -1,4 +1,6 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.ItensContext.Entities;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.Entities
@@ -9,10 +11,12 @@ namespace NoteQuest.Domain.Core.Entities
         public string Nome { get; set; }
         public IRaca Raca { get; set; }
         public List<IClasse> Classes { get; set; }
+        public IInventario Inventario { get; set; }
 
         public Personagem()
         {
             Pv = new PontosDeVida();
+            Inventario = new Inventario();
         }
 
         public IAcao ModificarAcao(IAcao acao)

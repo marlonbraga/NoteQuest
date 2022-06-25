@@ -18,6 +18,8 @@
     <Folder Include="CombateContext\Agregate\" />
     <Folder Include="CombateContext\ObjectValue\" />
     <Folder Include="CombateContext\Services\" />
+    <Folder Include="Core\Interfaces\Inventario\Itens\" />
+    <Folder Include="Core\Interfaces\Personagem\" />
     <Folder Include="ItensContext\Agregate\" />
     <Folder Include="ItensContext\ObjectValue\" />
     <Folder Include="ItensContext\Services\" />

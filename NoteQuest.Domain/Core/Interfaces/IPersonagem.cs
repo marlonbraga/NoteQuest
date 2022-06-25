@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.Interfaces
 {
@@ -8,6 +9,7 @@ namespace NoteQuest.Domain.Core.Interfaces
         public string Nome { get; set; }
         public IRaca Raca { get; set; }
         public List<IClasse> Classes { get; set; }
+        public IInventario Inventario { get; set; }
 
         public IAcao ModificarAcao(IAcao acao);
 

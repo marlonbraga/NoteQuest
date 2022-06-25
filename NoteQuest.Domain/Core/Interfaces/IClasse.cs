@@ -1,4 +1,7 @@
-﻿namespace NoteQuest.Domain.Core.Interfaces
+﻿using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
+using System;
+
+namespace NoteQuest.Domain.Core.Interfaces
 {
     public interface IClasse : IModificador
     {
@@ -7,8 +10,7 @@
         public string Descricao { get; set; }
         public int Pv { get; set; }
         public string Vantagem { get; set; }
-        public string ArmaInicial { get; set; }
-        public int Dano { get; set; }
+        public IArma ArmaInicial { get; set; }
         public int QtdMagias { get; set; }
 
         public void Build(/*IAcao acao*/);
