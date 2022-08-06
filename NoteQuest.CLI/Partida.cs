@@ -38,7 +38,7 @@ namespace NoteQuest.CLI
 
             ConsequenciaDTO consequencia = EscolhaFacade.EntrarEmMasmorra(Masmorra);
             Console.WriteLine(consequencia.Descricao);
-            List<IEscolha> escolhas = consequencia.Escolhas;
+            IList<IEscolha> escolhas = consequencia.Escolhas;
             Console.Write($"\n\n\n");
             ushort selecao = 0;
             for (int i = 0; i < escolhas.Count; i++)
@@ -52,7 +52,7 @@ namespace NoteQuest.CLI
             RealizarEscolha(escolhas);
         }
 
-        public ConsequenciaDTO RealizarEscolha(List<IEscolha> escolhas)
+        public ConsequenciaDTO RealizarEscolha(IList<IEscolha> escolhas)
         {
             ConsequenciaDTO consequencia;
             Console.WriteLine("");
@@ -131,12 +131,13 @@ namespace NoteQuest.CLI
                         numeroDeEscolha = 9;
                         break;
                     default:
-                        break;
+                        continue;
                 }
                 if (numeroDeEscolha >= 0)
                 {
                     consequencia = escolhas[numeroDeEscolha].Acao.Executar();
                     Console.WriteLine(consequencia.Descricao);
+                    Console.WriteLine(DesenharSegmento.Desenha(consequencia.Segmento));
                     escolhas = consequencia.Escolhas;
                 }
 

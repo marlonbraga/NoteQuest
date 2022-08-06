@@ -3,6 +3,7 @@ using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
+using System;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
@@ -24,10 +25,8 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra, null);
             List<IEscolha> escolhas = new() { sairDeMasmorra };
             IPorta portaDeEntrada = segmentoFactory.CriarPortaDeEntrada(escolhas);
-
-            base.Portas = new();
-            base.Portas.Add(portaDeEntrada);
-
+            base.Passagens = new Dictionary<Direcao, Tuple<int, IPorta>>();
+            base.Passagens.Add(Direcao.tras, new(5, portaDeEntrada));
             base.SegmentoFactory = segmentoFactory;
             base.Build(Descricao, QtdPortas);
         }

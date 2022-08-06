@@ -3,122 +3,122 @@
   "SegmentoInicial": {"segmento":"sala", "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.", "qtdPortas":3},
   "TabelaSegmentos":
   {
-    "TabelaAPartirDeEscadaria": [
-      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "qtdPortas":1},
-      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
-      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
-      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
-      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3},
-      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3}
-    ],
-    "TabelaAPartirDeCorredor": [
-      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
-      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "qtdPortas":1},
-      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "qtdPortas":2},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "qtdPortas":2},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
-    ],
-    "TabelaAPartirDeSala": [
-      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "qtdPortas":0},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
-      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
-      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "qtdPortas":0},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "qtdPortas":0},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
-    ]
+    "TabelaAPartirDeEscadaria": {
+      "1":{"segmento":"corredor", "descricao":"Corredor com uma porta.",   "qtdPortas":1},
+      "2":{"segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      "3":{"segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      "4":{"segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      "5":{"segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3},
+      "6":{"segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3}
+    },
+    "TabelaAPartirDeCorredor": {
+      "1":{"segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
+      "2":{"segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
+      "3":{"segmento":"sala", "descricao":"Sala comprida com uma porta.", "qtdPortas":1},
+      "4":{"segmento":"sala", "descricao":"Sala comprida com duas portas.", "qtdPortas":2},
+      "5":{"segmento":"sala", "descricao":"Grande salão com duas portas.", "qtdPortas":2},
+      "6":{"segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
+    },
+    "TabelaAPartirDeSala": {
+      "1":{"segmento":"sala", "descricao":"Pequena sala.", "qtdPortas":0},
+      "2":{"segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
+      "3":{"segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
+      "4":{"segmento":"sala", "descricao":"Salão comprido.", "qtdPortas":0},
+      "5":{"segmento":"sala", "descricao":"Grande salão com pilares.", "qtdPortas":0},
+      "6":{"segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
+    }
   },
-  "TabelaPassagemSecreta": [
-    {"indice":1, "descricao":"Você ativou uma Armadilha!"},
-    {"indice":2, "descricao":"Não há nada aqui."},
-    {"indice":3, "descricao":"Não há nada aqui."},
-    {"indice":4, "descricao":"Encontrou um Baú escondido!"},
-    {"indice":5, "descricao":"Encontrou um Baú escondido!"},
-    {"indice":6, "descricao":"Passagem para uma Escadaria."}
-  ],
-  "TabelaArmadilha": [
-    {"indice":1, "descricao":"Uma lâmina desce do teto. Role o dado. Se cair 2 você perde um dos braços e se cair 1 você morre."},
-    {"indice":2, "descricao":"Jorro de Ácido (5 de dano)."},
-    {"indice":3, "descricao":"Você cai em um fosso (gaste 1 tocha para sair)."},
-    {"indice":4, "descricao":"Um dardo te acerta (1 de dano)."},
-    {"indice":5, "descricao":"Um click, mas nada acontece."},
-    {"indice":6, "descricao":"Um click, mas nada acontece."}
-  ],
-  "TabelaConteudo": [
-    {"indice":2, "descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},
-    {"indice":3, "descricao":"Cozinha destruída e 1d6 moedas.", "moedas":"1D6"},
-    {"indice":4, "descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta."},
-    {"indice":5, "descricao":"Estante de livro e 1d6 Pergaminhos.", "pergaminho":"1D6"},
-    {"indice":6, "descricao":"Escrivaninha com 1 Baú.", "baú":"1"},
-    {"indice":7, "descricao":"Sujeira por todos cantos. Pode ter Passagem Secreta.", "PassagemSecreta":true},
-    {"indice":8, "descricao":"Cama com um Baú ao lado.", "baú":"1"},
-    {"indice":9, "descricao":"Jardim coberto por plantas. Pode ter Passagem Secreta.", "PassagemSecreta":true},
-    {"indice":10, "descricao":"Depósito de Lixo. Pode ter Passagem Secreta.", "PassagemSecreta":true},
-    {"indice":11, "descricao":"Grande mesa com papéis e mapas. Pode ter Passagem Secreta.", "PassagemSecreta":true},
-    {"indice":12, "descricao":"Arsenal. 2d6 Itens Mágicos.", "ItensMagico":"2D6"}
-  ],
-  "TabelaMonstro": [
-    {"indice": 2, "qtd":"1", "nome":"Minotauro", "dano":7, "pvs":14, "caracteristicas":""},
-    {"indice": 3, "qtd":"2", "nome":"Orcs", "dano":7, "pvs":6, "caracteristicas":"Espólios"},
-    {"indice": 4, "qtd":"1", "nome":"Orc", "dano":7, "pvs":6, "caracteristicas":"Espólios"},
-    {"indice": 5, "qtd":"1D6", "nome":"Ratos Gigantes", "dano":7, "pvs":2, "caracteristicas":""},
-    {"indice": 6, "qtd":"1D6", "nome":"Goblins", "dano":7, "pvs":3, "caracteristicas":"Explosivo"},
-    {"indice": 7, "caracteristicas":"Nenhum monstro"},
-    {"indice": 8, "caracteristicas":"Nenhum monstro"},
-    {"indice": 9, "qtd":"2", "nome":"Sentinelas de Aço", "dano":7, "pvs":8, "caracteristicas":""},
-    {"indice":10, "qtd":"3", "nome":"Fungóides", "dano":7, "pvs":4, "caracteristicas":"Espólios; Regeneração"},
-    {"indice":11, "qtd":"1", "nome":"Golem Ossos", "dano":7, "pvs":12, "caracteristicas":"Morto-Vivo"},
-    {"indice":12, "qtd":"1", "nome":"Limo Vivo", "dano":7, "pvs":10, "caracteristicas":"Espólios; Regeneração"}
-  ],
+  "TabelaPassagemSecreta": {
+    "1":{"descricao":"Você ativou uma Armadilha!"},
+    "2":{"descricao":"Não há nada aqui."},
+    "3":{"descricao":"Não há nada aqui."},
+    "4":{"descricao":"Encontrou um Baú escondido!"},
+    "5":{"descricao":"Encontrou um Baú escondido!"},
+    "6":{"descricao":"Passagem para uma Escadaria."}
+  },
+  "TabelaArmadilha": {
+    "1":{"descricao":"Uma lâmina desce do teto. Role o dado. Se cair 2 você perde um dos braços e se cair 1 você morre."},
+    "2":{"descricao":"Jorro de Ácido (5 de dano)."},
+    "3":{"descricao":"Você cai em um fosso (gaste 1 tocha para sair)."},
+    "4":{"descricao":"Um dardo te acerta (1 de dano)."},
+    "5":{"descricao":"Um click, mas nada acontece."},
+    "6":{"descricao":"Um click, mas nada acontece."}
+  },
+  "TabelaConteudo": {
+    "2":{"descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},
+    "3":{"descricao":"Cozinha destruída e 1d6 moedas.", "moedas":"1D6"},
+    "4":{"descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta."},
+    "5":{"descricao":"Estante de livro e 1d6 Pergaminhos.", "pergaminho":"1D6"},
+    "6":{"descricao":"Escrivaninha com 1 Baú.", "baú":"1"},
+    "7":{"descricao":"Sujeira por todos cantos. Pode ter Passagem Secreta.", "PassagemSecreta":true},
+    "8":{"descricao":"Cama com um Baú ao lado.", "baú":"1"},
+    "9":{"descricao":"Jardim coberto por plantas. Pode ter Passagem Secreta.", "PassagemSecreta":true},
+    "10":{"descricao":"Depósito de Lixo. Pode ter Passagem Secreta.", "PassagemSecreta":true},
+    "11":{"descricao":"Grande mesa com papéis e mapas. Pode ter Passagem Secreta.", "PassagemSecreta":true},
+    "12":{"descricao":"Arsenal. 2d6 Itens Mágicos.", "ItensMagico":"2D6"}
+  },
+  "TabelaMonstro": {
+    "2":{"qtd":"1", "nome":"Minotauro", "dano":7, "pvs":14, "caracteristicas":""},
+    "3":{"qtd":"2", "nome":"Orcs", "dano":7, "pvs":6, "caracteristicas":"Espólios"},
+    "4":{"qtd":"1", "nome":"Orc", "dano":7, "pvs":6, "caracteristicas":"Espólios"},
+    "5":{"qtd":"1D6", "nome":"Ratos Gigantes", "dano":7, "pvs":2, "caracteristicas":""},
+    "6":{"qtd":"1D6", "nome":"Goblins", "dano":7, "pvs":3, "caracteristicas":"Explosivo"},
+    "7":{"caracteristicas":"Nenhum monstro"},
+    "8":{"caracteristicas":"Nenhum monstro"},
+    "9":{"qtd":"2", "nome":"Sentinelas de Aço", "dano":7, "pvs":8, "caracteristicas":""},
+    "10":{"qtd":"3", "nome":"Fungóides", "dano":7, "pvs":4, "caracteristicas":"Espólios; Regeneração"},
+    "11":{"qtd":"1", "nome":"Golem Ossos", "dano":7, "pvs":12, "caracteristicas":"Morto-Vivo"},
+    "12":{"qtd":"1", "nome":"Limo Vivo", "dano":7, "pvs":10, "caracteristicas":"Espólios; Regeneração"}
+  },
   "TabelaRecompensa":
   {
-    "TabelaTesouro": [
-      {"indice":1, "descricao":"Ornamento", "efeito":"(vale 5 Moedas na cidade)"},
-      {"indice":2, "descricao":"Poção de Vida ", "efeito":"(Recupera todos os PV)"},
-      {"indice":3, "descricao":"Pergaminho Mágico", "efeito":"(Magia Básica aleatória)"},
-      {"indice":4, "descricao":"Jóia valiosa ", "efeito":"(vale 2d6 x 10 Moedas na cidade)"},
-      {"indice":5, "descricao":"Maravilha", "efeito":"[Role na coluna Maravilha]"},
-      {"indice":6, "descricao":"Item Mágico", "efeito":"[Role na coluna Item Mágico]"}
-    ],
-    "TabelaMaravilha": [
-      {"indice":1, "descricao":"Chapéu do Bobo ", "efeito":"(2 PV; Não pode mover em Silêncio)"},
-      {"indice":2, "descricao":"Sandálias do Imperador", "efeito":"(2 PV; +1 de dano contra baratas"},
-      {"indice":3, "descricao":"Amuleto dos Mortos", "efeito":"(Ignora efeito de Mortos-Vivos)"},
-      {"indice":4, "descricao":"Poção da Sorte", "efeito":"(Ignora a próxima Armadilha ativada)"},
-      {"indice":5, "descricao":"Poção da Fúria", "efeito":"(Dano +2 até o final do combate)"},
-      {"indice":6, "descricao":"Lamparina", "efeito":"(Não precisa usar mãos pra iluminar)"}
-    ],
-    "TabelaItemMagico": [
-      {"indice":1, "descricao":"[Armadura] da Realeza ", "efeito":"(É muito elegante)"},
-      {"indice":2, "descricao":"[Armadura] do Leprechaun", "efeito":"(Ganha o dobro de moedas em baús)"},
-      {"indice":3, "descricao":"[Armadura] do Centurião", "efeito":"(+1 PV)"},
-      {"indice":4, "descricao":"[Arma] da Destruição", "efeito":"(Causa +2 de dano)"},
-      {"indice":5, "descricao":"[Arma] da Guerra", "efeito":"(Causa +2 de dano contra Anjos)"},
-      {"indice":6, "descricao":"[Arma] do Matador de Dragões", "efeito":"(Dobro de dano contra Dragões)"}
-    ]
+    "TabelaTesouro": {
+      "1":{"descricao":"Ornamento", "efeito":"(vale 5 Moedas na cidade)"},
+      "2":{"descricao":"Poção de Vida ", "efeito":"(Recupera todos os PV)"},
+      "3":{"descricao":"Pergaminho Mágico", "efeito":"(Magia Básica aleatória)"},
+      "4":{"descricao":"Jóia valiosa ", "efeito":"(vale 2d6 x 10 Moedas na cidade)"},
+      "5":{"descricao":"Maravilha", "efeito":"[Role na coluna Maravilha]"},
+      "6":{"descricao":"Item Mágico", "efeito":"[Role na coluna Item Mágico]"}
+    },
+    "TabelaMaravilha": {
+      "1":{"descricao":"Chapéu do Bobo ", "efeito":"(2 PV; Não pode mover em Silêncio)"},
+      "2":{"descricao":"Sandálias do Imperador", "efeito":"(2 PV; +1 de dano contra baratas"},
+      "3":{"descricao":"Amuleto dos Mortos", "efeito":"(Ignora efeito de Mortos-Vivos)"},
+      "4":{"descricao":"Poção da Sorte", "efeito":"(Ignora a próxima Armadilha ativada)"},
+      "5":{"descricao":"Poção da Fúria", "efeito":"(Dano +2 até o final do combate)"},
+      "6":{"descricao":"Lamparina", "efeito":"(Não precisa usar mãos pra iluminar)"}
+    },
+    "TabelaItemMagico": {
+      "1":{"descricao":"[Armadura] da Realeza ", "efeito":"(É muito elegante)"},
+      "2":{"descricao":"[Armadura] do Leprechaun", "efeito":"(Ganha o dobro de moedas em baús)"},
+      "3":{"descricao":"[Armadura] do Centurião", "efeito":"(+1 PV)"},
+      "4":{"descricao":"[Arma] da Destruição", "efeito":"(Causa +2 de dano)"},
+      "5":{"descricao":"[Arma] da Guerra", "efeito":"(Causa +2 de dano contra Anjos)"},
+      "6":{"descricao":"[Arma] do Matador de Dragões", "efeito":"(Dobro de dano contra Dragões)"}
+    }
   },
-  "TabelaChefeDaMasmorra": [
-    {"indice":1, "descricao":"Andando de um lado para o outro está o Barão Zumbi (30 PV; Dano 4; Morto-Vivo).", "qtd":1, "nome":"Barão Zumbi", "dano":4, "pvs":30},
-    {"indice":2, "descricao":"Sentando no seu antigo e empoeirado trono está o Rei Louco (22 PV; Dano 2; Explosivo)", "qtd":1, "nome":"Rei Louco", "dano":2, "pvs":22},
-    {"indice":3, "descricao":"Este era um quarto luxuoso antes de ficar coberto por pó. Ali está a Dama Fantasma (13 PV; Dano 3; Intangível).", "qtd":1, "nome":"Dama Fantasma", "dano":3, "pvs":13},
-    {"indice":4, "descricao":"Em volta de um trono estão 2 Gárgulas Profanas (12 PV; Dano 3; Corpo de Pedra)", "qtd":2, "nome":"2 Gárgulas Profanas", "dano":3, "pvs":12},
-    {"indice":5, "descricao":"Costurando um cadáver sobre uma mesa está o Necromante (16 PV; Dan 7; Necromancia).", "qtd":1, "nome":"Necromante", "dano":7, "pvs":16},
-    {"indice":6, "descricao":"Sentado em um trono e com um pé em um crânio de dragão está o Rei Orc (24 PV; Dano 5; Horda).", "qtd":1, "nome":"Rei Orc", "dano":5, "pvs":24}
-  ],
-  "TabelaArmadura": [
-    {"indice":1, "nome":"Anel (0 PV)", "pvs":"0"},
-    {"indice":2, "nome":"Braceletes (2 PV)", "pvs":"2"},
-    {"indice":3, "nome":"Botas (3 PV)", "pvs":"3"},
-    {"indice":4, "nome":"Ombreiras (3 PV)", "pvs":"3"},
-    {"indice":5, "nome":"Elmo (4 PV)", "pvs":"4"},
-    {"indice":6, "nome":"Peitoral (10 PV)", "pvs":"10"}
-  ],
-  "TabelaArma": [
-    {"indice":1, "nome":"Castiçal (Dano 1d6-1)", "dano":"1D6-1"},
-    {"indice":2, "nome":"Espada (Dano 1d6)", "dano":"1D6"},
-    {"indice":3, "nome":"Rapieira (Dano 1d6+1)", "dano":"1D6+1"},
-    {"indice":4, "nome":"Chicote (Dano 1d6+1)", "dano":"1D6+1"},
-    {"indice":5, "nome":"Garra (Dano 1d6+1)", "dano":"1D6+1"},
-    {"indice":6, "nome":"Alabarda (Dano 1d6+3; Duas Mãos)", "dano":"1D6+3", "caracteristicas":"Duas Mãos"}
-  ]
+  "TabelaChefeDaMasmorra": {
+    "1":{"descricao":"Andando de um lado para o outro está o Barão Zumbi (30 PV; Dano 4; Morto-Vivo).", "qtd":1, "nome":"Barão Zumbi", "dano":4, "pvs":30},
+    "2":{"descricao":"Sentando no seu antigo e empoeirado trono está o Rei Louco (22 PV; Dano 2; Explosivo)", "qtd":1, "nome":"Rei Louco", "dano":2, "pvs":22},
+    "3":{"descricao":"Este era um quarto luxuoso antes de ficar coberto por pó. Ali está a Dama Fantasma (13 PV; Dano 3; Intangível).", "qtd":1, "nome":"Dama Fantasma", "dano":3, "pvs":13},
+    "4":{"descricao":"Em volta de um trono estão 2 Gárgulas Profanas (12 PV; Dano 3; Corpo de Pedra)", "qtd":2, "nome":"2 Gárgulas Profanas", "dano":3, "pvs":12},
+    "5":{"descricao":"Costurando um cadáver sobre uma mesa está o Necromante (16 PV; Dan 7; Necromancia).", "qtd":1, "nome":"Necromante", "dano":7, "pvs":16},
+    "6":{"descricao":"Sentado em um trono e com um pé em um crânio de dragão está o Rei Orc (24 PV; Dano 5; Horda).", "qtd":1, "nome":"Rei Orc", "dano":5, "pvs":24}
+  },
+  "TabelaArmadura": {
+    "1":{"nome":"Anel (0 PV)", "pvs":"0"},
+    "2":{"nome":"Braceletes (2 PV)", "pvs":"2"},
+    "3":{"nome":"Botas (3 PV)", "pvs":"3"},
+    "4":{"nome":"Ombreiras (3 PV)", "pvs":"3"},
+    "5":{"nome":"Elmo (4 PV)", "pvs":"4"},
+    "6":{"nome":"Peitoral (10 PV)", "pvs":"10"}
+  },
+  "TabelaArma": {
+    "1":{ "nome":"Castiçal (Dano 1d6-1)", "dano":"1D6-1"},
+    "2":{ "nome":"Espada (Dano 1d6)", "dano":"1D6"},
+    "3":{ "nome":"Rapieira (Dano 1d6+1)", "dano":"1D6+1"},
+    "4":{ "nome":"Chicote (Dano 1d6+1)", "dano":"1D6+1"},
+    "5":{ "nome":"Garra (Dano 1d6+1)", "dano":"1D6+1"},
+    "6":{ "nome":"Alabarda (Dano 1d6+3; Duas Mãos)", "dano":"1D6+3", "caracteristicas":"Duas Mãos"}
+  }
 }

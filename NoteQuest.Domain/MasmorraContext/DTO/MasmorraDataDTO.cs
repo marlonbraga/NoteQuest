@@ -1,5 +1,6 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.DTO
 {
@@ -9,14 +10,14 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
         public string Descricao { get; set; }
         public SegmentoInicial SegmentoInicial { get; set; }
         public TabelaSegmentos TabelaSegmentos { get; set; }
-        public TabelaArmadilhaElement[] TabelaPassagemSecreta { get; set; }
-        public TabelaArmadilhaElement[] TabelaArmadilha { get; set; }
-        public TabelaConteudo[] TabelaConteudo { get; set; }
-        public TabelaMonstro[] TabelaMonstro { get; set; }
+        public IDictionary<ushort, TabelaArmadilhaElement> TabelaPassagemSecreta { get; set; }
+        public IDictionary<ushort, TabelaArmadilhaElement> TabelaArmadilha { get; set; }
+        public IDictionary<ushort, TabelaConteudo> TabelaConteudo { get; set; }
+        public IDictionary<ushort, TabelaMonstro> TabelaMonstro { get; set; }
         public TabelaRecompensa TabelaRecompensa { get; set; }
-        public TabelaChefeDaMasmorra[] TabelaChefeDaMasmorra { get; set; }
-        public TabelaArmadura[] TabelaArmadura { get; set; }
-        public TabelaArma[] TabelaArma { get; set; }
+        public IDictionary<ushort, TabelaChefeDaMasmorra> TabelaChefeDaMasmorra { get; set; }
+        public IDictionary<ushort, TabelaArmadura> TabelaArmadura { get; set; }
+        public IDictionary<ushort, TabelaArma> TabelaArma { get; set; }
     }
 
     public partial class TabelaArma
@@ -73,9 +74,9 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
 
     public partial class TabelaRecompensa
     {
-        public TabelaItemTesouro[] TabelaTesouro { get; set; }
-        public TabelaItemMaravilha[] TabelaMaravilha { get; set; }
-        public TabelaItemMagico[] TabelaItemMágico { get; set; }
+        public IDictionary<ushort, TabelaItemTesouro> TabelaTesouro { get; set; }
+        public IDictionary<ushort, TabelaItemMaravilha> TabelaMaravilha { get; set; }
+        public IDictionary<ushort, TabelaItemMagico> TabelaItemMágico { get; set; }
     }
 
     public partial class TabelaItemTesouro
@@ -99,9 +100,9 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
 
     public partial class TabelaSegmentos
     {
-        public TabelaAPartirDe[] TabelaAPartirDeEscadaria { get; set; }
-        public TabelaAPartirDe[] TabelaAPartirDeCorredor { get; set; }
-        public TabelaAPartirDe[] TabelaAPartirDeSala { get; set; }
+        public IDictionary<ushort, TabelaAPartirDe> TabelaAPartirDeEscadaria { get; set; }
+        public IDictionary<ushort, TabelaAPartirDe> TabelaAPartirDeCorredor { get; set; }
+        public IDictionary<ushort, TabelaAPartirDe> TabelaAPartirDeSala { get; set; }
     }
 
     public partial class TabelaAPartirDe

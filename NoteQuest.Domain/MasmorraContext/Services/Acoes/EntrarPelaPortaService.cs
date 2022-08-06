@@ -19,7 +19,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public EntrarPelaPortaService(IPortaComum porta, ISegmentoBuilder segmentoFactory)
         {
             Porta = porta;
-            Titulo = $"Entrar pela porta de {porta.Posicao}";
+            Titulo = $"Entrar pela porta de {porta.Direcao}";
             Descricao = "Acessa nova sala. Se houver monstros, você ataca primeiro.";
             SegmentoFactory = segmentoFactory;
             Execucao = Executar;

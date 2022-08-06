@@ -24,7 +24,7 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
         }
 
         #region SEGMENTO
-        public void Build(int D6 = 1)
+        public void Build(ushort D6 = 1)
         {
             //TODO: Variar string por parametro int
             MasmorraData = MasmorraRepository.PegarDadosMasmorra("Palacio");
@@ -39,7 +39,7 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
             return entradaEmMasmorra;
         }
 
-        public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice)
+        public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, ushort indice)
         {
             BaseSegmento segmentoAtual = portaDeEntrada.SegmentoAtual;
             SegmentoTipo tipoSegmento = TipoSegmento(segmentoAtual, indice);
@@ -48,22 +48,18 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
             return segmento;
         }
 
-        private SegmentoTipo TipoSegmento(BaseSegmento segmentoAtual, int indice)
+        private SegmentoTipo TipoSegmento(BaseSegmento segmentoAtual, ushort indice)
         {
-            switch (segmentoAtual.GetType().Name)
+            return segmentoAtual.GetType().Name switch
             {
-                case "Sala":
-                    return MasmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento;
-                case "Corredor":
-                    return MasmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[indice].Segmento;
-                case "Escadaria":
-                    return MasmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[indice].Segmento;
-                default:
-                    return MasmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento;
-            }
+                "Sala" => MasmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento,
+                "Corredor" => MasmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[indice].Segmento,
+                "Escadaria" => MasmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[indice].Segmento,
+                _ => MasmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento,
+            };
         }
 
-        private BaseSegmento GerarSegmentoPorSegmento(IPortaComum portaDeEntrada, SegmentoTipo tipoSegmento, int indice)
+        private BaseSegmento GerarSegmentoPorSegmento(IPortaComum portaDeEntrada, SegmentoTipo tipoSegmento, ushort indice)
         {
             BaseSegmento segmento = null;
             string descricao = null;
@@ -113,34 +109,26 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
         //  Levar método privado para classe responsável
         private int ConverteQtdMonstros(string qtd)
         {
-            switch (qtd)
+            return qtd switch
             {
-                case "1d6":
-                case "1D6":
-                    return D6.Rolagem(1);
-                case "2d6":
-                case "2D6":
-                    return D6.Rolagem(2);
-                case "3d6":
-                case "3D6":
-                    return D6.Rolagem(3);
-                case null:
-                    return 0;
-                default:
-                    return Int32.Parse(qtd);
-            }
+                "1d6" or "1D6" => D6.Rolagem(1),
+                "2d6" or "2D6" => D6.Rolagem(2),
+                "3d6" or "3D6" => D6.Rolagem(3),
+                null => 0,
+                _ => Int32.Parse(qtd),
+            };
         }
         #endregion
 
         #region PORTA
-        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Posicao posicao)
+        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao)
         {
             IPortaComum porta = new PortaComum(MasmorraRepository, this);
-            porta.Build(segmentoAtual, posicao);
+            porta.Build(segmentoAtual, direcao);
             return porta;
         }
 
-        public IPortaEntrada CriarPortaDeEntrada(List<IEscolha> escolhas)
+        public IPortaEntrada CriarPortaDeEntrada(IList<IEscolha> escolhas)
         {
             PortaEntrada porta = new()
             {

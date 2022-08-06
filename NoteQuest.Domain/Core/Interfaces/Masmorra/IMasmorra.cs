@@ -11,7 +11,7 @@ namespace NoteQuest.Domain.Core.Interfaces.Masmorra
         public ISegmentoInicial SegmentoInicial { get; set; }
         public IClasseBasicaRepository MasmorraRepository { get; set; }
 
-        public void Build(int indice1, int indice2, int indice3);
-        public string GerarNome(int indice1, int indice2, int indice3);
+        public void Build(ushort indice1, ushort indice2, ushort indice3);
+        public string GerarNome(ushort indice1, ushort indice2, ushort indice3);
     }
 }

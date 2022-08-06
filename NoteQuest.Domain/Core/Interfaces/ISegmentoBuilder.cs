@@ -9,12 +9,11 @@ namespace NoteQuest.Domain.Core.Interfaces
     public interface ISegmentoBuilder
     {
         public Tuple<string, BaseSegmento> GeraSegmentoInicial();
-        public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice);
-        public void Build(int D6 = 1);
+        public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, ushort indice);
+        public void Build(ushort D6 = 1);
 
-
-        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Posicao posicao);
-        public IPortaEntrada CriarPortaDeEntrada(List<IEscolha> escolhas);
+        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao);
+        public IPortaEntrada CriarPortaDeEntrada(IList<IEscolha> escolhas);
 
 
 

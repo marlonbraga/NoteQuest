@@ -1,80 +1,80 @@
 {
-    "TipoDeMasmorra": [
-        {
+    "TipoDeMasmorra": {
+        "1":{
             "indice": "1",
             "tipo": "O Palácio"
         },
-        {
+        "2":{
             "indice": "2",
             "tipo": "A Cripta"
         },
-        {
+        "3":{
             "indice": "3",
             "tipo": "A Tumba"
         },
-        {
+        "4":{
             "indice": "4",
             "tipo": "O Santuário"
         },
-        {
+        "5":{
             "indice": "5",
             "tipo": "O Templo"
         },
-        {
+        "6":{
             "indice": "6",
             "tipo": "O Calabouço"
         }
-    ],
-    "SegundaParte": [
-        {
+    },
+    "SegundaParte": {
+        "1":{
             "indice": "1",
             "nome": "do Horror"
         },
-        {
+        "2":{
             "indice": "2",
             "nome": "da Maldição"
         },
-        {
+        "3":{
             "indice": "3",
             "nome": "da Dor"
         },
-        {
+        "4":{
             "indice": "4",
             "nome": "do Herói"
         },
-        {
+        "5":{
             "indice": "5",
             "nome": "da Promessa"
         },
-        {
+        "6":{
             "indice": "6",
             "nome": "da Escuridão"
         }
-    ],
-    "TerceiraParte": [
-        {
+    },
+    "TerceiraParte": {
+        "1":{
             "indice": "1",
             "nome": "Secreto(a)"
         },
-        {
+        "2":{
             "indice": "2",
             "nome": "Nebuloso(a)"
         },
-        {
+        "3":{
             "indice": "3",
             "nome": "Eterno(a)"
         },
-        {
+        "4":{
             "indice": "4",
             "nome": "Gélido(a)"
         },
-        {
+        "5":{
             "indice": "5",
             "nome": "Flamejante"
         },
-        {
+        "6":{
             "indice": "6",
             "nome": "Sangrento(a)"
         }
-    ]
+    }
 }

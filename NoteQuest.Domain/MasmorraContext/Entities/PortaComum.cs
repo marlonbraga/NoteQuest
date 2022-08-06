@@ -11,10 +11,10 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public int IdPorta { get; set; }
         public IClasseBasicaRepository MasmorraRepository { get; set; }
         public EstadoDePorta EstadoDePorta { get; set; }
-        public Posicao Posicao { get; set; }
+        public Direcao Direcao { get; set; }
         public BaseSegmento SegmentoAlvo { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
-        public List<IEscolha> Escolhas { get; set; }
+        public IList<IEscolha> Escolhas { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
 
         public PortaComum(IClasseBasicaRepository masmorraRepository, ISegmentoBuilder segmentoFactory)
@@ -24,10 +24,10 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Escolhas = new List<IEscolha>();
         }
 
-        public void Build(BaseSegmento segmentoAtual, Posicao posicao)
+        public void Build(BaseSegmento segmentoAtual, Direcao direcao)
         {
             SegmentoAtual = segmentoAtual;
-            Posicao = posicao;
+            Direcao = direcao;
             IAcao acao = SegmentoFactory.CriarVerificarPortaService(this);
             Escolha escolha = new(acao, null);
             Escolhas = new List<IEscolha>() { escolha };
@@ -79,7 +79,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             IPortaComum porta = new PortaComum(MasmorraRepository, SegmentoFactory)
             {
-                Posicao = this.Posicao,//TODO: Inverter posição ←┘ ←Ꝋ
+                Direcao = (int)Direcao >= 2 ? Direcao - 2 : Direcao + 2,
                 EstadoDePorta = this.EstadoDePorta,
                 SegmentoAlvo = this.SegmentoAtual,
                 SegmentoAtual = this.SegmentoAlvo
@@ -93,7 +93,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             return porta;
         }
 
-        private List<IEscolha> AbrirPorta()
+        private IList<IEscolha> AbrirPorta()
         {
             IAcao acao = SegmentoFactory.CriarEntrarPelaPortaService(this);
             Escolha escolha = new(acao, null);

@@ -8,6 +8,6 @@ namespace NoteQuest.Domain.Core.Interfaces.Masmorra
         public EstadoDePorta EstadoDePorta { get; set; }
         public IPortaComum InvertePorta();
         public EstadoDePorta VerificarFechadura(int valorD6);
-        public void Build(BaseSegmento segmentoAtual, Posicao posicao);
+        public void Build(BaseSegmento segmentoAtual, Direcao direcao);
     }
 }

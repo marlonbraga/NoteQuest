@@ -2,6 +2,7 @@
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
+using System;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
@@ -18,8 +19,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public static int ContagemDeSalas { get; set; }
         public string Descricao { get; set; }
         public string DetalhesDescricao { get; set; }
-        public List<IPorta> Portas { get; set; }
-        public List<IEscolha> Escolhas { get; set; }
+        public Tuple<int, int> Dimensoes { get; set; }
+        public IDictionary<Direcao, Tuple<int, IPorta>> Passagens { get; set; }
+        public IList<IEscolha> Escolhas { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
 
         public BaseSegmento(ISegmentoBuilder segmentoFactory)
@@ -36,7 +38,10 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 porta = ((IPortaComum)portaDeEntrada).InvertePorta();
                 porta.SegmentoAtual = this;
             }
-            Portas = new() { porta };
+            Passagens = new Dictionary<Direcao, Tuple<int, IPorta>>();
+            Direcao direcao = InverterDirecao(portaDeEntrada.Direcao);
+            Passagens.Add(direcao, new(1, porta));
+            Dimensoes = GeraDimensoes(descricao);
             Descricao = descricao;
             DetalhesDescricao = string.Empty;
             Escolhas = GerarEscolhasBasicas();
@@ -47,9 +52,40 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             ContagemDeSalas = 0;
             IdSegmento = ContagemDeSalas++;
+            Dimensoes = GeraDimensoes(descricao);
             Descricao = descricao;
             Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
+        }
+
+        private Direcao InverterDirecao(Direcao direcao)
+        {
+            return direcao switch
+            {
+                Direcao.frente => Direcao.tras,
+                Direcao.direita => Direcao.esquerda,
+                Direcao.tras => Direcao.frente,
+                Direcao.esquerda => Direcao.direita,
+                _ => Direcao.frente
+            };
+        }
+
+        private Tuple<int, int> GeraDimensoes(string descricao)
+        {
+            Tuple<int, int> dimensoes = new(0, 0);
+            Random random = new();
+            if (descricao.ToLower().Contains("pequen"))
+                dimensoes = new(random.Next(3,5), random.Next(3, 5));
+            if (descricao.ToLower().Contains("median"))
+                dimensoes = new(random.Next(6, 10), random.Next(6, 10));
+            if (descricao.ToLower().Contains("salão") || descricao.ToLower().Contains("cumprid"))
+                dimensoes = new(random.Next(6, 10), random.Next(8, 10)*2);
+            if (descricao.ToLower().Contains("corredor"))
+                dimensoes = new(2, 5);
+            if (descricao.ToLower().Contains("escadaria"))
+                dimensoes = new(2, 5);
+            //TODO: Adicionar rotação para segmentos não quadrados
+            return dimensoes;
         }
 
         public void DesarmarArmadilhas(int valorD6)
@@ -57,7 +93,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         }
 
-        private List<IEscolha> GerarEscolhasBasicas()
+        private IList<IEscolha> GerarEscolhasBasicas()
         {
             IAcao acaoDesarmarArmadilhas = new DesarmarArmadilhasService();
             Escolha desarmarArmadilhas = new(acaoDesarmarArmadilhas, null);
@@ -69,38 +105,56 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         private void GerarPortas(int qtdPortas)
         {
-            //TODO: elaborar regra de posição
             for (int i = 1; i <= qtdPortas; i++)
             {
-                IPortaComum porta = SegmentoFactory.CriarPortaComum(this, RecuperaPosicaoPorIndice(i));
-                porta.Build(this, RecuperaPosicaoPorIndice(i));
-                Portas.Add(porta);
+                Direcao direcao = RecuperaDirecaoAleatoria();
+                int posicao = RecuperaPosicaoDePassagem(direcao);
+
+                IPortaComum porta = SegmentoFactory.CriarPortaComum(this, direcao);
+                porta.Build(this, direcao);
+                Passagens.Add(direcao, new(posicao, porta));
             }
         }
 
-        private Posicao RecuperaPosicaoPorIndice(int indice)
+        private Direcao RecuperaDirecaoAleatoria()
         {
-            switch (indice)
+            Random random = new ();
+            int i;
+            Direcao direcao;
+            do
             {
-                case 1: return Posicao.frente;
-                case 2: return Posicao.direita;
-                case 3: return Posicao.tras;
-                case 4: return Posicao.esquerda;
-                default: return Posicao.frente;
-            }
+                i = random.Next(0, 4);
+                direcao = (Direcao)i;
+            } while (Passagens.ContainsKey(direcao));
+
+            return direcao;
         }
 
-        public List<IEscolha> RecuperaEscolhasDePortas()
+        private int RecuperaPosicaoDePassagem(Direcao direcao)
+        {
+            Random random = new ();
+            int posicao = 0;
+
+            if (direcao == Direcao.frente || direcao == Direcao.tras)
+                posicao = random.Next(1, Math.Max(1,Dimensoes.Item1-2));
+            if (direcao == Direcao.esquerda || direcao == Direcao.direita)
+                posicao = random.Next(1, Math.Max(1, Dimensoes.Item2-2));
+
+            return posicao;
+        }
+
+        public IList<IEscolha> RecuperaEscolhasDePortas()
         {
             List<IEscolha> escolhas = new();
-            foreach (var porta in Portas)
+            foreach (var passagem in Passagens)
             {
+                IPorta porta = passagem.Value.Item2;
                 escolhas.AddRange(porta.Escolhas);
             }
             return escolhas;
         }
 
-        public List<IEscolha> RecuperaTodasAsEscolhas()
+        public IList<IEscolha> RecuperaTodasAsEscolhas()
         {
             //TODO: Adicionar demais escolhas em segmento
             //List<IEscolha> escolhas = GerarEscolhasBasicas();

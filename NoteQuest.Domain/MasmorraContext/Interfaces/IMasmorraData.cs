@@ -1,5 +1,7 @@
 ﻿using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Interfaces
 {
@@ -8,13 +10,13 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         public string Descricao { get; set; }
         public SegmentoInicial SegmentoInicial { get; set; }
         public TabelaSegmentos TabelaSegmentos { get; set; }
-        public TabelaArmadilhaElement[] TabelaPassagemSecreta { get; set; }
-        public TabelaArmadilhaElement[] TabelaArmadilha { get; set; }
-        public TabelaConteudo[] TabelaConteudo { get; set; }
-        public TabelaMonstro[] TabelaMonstro { get; set; }
+        public IDictionary<ushort, TabelaArmadilhaElement> TabelaPassagemSecreta { get; set; }
+        public IDictionary<ushort, TabelaArmadilhaElement> TabelaArmadilha { get; set; }
+        public IDictionary<ushort, TabelaConteudo> TabelaConteudo { get; set; }
+        public IDictionary<ushort, TabelaMonstro> TabelaMonstro { get; set; }
         public TabelaRecompensa TabelaRecompensa { get; set; }
-        public TabelaChefeDaMasmorra[] TabelaChefeDaMasmorra { get; set; }
-        public TabelaArmadura[] TabelaArmadura { get; set; }
-        public TabelaArma[] TabelaArma { get; set; }
+        public IDictionary<ushort, TabelaChefeDaMasmorra> TabelaChefeDaMasmorra { get; set; }
+        public IDictionary<ushort, TabelaArmadura> TabelaArmadura { get; set; }
+        public IDictionary<ushort, TabelaArma> TabelaArma { get; set; }
     }
 }

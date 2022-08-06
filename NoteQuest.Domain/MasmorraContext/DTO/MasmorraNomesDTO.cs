@@ -1,12 +1,13 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.DTO
 {
     public class MasmorraNomesDTO : IMasmorraNomes
     {
-        public Tipodemasmorra[] TipoDeMasmorra { get; set; }
-        public Segundaparte[] SegundaParte { get; set; }
-        public Terceiraparte[] TerceiraParte { get; set; }
+        public IDictionary<ushort, Tipodemasmorra> TipoDeMasmorra { get; set; }
+        public IDictionary<ushort, Segundaparte> SegundaParte { get; set; }
+        public IDictionary<ushort, Terceiraparte> TerceiraParte { get; set; }
     }
 
     public class Tipodemasmorra

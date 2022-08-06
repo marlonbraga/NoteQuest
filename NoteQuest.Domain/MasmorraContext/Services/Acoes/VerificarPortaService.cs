@@ -27,7 +27,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         {
             EstadoDePorta estado = Porta.VerificarFechadura(valorD6);
             BaseSegmento segmentoAtual = Porta.SegmentoAtual;
-            List<IEscolha> escolhas = segmentoAtual.RecuperaTodasAsEscolhas();
+            IList<IEscolha> escolhas = segmentoAtual.RecuperaTodasAsEscolhas();
             ConsequenciaDTO consequencia = new()
             {
                 Descricao = $"\n  A porta está {estado}",

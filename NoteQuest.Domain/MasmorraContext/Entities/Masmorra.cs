@@ -22,7 +22,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             PortaEntrada = portaEntrada;
         }
 
-        public void Build(int indice1, int indice2, int indice3)
+        public void Build(ushort indice1, ushort indice2, ushort indice3)
         {
             Tuple<string, BaseSegmento> entradaDaMasmorra;
             SegmentoBuilder.Build(indice1);
@@ -32,13 +32,13 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Nome = GerarNome(indice1, indice2, indice3);
         }
 
-        public string GerarNome(int indice1, int indice2, int indice3)
+        public string GerarNome(ushort indice1, ushort indice2, ushort indice3)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
 
-            string nomeParte1 = masmorraNomes.TipoDeMasmorra[indice1 - 1].tipo;
-            string nomeParte2 = masmorraNomes.SegundaParte[indice2 - 1].nome;
-            string nomeParte3 = masmorraNomes.TerceiraParte[indice3 - 1].nome;
+            string nomeParte1 = masmorraNomes.TipoDeMasmorra[indice1].tipo;
+            string nomeParte2 = masmorraNomes.SegundaParte[indice2].nome;
+            string nomeParte3 = masmorraNomes.TerceiraParte[indice3].nome;
 
             nomeParte3 = TratarGenero(nomeParte2, nomeParte3);
 
@@ -55,20 +55,20 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             }
             return nomeParte3;
         }
-        public string BuscarTipo(int indice)
+        public string BuscarTipo(ushort indice)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            return masmorraNomes.TipoDeMasmorra[indice - 1].tipo;
+            return masmorraNomes.TipoDeMasmorra[indice].tipo;
         }
-        public string BuscarSegundaParteDoNome(int indice)
+        public string BuscarSegundaParteDoNome(ushort indice)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            return masmorraNomes.SegundaParte[indice - 1].nome;
+            return masmorraNomes.SegundaParte[indice].nome;
         }
-        public string BuscarTerceiraParteDoNome(int indice)
+        public string BuscarTerceiraParteDoNome(ushort indice)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            return masmorraNomes.TerceiraParte[indice - 1].nome;
+            return masmorraNomes.TerceiraParte[indice].nome;
         }
     }
 }

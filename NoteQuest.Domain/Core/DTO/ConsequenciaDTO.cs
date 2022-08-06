@@ -8,6 +8,6 @@ namespace NoteQuest.Domain.Core.DTO
     {
         public string Descricao { get; set; }
         public ISegmento Segmento { get; set; }
-        public List<IEscolha> Escolhas { get; set; }
+        public IList<IEscolha> Escolhas { get; set; }
     }
 }
