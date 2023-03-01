@@ -14,6 +14,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaComum Porta { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
         public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public VerificarPortaService(IPortaComum porta)
@@ -21,6 +22,19 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Porta = porta;
             Titulo = "Verificar porta";
             Descricao = "Checar se está aberta ou fechada. Pode acionar armadilhas.";
+            AcaoTipo = ObtemAcaoTipoPorPorta(porta.Direcao);
+        }
+
+        private AcaoTipo ObtemAcaoTipoPorPorta(Direcao direcao)
+        {
+            return direcao switch
+            {
+                Direcao.frente => AcaoTipo.PortaTras,
+                Direcao.direita => AcaoTipo.PortaEsquerda,
+                Direcao.tras => AcaoTipo.PortaFrente,
+                Direcao.esquerda => AcaoTipo.PortaDireita,
+                _ => AcaoTipo.Segmento,
+            };
         }
 
         public ConsequenciaDTO Executar(int valorD6)

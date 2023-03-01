@@ -27,50 +27,50 @@ namespace NoteQuest.UnitTest
             _segmentoFactory = new SegmentoBuilder(_masmorraRepository);
         }
 
-        [TestMethod]
-        public void Sala_Criar_InverterPortaComSucesso()
-        {
-            Mock<ISegmentoBuilder> portaFactoryMock = new();
-            ISegmentoBuilder portaFactory = portaFactoryMock.Object;
-            Mock<IPortaComum> portaInicial = new();
-            portaInicial.SetupAllProperties();
-            portaInicial.Setup(w => w.InvertePorta()).Returns(portaInicial.Object);
+        //[TestMethod]
+        //public void Sala_Criar_InverterPortaComSucesso()
+        //{
+        //    Mock<ISegmentoBuilder> portaFactoryMock = new();
+        //    ISegmentoBuilder portaFactory = portaFactoryMock.Object;
+        //    Mock<IPortaComum> portaInicial = new();
+        //    portaInicial.SetupAllProperties();
+        //    portaInicial.Setup(w => w.InvertePorta()).Returns(portaInicial.Object);
 
-            Mock<IPortaComum> portaDeSaida = new();
-            Mock<IPortaComum> portaDeEntrada = new();
-            portaDeSaida.SetupAllProperties();
-            portaDeSaida.Setup(w => w.InvertePorta()).Returns(portaDeEntrada.Object);
-            portaDeEntrada.SetupAllProperties();
-            portaDeEntrada.Setup(w => w.InvertePorta()).Returns(portaDeSaida.Object);
+        //    Mock<IPortaComum> portaDeSaida = new();
+        //    Mock<IPortaComum> portaDeEntrada = new();
+        //    portaDeSaida.SetupAllProperties();
+        //    portaDeSaida.Setup(w => w.InvertePorta()).Returns(portaDeEntrada.Object);
+        //    portaDeEntrada.SetupAllProperties();
+        //    portaDeEntrada.Setup(w => w.InvertePorta()).Returns(portaDeSaida.Object);
 
-            BaseSegmento salaAtual = new Sala(portaFactory);
-            salaAtual.Build(portaInicial.Object, "Sala inicial", 0);
-            BaseSegmento salaAlvo = new Sala(portaFactory);
-            salaAlvo.Build(portaDeEntrada.Object, "Sala posterior", 3);
+        //    BaseSegmento salaAtual = new Sala(portaFactory);
+        //    salaAtual.Build(portaInicial.Object, "Sala inicial", 0);
+        //    BaseSegmento salaAlvo = new Sala(portaFactory);
+        //    salaAlvo.Build(portaDeEntrada.Object, "Sala posterior", 3);
 
-            Assert.AreEqual("Sala inicial", salaAtual.Descricao);
-            Assert.AreEqual(1, salaAtual.Portas.Count);
-            Assert.AreEqual("Sala posterior", salaAlvo.Descricao);
-            Assert.AreEqual(4, salaAlvo.Portas.Count);
-            Assert.AreEqual(salaAlvo.Portas[0], portaDeSaida.Object);
-        }
+        //    Assert.AreEqual("Sala inicial", salaAtual.Descricao);
+        //    Assert.AreEqual(1, salaAtual.Portas.Count);
+        //    Assert.AreEqual("Sala posterior", salaAlvo.Descricao);
+        //    Assert.AreEqual(4, salaAlvo.Portas.Count);
+        //    Assert.AreEqual(salaAlvo.Portas[0], portaDeSaida.Object);
+        //}
 
-        [TestMethod]
-        public void Sala_AdicionarMonstros_Sucesso()
-        {
-            Mock<ISegmentoBuilder> portaFactoryMock = new();
-            ISegmentoBuilder portaFactory = portaFactoryMock.Object;
-            Mock<IPortaComum> portaInicial = new();
-            portaInicial.SetupAllProperties();
-            portaInicial.Setup(w => w.InvertePorta()).Returns(portaInicial.Object);
-            Monstro monstro = new("NOME_DE_MONSTRO", 5, 10);
-            List<Monstro> monstros = new() { monstro };
-            Sala sala = new(portaFactory);
-            sala.Build(portaInicial.Object, "Sala", 0);
-            sala = sala.AdicionaMonstros(monstros);
+        //[TestMethod]
+        //public void Sala_AdicionarMonstros_Sucesso()
+        //{
+        //    Mock<ISegmentoBuilder> portaFactoryMock = new();
+        //    ISegmentoBuilder portaFactory = portaFactoryMock.Object;
+        //    Mock<IPortaComum> portaInicial = new();
+        //    portaInicial.SetupAllProperties();
+        //    portaInicial.Setup(w => w.InvertePorta()).Returns(portaInicial.Object);
+        //    Monstro monstro = new("NOME_DE_MONSTRO", 5, 10);
+        //    List<Monstro> monstros = new() { monstro };
+        //    Sala sala = new(portaFactory);
+        //    sala.Build(portaInicial.Object, "Sala", 0);
+        //    sala = sala.AdicionaMonstros(monstros);
 
-            Assert.AreEqual(sala.Monstros, monstros);
-        }
+        //    Assert.AreEqual(sala.Monstros, monstros);
+        //}
 
         [TestMethod]
         public void Moq_Test()

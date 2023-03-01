@@ -6,12 +6,14 @@ using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
     public class EntrarEmMasmorraService : IEntrarEmMasmorraService
     {
         public int Indice { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
         public IMasmorra Masmorra { get; set; }
         public IClasseBasicaRepository MasmorraRepository { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
@@ -28,6 +30,19 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             SegmentoBuilder = segmentoBuilder;
             Titulo = "Entrar em masmorra";
             Descricao = "Ambiente escuro e perigoso. Gasta 1 tocha";
+            AcaoTipo = ObtemAcaoTipoPorPorta(portaEntrada.Direcao);
+        }
+
+        private AcaoTipo ObtemAcaoTipoPorPorta(Direcao direcao)
+        {
+            return direcao switch
+            {
+                Direcao.frente => AcaoTipo.PortaTras,
+                Direcao.direita => AcaoTipo.PortaEsquerda,
+                Direcao.tras => AcaoTipo.PortaFrente,
+                Direcao.esquerda => AcaoTipo.PortaDireita,
+                _ => AcaoTipo.Segmento,
+            };
         }
 
         public void Build(IMasmorra masmorra)

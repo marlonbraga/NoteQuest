@@ -1,8 +1,11 @@
-﻿using NoteQuest.Application.Interface;
+﻿using System.Collections;
+using System.Collections.Generic;
+using NoteQuest.Application.Interface;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
+using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
@@ -18,6 +21,7 @@ namespace NoteQuest.Application
         public IAbrirFechaduraService AbrirFechaduraService { get; set; }
         public IQuebrarPortaService QuebrarPortaService { get; set; }
         public ISairDeMasmorraService SairDeMasmorraService { get; set; }
+        private IDictionary<int, IEscolha> EscolhasDaRodada { get; set; }
 
         public EscolhaFacade(IPortaEntrada portaEntrada, IClasseBasicaRepository masmorraRepository, IEntrarEmMasmorraService entrarEmMasmorraService, IVerificarPortaService verificarPortaService, IEntrarPelaPortaService entrarPelaPortaService, IAbrirFechaduraService abrirFechaduraService, IQuebrarPortaService quebrarPortaService, ISairDeMasmorraService sairDeMasmorraService)
         {
@@ -31,38 +35,72 @@ namespace NoteQuest.Application
             SairDeMasmorraService = sairDeMasmorraService;
         }
 
-        public ConsequenciaDTO SelecionaEscolha(IEscolha escolha)
+        public ConsequenciaView SelecionaEscolha(int escolha, int? indice)
         {
-            return escolha.Acao.Executar();
+            ConsequenciaDTO consequencia = EscolhasDaRodada[escolha].Acao.Executar();
+            ConsequenciaView resultado = ConverteConsequencia(consequencia);
+            EscolhasDaRodada = (IDictionary<int, IEscolha>)consequencia.Escolhas;
+
+            return resultado;
         }
 
-        public ConsequenciaDTO SelecionaEscolha(IEscolha escolha, int indice)
+        public ConsequenciaView SelecionaEscolha(IEscolha escolha)
         {
-            return escolha.Acao.Executar();
+            ConsequenciaDTO consequencia = escolha.Acao.Executar();
+            EscolhasDaRodada = (IDictionary<int, IEscolha>)consequencia.Escolhas;
+            ConsequenciaView resultado = ConverteConsequencia(consequencia);
+
+            return resultado;
         }
 
-        public ConsequenciaDTO EntrarEmMasmorra(IMasmorra masmorra)
+        private ConsequenciaView ConverteConsequencia(ConsequenciaDTO consequencia)
+        {
+            ConsequenciaView resultado = new()
+            {
+                Descricao = consequencia.Descricao,
+                Segmento = consequencia.Segmento,
+                Escolhas = new Dictionary<int, EscolhaView>()
+            };
+
+            for (var key = 1; key < consequencia.Escolhas.Count; key++)
+            {
+                var escolha = consequencia.Escolhas[key];
+                EscolhaView value = new()
+                {
+                    Titulo = escolha.Acao.Titulo,
+                    Descricao = escolha.Acao.Descricao,
+                    AcaoTipo = escolha.Acao.AcaoTipo
+                };
+                resultado.Escolhas.Add(key, value);
+            }
+
+            return resultado;
+        }
+
+        public ConsequenciaView EntrarEmMasmorra(IMasmorra masmorra)
         {
             EntrarEmMasmorraService.Build(masmorra);
             ConsequenciaDTO consequencia = EntrarEmMasmorraService.Executar();
-            return consequencia;
+            ConsequenciaView resultado = ConverteConsequencia(consequencia);
+
+            return resultado;
         }
 
-        //public ConsequenciaDTO VerificarPorta(int indice, IPortaComum porta)
+        //public ConsequenciaView VerificarPorta(int indice, IPortaComum porta)
         //{
         //    IAcao acao = new VerificarPorta(indice, porta);
         //    ConsequenciaDTO consequencia = acao.Executar();
         //    return consequencia;
         //}
 
-        //public ConsequenciaDTO EntrarPelaPorta(IPortaComum porta, ISegmentoFactory segmentoFactory)
+        //public ConsequenciaView EntrarPelaPorta(IPortaComum porta, ISegmentoFactory segmentoFactory)
         //{
         //    IAcao acao = new EntrarPelaPorta(porta);
         //    ConsequenciaDTO consequencia = acao.Executar();
         //    return consequencia;
         //}
 
-        //public ConsequenciaDTO DestrancarPorta(int indice, IPortaComum porta)
+        //public ConsequenciaView DestrancarPorta(int indice, IPortaComum porta)
         //{
         //    IAcao acao = new AbrirFechadura(indice, porta);
         //    ConsequenciaDTO consequencia = acao.Executar();
@@ -70,7 +108,7 @@ namespace NoteQuest.Application
         //    throw new NotImplementedException();
         //}
 
-        //public ConsequenciaDTO QuebrarPorta(int indice, IPortaComum porta)
+        //public ConsequenciaView QuebrarPorta(int indice, IPortaComum porta)
         //{
         //    IAcao acao = new QuebrarPorta(indice, porta);
         //    ConsequenciaDTO consequencia = acao.Executar();
@@ -78,7 +116,7 @@ namespace NoteQuest.Application
         //    throw new NotImplementedException();
         //}
 
-        //public ConsequenciaDTO SairDeMasmorra()
+        //public ConsequenciaView SairDeMasmorra()
         //{
         //    throw new NotImplementedException();
         //}

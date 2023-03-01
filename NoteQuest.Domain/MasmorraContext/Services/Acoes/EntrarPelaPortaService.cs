@@ -5,6 +5,7 @@ using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -12,6 +13,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
         public IPortaComum Porta { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
         public Func<ConsequenciaDTO> Execucao { get; set; }
@@ -23,11 +25,24 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Acessa nova sala. Se houver monstros, você ataca primeiro.";
             SegmentoFactory = segmentoFactory;
             Execucao = Executar;
+            AcaoTipo = ObtemAcaoTipoPorPorta(porta.Direcao);
+        }
+
+        private AcaoTipo ObtemAcaoTipoPorPorta(Direcao direcao)
+        {
+            return direcao switch
+            {
+                Direcao.frente => AcaoTipo.PortaTras,
+                Direcao.direita => AcaoTipo.PortaEsquerda,
+                Direcao.tras => AcaoTipo.PortaFrente,
+                Direcao.esquerda => AcaoTipo.PortaDireita,
+                _ => AcaoTipo.Segmento,
+            };
         }
 
         public ConsequenciaDTO Executar()
         {
-            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
+            Porta.SegmentoAlvo ??= SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Você abre a porta revelando um segmento da masmorra.";

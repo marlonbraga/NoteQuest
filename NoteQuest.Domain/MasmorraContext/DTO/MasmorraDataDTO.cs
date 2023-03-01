@@ -107,7 +107,6 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
 
     public partial class TabelaAPartirDe
     {
-        public int Indice { get; set; }
         public SegmentoTipo Segmento { get; set; }
         public string Descricao { get; set; }
         public int QtdPortas { get; set; }

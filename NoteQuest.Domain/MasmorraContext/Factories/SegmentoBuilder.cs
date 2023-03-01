@@ -2,11 +2,11 @@
 using NoteQuest.Domain.Core.Entities;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
         {
             BaseSegmento segmentoAtual = portaDeEntrada.SegmentoAtual;
             SegmentoTipo tipoSegmento = TipoSegmento(segmentoAtual, indice);
-            BaseSegmento segmento = GerarSegmentoPorSegmento(portaDeEntrada, tipoSegmento, indice);
+            BaseSegmento segmento = GerarSegmentoAPartirDeSegmento(portaDeEntrada, tipoSegmento, indice);
 
             return segmento;
         }
@@ -59,7 +59,7 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
             };
         }
 
-        private BaseSegmento GerarSegmentoPorSegmento(IPortaComum portaDeEntrada, SegmentoTipo tipoSegmento, ushort indice)
+        private BaseSegmento GerarSegmentoAPartirDeSegmento(IPortaComum portaDeEntrada, SegmentoTipo tipoSegmento, ushort indice)
         {
             BaseSegmento segmento = null;
             string descricao = null;
@@ -121,10 +121,30 @@ namespace NoteQuest.Domain.MasmorraContext.Factories
         #endregion
 
         #region PORTA
-        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao)
+        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao, IEscolha escolha, TabelaAPartirDe segmentoAlvo)
         {
             IPortaComum porta = new PortaComum(MasmorraRepository, this);
-            porta.Build(segmentoAtual, direcao);
+            BaseSegmento segmento = GerarSegmentoPorTipo(segmentoAlvo.Segmento);
+            porta.Build(segmentoAtual, direcao, escolha, segmento);
+            segmento.Build(porta, segmentoAlvo.Descricao, segmentoAlvo.QtdPortas);
+            return porta;
+        }
+
+        private BaseSegmento GerarSegmentoPorTipo(SegmentoTipo segmentoAlvo)
+        {
+            return segmentoAlvo switch
+            {
+                SegmentoTipo.sala => new Sala(this),
+                SegmentoTipo.corredor => new Corredor(this),
+                SegmentoTipo.escadaria => new Escadaria(this),
+                _ => new Sala(this),
+            };
+        }
+
+        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao, IEscolha escolha = null, BaseSegmento segmentoAlvo = null)
+        {
+            IPortaComum porta = new PortaComum(MasmorraRepository, this);
+            porta.Build(segmentoAtual, direcao, escolha, segmentoAlvo);
             return porta;
         }
 

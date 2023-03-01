@@ -1,6 +1,7 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.ObjectValue;
+using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             IdSegmento = ContagemDeSalas++;
             IPorta porta = null;
-            if (portaDeEntrada is IPortaComum)
+            if (portaDeEntrada is IPortaComum comum)
             {
-                porta = ((IPortaComum)portaDeEntrada).InvertePorta();
+                porta = comum.InvertePorta();
                 porta.SegmentoAtual = this;
             }
             Passagens = new Dictionary<Direcao, Tuple<int, IPorta>>();
@@ -76,13 +77,13 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Random random = new();
             if (descricao.ToLower().Contains("pequen"))
                 dimensoes = new(random.Next(3,5), random.Next(3, 5));
-            if (descricao.ToLower().Contains("median"))
+            else if (descricao.ToLower().Contains("median"))
                 dimensoes = new(random.Next(6, 10), random.Next(6, 10));
-            if (descricao.ToLower().Contains("salão") || descricao.ToLower().Contains("cumprid"))
+            else if (descricao.ToLower().Contains("salão") || descricao.ToLower().Contains("cumprid"))
                 dimensoes = new(random.Next(6, 10), random.Next(8, 10)*2);
-            if (descricao.ToLower().Contains("corredor"))
+            else if (descricao.ToLower().Contains("corredor"))
                 dimensoes = new(2, 5);
-            if (descricao.ToLower().Contains("escadaria"))
+            else if (descricao.ToLower().Contains("escadaria"))
                 dimensoes = new(2, 5);
             //TODO: Adicionar rotação para segmentos não quadrados
             return dimensoes;

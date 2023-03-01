@@ -87,10 +87,10 @@ namespace NoteQuest.CLI
             );
             ConsoleRenderer.RenderDocument(doc1);
 
-            Console.ReadKey();
+            //Console.ReadKey();
             int raca = D6.Rolagem(2);
             personagemService.DefinirRaca(personagem, raca);
-            FakeLoading();
+            //FakeLoading();
             var doc2 = new Document(
                 new Span($"  { personagem.Raca.Nome.ToUpper() }                   ") { Color = Yellow }, "\n",
                 new Span($"    ■ Vantagem: ") { Color = Yellow }, personagem.Raca.Vantagem, "\n",
@@ -104,10 +104,10 @@ namespace NoteQuest.CLI
             );
             ConsoleRenderer.RenderDocument(doc3);
 
-            Console.ReadKey();
+            //Console.ReadKey();
             int classe = D6.Rolagem(2);
             personagemService.DefinirClasse(personagem, classe);
-            FakeLoading();
+            //FakeLoading();
             var doc4 = new Document(
                 new Span($"  { personagem.Classes[0].Nome.ToUpper() }                   ") { Color = Yellow }, "\n",
                 new Span($"    ■ Vantagem: ") { Color = Yellow }, personagem.Classes[0].Vantagem, "\n",

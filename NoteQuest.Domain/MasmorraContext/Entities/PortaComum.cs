@@ -24,12 +24,13 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Escolhas = new List<IEscolha>();
         }
 
-        public void Build(BaseSegmento segmentoAtual, Direcao direcao)
+        public void Build(BaseSegmento segmentoAtual, Direcao direcao, IEscolha escolha = null, BaseSegmento segmentoAlvo = null)
         {
             SegmentoAtual = segmentoAtual;
+            SegmentoAlvo = segmentoAlvo;
             Direcao = direcao;
             IAcao acao = SegmentoFactory.CriarVerificarPortaService(this);
-            Escolha escolha = new(acao, null);
+            escolha ??= new Escolha(acao, null);
             Escolhas = new List<IEscolha>() { escolha };
         }
 

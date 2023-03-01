@@ -1,4 +1,5 @@
 ﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
 
@@ -8,12 +9,14 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
         public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public SairDeMasmorraService()
         {
             Titulo = "Sair de Masmorra";
             Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
+            AcaoTipo = AcaoTipo.Segmento;
         }
 
         public ConsequenciaDTO Executar()

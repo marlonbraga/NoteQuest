@@ -37,10 +37,21 @@ namespace NoteQuest.Domain.Core.Interfaces
 
     //}
 
+    public enum AcaoTipo
+    {
+        PortaFrente,
+        PortaDireita,
+        PortaTras,
+        PortaEsquerda,
+        Segmento,
+        Batalha
+    }
+
     public interface IAcao
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
         public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public ConsequenciaDTO Executar();

@@ -4,6 +4,7 @@ using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using NoteQuest.Domain.Core.ObjectValue;
+using System.Collections.Generic;
 using System;
 
 namespace NoteQuest.Domain.Core.Entities.Classes.Basica

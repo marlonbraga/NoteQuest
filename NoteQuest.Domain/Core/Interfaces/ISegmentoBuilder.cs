@@ -3,6 +3,7 @@ using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.MasmorraContext.DTO;
 
 namespace NoteQuest.Domain.Core.Interfaces
 {
@@ -12,7 +13,8 @@ namespace NoteQuest.Domain.Core.Interfaces
         public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, ushort indice);
         public void Build(ushort D6 = 1);
 
-        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao);
+        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao, IEscolha escolha, TabelaAPartirDe segmentoAlvo);
+        public IPortaComum CriarPortaComum(BaseSegmento segmentoAtual, Direcao direcao, IEscolha escolha = null, BaseSegmento segmentoAlvo = null);
         public IPortaEntrada CriarPortaDeEntrada(IList<IEscolha> escolhas);
 
 

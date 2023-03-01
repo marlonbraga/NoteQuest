@@ -18,13 +18,13 @@ namespace NoteQuest.CLI
                 for (int j = 0; j < horizontalLimit; j++)
                 {
                     if (HaPortaAFrente(i, j, passagens))
-                        result += "▬▬";//▬▬── │ / ▌▐
+                        result += "▲▬";//▬▬── │ / ▌▐
                     else if(HaPortaATras(i, j, verticalLimit, passagens))
-                        result += "──"; //"─";
+                        result += "─▼"; //"─";
                     else if(HaPortaADireita(i, j, horizontalLimit, passagens))
-                        result += " ▐"; //"▌";
+                        result += "►▐"; //"▌";
                     else if(HaPortaAEsquerda(i, j, passagens))
-                        result += "▌ "; //"▐";
+                        result += "▌◄"; //"▐";
                     
                     else if (EhCantoSuperiorEsquerdo(i, j))
                         result += "╔═";//╔═

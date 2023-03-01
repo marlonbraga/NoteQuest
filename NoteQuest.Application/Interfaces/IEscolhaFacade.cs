@@ -8,14 +8,15 @@ namespace NoteQuest.Application.Interface
 {
     public interface IEscolhaFacade
     {
-        public IPortaEntrada PortaEntrada { get; set; }
-        public IClasseBasicaRepository MasmorraRepository { get; set; }
-        public IEntrarEmMasmorraService EntrarEmMasmorraService { get; set; }
-        public IVerificarPortaService VerificarPortaService { get; set; }
-        public IEntrarPelaPortaService EntrarPelaPortaService { get; set; }
-        public IAbrirFechaduraService AbrirFechaduraService { get; set; }
-        public IQuebrarPortaService QuebrarPortaService { get; set; }
-        public ISairDeMasmorraService SairDeMasmorraService { get; set; }
-        public ConsequenciaDTO EntrarEmMasmorra(IMasmorra masmorra);
+        IPortaEntrada PortaEntrada { get; set; }
+        IClasseBasicaRepository MasmorraRepository { get; set; }
+        IEntrarEmMasmorraService EntrarEmMasmorraService { get; set; }
+        IVerificarPortaService VerificarPortaService { get; set; }
+        IEntrarPelaPortaService EntrarPelaPortaService { get; set; }
+        IAbrirFechaduraService AbrirFechaduraService { get; set; }
+        IQuebrarPortaService QuebrarPortaService { get; set; }
+        ISairDeMasmorraService SairDeMasmorraService { get; set; }
+        ConsequenciaView EntrarEmMasmorra(IMasmorra masmorra);
+        ConsequenciaView SelecionaEscolha(int escolha, int? indice);
     }
 }

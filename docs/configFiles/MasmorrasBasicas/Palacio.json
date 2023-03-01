@@ -1,6 +1,11 @@
 {
   "Descricao": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre.",
-  "SegmentoInicial": {"segmento":"sala", "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.", "qtdPortas":3},
+  "SegmentoInicial": {
+    "segmento":"sala",
+    "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.",
+    "qtdPortas":2,
+    "segmentoSeguinte": {"segmento": "escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
+  },
   "TabelaSegmentos":
   {
     "TabelaAPartirDeEscadaria": {

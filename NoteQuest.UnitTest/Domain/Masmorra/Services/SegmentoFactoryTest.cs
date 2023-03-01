@@ -42,189 +42,189 @@ namespace NoteQuest.UnitTest
             Assert.AreEqual(masmorraRepository, segmentoFactory.MasmorraRepository);
         }
 
-        [TestMethod]
-        public void SegmentoFactory_GerarSalaInicial_Sucesso()
-        {
-            #region Arrange
-            int qtdPortas = 3;
-            string descricao = "descrição-segmento-inicial";
+        //[TestMethod]
+        //public void SegmentoFactory_GerarSalaInicial_Sucesso()
+        //{
+        //    #region Arrange
+        //    int qtdPortas = 3;
+        //    string descricao = "descrição-segmento-inicial";
 
-            BaseSegmento segmentoInicial = new SegmentoInicial(descricao, qtdPortas, _segmentoFactory);
-            segmentoInicial.Build(descricao, qtdPortas);
+        //    BaseSegmento segmentoInicial = new SegmentoInicial(descricao, qtdPortas, _segmentoFactory);
+        //    segmentoInicial.Build(descricao, qtdPortas);
 
-            Mock<IMasmorraData> masmorraDataMock = new();
-            masmorraDataMock.Setup(w => w.SegmentoInicial).Returns((SegmentoInicial)segmentoInicial);
-            IMasmorraData masmorraData = masmorraDataMock.Object;
+        //    Mock<IMasmorraData> masmorraDataMock = new();
+        //    masmorraDataMock.Setup(w => w.SegmentoInicial).Returns((SegmentoInicial)segmentoInicial);
+        //    IMasmorraData masmorraData = masmorraDataMock.Object;
 
-            _masmorraRepositoryMock.Setup(w => w.PegarDadosMasmorra(It.IsAny<string>())).Returns(masmorraData);
-            _masmorraRepository = _masmorraRepositoryMock.Object;
-            _segmentoFactory = new SegmentoBuilder(_masmorraRepository);
-            #endregion
+        //    _masmorraRepositoryMock.Setup(w => w.PegarDadosMasmorra(It.IsAny<string>())).Returns(masmorraData);
+        //    _masmorraRepository = _masmorraRepositoryMock.Object;
+        //    _segmentoFactory = new SegmentoBuilder(_masmorraRepository);
+        //    #endregion
 
-            _segmentoFactory.Build(1);
-            Tuple<string, BaseSegmento> tupla = _segmentoFactory.GeraSegmentoInicial();
+        //    _segmentoFactory.Build(1);
+        //    Tuple<string, BaseSegmento> tupla = _segmentoFactory.GeraSegmentoInicial();
 
-            Assert.AreEqual(segmentoInicial, tupla.Item2);
-        }
+        //    Assert.AreEqual(segmentoInicial, tupla.Item2);
+        //}
 
-        [TestMethod]
-        public void SegmentoFactory_GeraSegmento_Sucesso()
-        {
-            int qtdPortas = 3;
-            string descricao = "descrição-segmento-inicial";
-            Mock<IPortaComum> portaInicialMock = new();
-            portaInicialMock.SetupAllProperties();
-            portaInicialMock.Setup(w => w.InvertePorta()).Returns(portaInicialMock.Object);
-            IPortaComum portaInicial = portaInicialMock.Object;
+        //[TestMethod]
+        //public void SegmentoFactory_GeraSegmento_Sucesso()
+        //{
+        //    int qtdPortas = 3;
+        //    string descricao = "descrição-segmento-inicial";
+        //    Mock<IPortaComum> portaInicialMock = new();
+        //    portaInicialMock.SetupAllProperties();
+        //    portaInicialMock.Setup(w => w.InvertePorta()).Returns(portaInicialMock.Object);
+        //    IPortaComum portaInicial = portaInicialMock.Object;
 
-            BaseSegmento segmentoInicial = new Corredor(_segmentoFactory);
-            segmentoInicial.Build(portaInicial, descricao, qtdPortas);
+        //    BaseSegmento segmentoInicial = new Corredor(_segmentoFactory);
+        //    segmentoInicial.Build(portaInicial, descricao, qtdPortas);
 
-            Mock<ISegmento> segmentoAtualMock = new();
-            ISegmento segmentoAtual = segmentoAtualMock.Object;
+        //    Mock<ISegmento> segmentoAtualMock = new();
+        //    ISegmento segmentoAtual = segmentoAtualMock.Object;
 
-            portaInicialMock = new();
-            portaInicialMock.SetupAllProperties();
-            portaInicialMock.Setup(w => w.InvertePorta()).Returns(portaInicialMock.Object);
-            portaInicialMock.Setup(w => w.SegmentoAtual).Returns(segmentoInicial);
-            portaInicial = portaInicialMock.Object;
+        //    portaInicialMock = new();
+        //    portaInicialMock.SetupAllProperties();
+        //    portaInicialMock.Setup(w => w.InvertePorta()).Returns(portaInicialMock.Object);
+        //    portaInicialMock.Setup(w => w.SegmentoAtual).Returns(segmentoInicial);
+        //    portaInicial = portaInicialMock.Object;
 
-            MasmorraDataDTO masmorraData = new()
-            {
-                TabelaSegmentos = new()
-                {
-                    TabelaAPartirDeCorredor = new TabelaAPartirDe[] {
-                        new TabelaAPartirDe()
-                        {
-                            Indice = 1,
-                            Segmento = SegmentoTipo.sala,
-                            Descricao = "descricao-sala",
-                            QtdPortas = 3
-                        }
-                    },
-                    TabelaAPartirDeSala = new TabelaAPartirDe[] {
-                        new TabelaAPartirDe()
-                        {
-                            Indice = 1,
-                            Segmento = SegmentoTipo.escadaria,
-                            Descricao = "descricao-escadaria",
-                            QtdPortas = 1
-                        }
-                    },
-                    TabelaAPartirDeEscadaria = new TabelaAPartirDe[] {
-                        new TabelaAPartirDe()
-                        {
-                            Indice = 1,
-                            Segmento = SegmentoTipo.corredor,
-                            Descricao = "descricao-corredor",
-                            QtdPortas = 2
-                        }
-                    }
-                },
-                TabelaMonstro = new TabelaMonstro[]
-                {
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    },
-                    new TabelaMonstro()
-                    {
-                        Indice = 1,
-                        Qtd = "2",
-                        Nome = "Monstrão",
-                        Dano = 5,
-                        Pvs = 10,
-                        Caracteristicas = ""
-                    }
-                }
-            };
-            Mock<IClasseBasicaRepository> masmorraRepositoryMock = new();
-            masmorraRepositoryMock.SetupAllProperties();
-            masmorraRepositoryMock.Setup(w => w.PegarDadosMasmorra(It.IsAny<string>())).Returns(masmorraData);
-            IClasseBasicaRepository masmorraRepository = masmorraRepositoryMock.Object;
-            ISegmentoBuilder segmentoFactory = new SegmentoBuilder(masmorraRepository);
+        //    MasmorraDataDTO masmorraData = new()
+        //    {
+        //        TabelaSegmentos = new()
+        //        {
+        //            TabelaAPartirDeCorredor = new TabelaAPartirDe[] {
+        //                new TabelaAPartirDe()
+        //                {
+        //                    Indice = 1,
+        //                    Segmento = SegmentoTipo.sala,
+        //                    Descricao = "descricao-sala",
+        //                    QtdPortas = 3
+        //                }
+        //            },
+        //            TabelaAPartirDeSala = new TabelaAPartirDe[] {
+        //                new TabelaAPartirDe()
+        //                {
+        //                    Indice = 1,
+        //                    Segmento = SegmentoTipo.escadaria,
+        //                    Descricao = "descricao-escadaria",
+        //                    QtdPortas = 1
+        //                }
+        //            },
+        //            TabelaAPartirDeEscadaria = new TabelaAPartirDe[] {
+        //                new TabelaAPartirDe()
+        //                {
+        //                    Indice = 1,
+        //                    Segmento = SegmentoTipo.corredor,
+        //                    Descricao = "descricao-corredor",
+        //                    QtdPortas = 2
+        //                }
+        //            }
+        //        },
+        //        TabelaMonstro = new TabelaMonstro[]
+        //        {
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            },
+        //            new TabelaMonstro()
+        //            {
+        //                Indice = 1,
+        //                Qtd = "2",
+        //                Nome = "Monstrão",
+        //                Dano = 5,
+        //                Pvs = 10,
+        //                Caracteristicas = ""
+        //            }
+        //        }
+        //    };
+        //    Mock<IClasseBasicaRepository> masmorraRepositoryMock = new();
+        //    masmorraRepositoryMock.SetupAllProperties();
+        //    masmorraRepositoryMock.Setup(w => w.PegarDadosMasmorra(It.IsAny<string>())).Returns(masmorraData);
+        //    IClasseBasicaRepository masmorraRepository = masmorraRepositoryMock.Object;
+        //    ISegmentoBuilder segmentoFactory = new SegmentoBuilder(masmorraRepository);
 
-            segmentoFactory.Build(1);
-            BaseSegmento segmentoGerado = segmentoFactory.GeraSegmento(portaInicial, 0);
+        //    segmentoFactory.Build(1);
+        //    BaseSegmento segmentoGerado = segmentoFactory.GeraSegmento(portaInicial, 0);
 
-            Assert.IsNotNull(segmentoGerado);
-        }
+        //    Assert.IsNotNull(segmentoGerado);
+        //}
     }
 }

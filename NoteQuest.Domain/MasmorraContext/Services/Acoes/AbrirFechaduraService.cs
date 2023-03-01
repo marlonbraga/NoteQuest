@@ -5,6 +5,7 @@ using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -12,6 +13,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
         public int QtdTochasConsumidas { get; set; }
         public IPortaComum Porta { get; set; }
         public ISegmentoBuilder SegmentoFactory { get; set; }
@@ -21,6 +23,19 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         {
             Titulo = "Abrir fechadura";
             Descricao = "Abre acesso a sala trancada sem alertar monstros. Ação demorada. Gasta 1 tocha";
+            AcaoTipo = ObtemAcaoTipoPorPorta(porta.Direcao);
+        }
+
+        private AcaoTipo ObtemAcaoTipoPorPorta(Direcao direcao)
+        {
+            return direcao switch
+            {
+                Direcao.frente => AcaoTipo.PortaTras,
+                Direcao.direita => AcaoTipo.PortaEsquerda,
+                Direcao.tras => AcaoTipo.PortaFrente,
+                Direcao.esquerda => AcaoTipo.PortaDireita,
+                _ => AcaoTipo.Segmento,
+            };
         }
 
         public void Build(int qtdTochasConsumidas)
@@ -30,7 +45,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 
         public ConsequenciaDTO Executar()
         {
-            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
+            Porta.SegmentoAlvo ??= SegmentoFactory.GeraSegmento(Porta, D6.Rolagem());
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Você destranca a fechadura com successo e consegue espiar um novo segmento da masmorra.";

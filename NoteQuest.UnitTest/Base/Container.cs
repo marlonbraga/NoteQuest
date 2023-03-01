@@ -1,12 +1,14 @@
 ﻿using Ninject;
 using NoteQuest.Application.Interface;
+using NoteQuest.Application.Interfaces;
 using NoteQuest.CLI.Interfaces;
 using NoteQuest.CLI.IoC;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Dados;
+using NoteQuest.Domain.Core.Interfaces.Masmorra;
+using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Services;
 using NoteQuest.Infrastructure.Data.Masmorra;
 
 namespace NoteQuest.UnitTest.Base
@@ -25,6 +27,10 @@ namespace NoteQuest.UnitTest.Base
         public IAbrirFechaduraService AbrirFechaduraService { get; set; }
         public IQuebrarPortaService QuebrarPortaService { get; set; }
         public ISairDeMasmorraService SairDeMasmorraService { get; set; }
+        public IRacaRepository RacaRepository { get; set; }
+        public IClasseRepository ClasseRepository { get; set; }
+        public IPersonagemBuilder PersonagemBuilder { get; set; }
+        public IPersonagemService PersonagemService { get; set; }
 
         public Container()
         {
