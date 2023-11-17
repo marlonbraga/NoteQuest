@@ -4,6 +4,8 @@ using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.MasmorraContext.Entities;
+using NoteQuest.Domain.MasmorraContext.Interfaces;
 
 
 namespace NoteQuest.CLI
@@ -34,8 +36,11 @@ namespace NoteQuest.CLI
         {
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
             IContainer Container = new Container();
-            EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
-            ConsequenciaDTO consequencia = EscolhaFacade.EntrarEmMasmorra(1);
+            //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
+            IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
+
+            ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
+
             Console.WriteLine(consequencia.Descricao);
             List<IEscolha> escolhas = consequencia.Escolhas;
             for (int i = 0; i < escolhas.Count; i++)

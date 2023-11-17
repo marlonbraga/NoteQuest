@@ -14,7 +14,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Tenta entrar em sala sem que os monstros te percebam. Se falhar, sofrerá ataque primeiro. Gasta 1 tocha";
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
             return null;
         }

@@ -11,11 +11,11 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 
         public QuebrarPorta(int indice, IPortaComum porta)
         {
-            Titulo = "Quebrar porta";
+            Titulo = $"Quebrar porta {porta.Posicao}";
             Descricao = "Abre acesso a sala trancada sem gastar tochas. Se houver monstros, sofrerá ataque primeiro.";
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
             return null;
         }

@@ -14,7 +14,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
             return null;
         }

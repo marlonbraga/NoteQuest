@@ -53,7 +53,7 @@ namespace NoteQuest.UnitTest
             SegmentoFactory.Instancia(masmorraRepository);
             #endregion
 
-            Tuple<string, BaseSegmento> tupla = SegmentoFactory.GeraSegmentoInicial();
+            (string, BaseSegmento) tupla = SegmentoFactory.Instancia(masmorraRepository).GeraSegmentoInicial();
 
             Assert.AreEqual(segmentoInicial, tupla.Item2);
         }

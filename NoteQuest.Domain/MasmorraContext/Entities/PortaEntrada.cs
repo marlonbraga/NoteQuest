@@ -1,5 +1,7 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
@@ -10,16 +12,22 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public EstadoDePorta EstadoDePorta { get; set; }
         public Posicao Posicao { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
+        public BaseSegmento SegmentoInicial { get; set; }
         public List<IEscolha> Escolhas { get; set; }
 
         public PortaEntrada()
         {
             EstadoDePorta = EstadoDePorta.aberta;
-            Escolhas = new();
+            Escolhas = AbrirPorta();
         }
-        public BaseSegmento Entrar()
+
+        public List<IEscolha> AbrirPorta()
         {
-            //Sair de Masmorra
+            return SairDaMasmorra();
+        }
+
+        private List<IEscolha> SairDaMasmorra()
+        {
             return null;
         }
     }

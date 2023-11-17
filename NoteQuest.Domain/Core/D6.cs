@@ -8,14 +8,16 @@ namespace NoteQuest.Domain.Core
 
         private static readonly Random random = new();
 
-        public static int Rolagem(int qtdDados = 1)
+        public static int Rolagem(int qtdDados = 1, bool deslocamento = false)
         {
             Valor = 0;
             for (int i = 0; i < qtdDados; i++)
             {
-                Valor += random.Next(1, 6 + 1);
+                Valor += random.Next(1, 7);
             }
-            return Valor - qtdDados;
+            if(deslocamento)
+                return Valor - qtdDados;
+            return Valor;
         }
     }
 }

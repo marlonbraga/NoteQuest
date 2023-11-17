@@ -12,28 +12,35 @@ namespace NoteQuest.Domain.MasmorraContext.Services
 {
     public class SegmentoFactory
     {
-        private static IMasmorraData masmorraData;
+        private static IDictionary<int, IMasmorraData> masmorraData;
         private static SegmentoFactory Singleton;
+        private static int tipoMasmorraAtual;
 
-        public static SegmentoFactory Instancia(IMasmorraRepository masmorraRepository, int D6 = 1)
-        {
+        public static SegmentoFactory Instancia(IMasmorraRepository masmorraRepository)
+        {//TODO: Remover a opcionalidade do indice;
             if (Singleton is null)
             {
-                Singleton = new SegmentoFactory(masmorraRepository, D6);
+                Singleton = new SegmentoFactory(masmorraRepository);
             }
             return Singleton;
         }
 
-        private SegmentoFactory(IMasmorraRepository masmorraRepository, int D6 = 1)
+        private SegmentoFactory(IMasmorraRepository masmorraRepository)
         {
-            //masmorraData = new(D6);
-            masmorraData = masmorraRepository.PegarDadosMasmorra("Palacio");
+            masmorraData = new Dictionary<int, IMasmorraData>();
+            masmorraData[1] = masmorraRepository.PegarDadosMasmorra("Palacio");
+            masmorraData[2] = masmorraRepository.PegarDadosMasmorra("Palacio");
+            masmorraData[3] = masmorraRepository.PegarDadosMasmorra("Palacio");
+            masmorraData[4] = masmorraRepository.PegarDadosMasmorra("Palacio");
+            masmorraData[5] = masmorraRepository.PegarDadosMasmorra("Palacio");
+            masmorraData[6] = masmorraRepository.PegarDadosMasmorra("Palacio");
         }
 
-        public static Tuple<string, BaseSegmento> GeraSegmentoInicial()
+        public (string descricao, BaseSegmento segmentoInicial) GeraSegmentoInicial(int indice = 1)
         {
-            BaseSegmento segmento = masmorraData.SegmentoInicial;
-            var entradaEmMasmorra = Tuple.Create(masmorraData.Descricao, segmento);
+            tipoMasmorraAtual = indice;
+            BaseSegmento segmento = masmorraData[tipoMasmorraAtual].SegmentoInicial;
+            var entradaEmMasmorra = (descricao: masmorraData[indice].Descricao, segmentoInicial:segmento);
             return entradaEmMasmorra;
         }
 
@@ -48,17 +55,26 @@ namespace NoteQuest.Domain.MasmorraContext.Services
 
         private static SegmentoTipo TipoSegmento(BaseSegmento segmentoAtual, int indice)
         {
-            switch (segmentoAtual.GetType().Name)
+            try
             {
-                case "Sala":
-                    return masmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento;
-                case "Corredor":
-                    return masmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[indice].Segmento;
-                case "Escadaria":
-                    return masmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[indice].Segmento;
-                default:
-                    return masmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento;
+                switch (segmentoAtual.GetType().Name)
+                {
+                    case "Sala":
+                        return masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento;
+                    case "Corredor":
+                        return masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeCorredor[indice].Segmento;
+                    case "Escadaria":
+                        return masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeEscadaria[indice].Segmento;
+                    default:
+                        return masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeSala[indice].Segmento;
+                }
             }
+            catch
+            {
+                new Exception($"indice: {indice}");
+            }
+
+            return SegmentoTipo.escadaria;
         }
 
         private static BaseSegmento GerarSegmentoPorSegmento(IPortaComum portaDeEntrada, SegmentoTipo tipoSegmento, int indice)
@@ -69,19 +85,19 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             switch (tipoSegmento.ToString())
             {
                 case "sala":
-                    descricao = masmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].Descricao;
-                    qtdPortas = masmorraData.TabelaSegmentos.TabelaAPartirDeSala[indice].QtdPortas;
+                    descricao = masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeSala[indice].Descricao;
+                    qtdPortas = masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeSala[indice].QtdPortas;
                     segmento = new Sala(portaDeEntrada, descricao, qtdPortas);
-                    segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros((TabelaMonstro)masmorraData.TabelaMonstro[D6.Rolagem(2)]));
+                    segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros((TabelaMonstro)masmorraData[tipoMasmorraAtual].TabelaMonstro[D6.Rolagem(2, deslocamento: true)]));
                     break;
                 case "corredor":
-                    descricao = masmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[indice].Descricao;
-                    qtdPortas = masmorraData.TabelaSegmentos.TabelaAPartirDeCorredor[indice].QtdPortas;
+                    descricao = masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeCorredor[indice].Descricao;
+                    qtdPortas = masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeCorredor[indice].QtdPortas;
                     segmento = new Corredor(portaDeEntrada, descricao, qtdPortas);
                     break;
                 case "escadaria":
-                    descricao = masmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[indice].Descricao;
-                    qtdPortas = masmorraData.TabelaSegmentos.TabelaAPartirDeEscadaria[indice].QtdPortas;
+                    descricao = masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeEscadaria[indice].Descricao;
+                    qtdPortas = masmorraData[tipoMasmorraAtual].TabelaSegmentos.TabelaAPartirDeEscadaria[indice].QtdPortas;
                     segmento = new Escadaria(portaDeEntrada, descricao, qtdPortas);
                     break;
             }

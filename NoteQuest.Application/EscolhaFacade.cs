@@ -35,14 +35,6 @@ namespace NoteQuest.Application
             return escolha.Acao.Executar();
         }
 
-        public ConsequenciaDTO EntrarEmMasmorra(int indice)
-        {
-            SegmentoFactory.Instancia(MasmorraRepository, indice);
-            IAcao acao = new EntrarEmMasmorra(indice, MasmorraRepository, PortaEntrada);
-            ConsequenciaDTO consequencia = acao.Executar();
-            return consequencia;
-        }
-
         //public ConsequenciaDTO VerificarPorta(int indice, IPortaComum porta)
         //{
         //    IAcao acao = new VerificarPorta(indice, porta);

@@ -17,7 +17,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IPortaEntrada portaEntrada)
+        public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IMasmorra masmorra, IPortaEntrada portaEntrada)
         {
             Indice = indice;
             MasmorraRepository = masmorraRepository;
@@ -26,10 +26,10 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Ambiente escuro e perigoso. Gasta 1 tocha";
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
-            Tuple<string, BaseSegmento> entradaEmMasmorra;
-            entradaEmMasmorra = SegmentoFactory.GeraSegmentoInicial();
+            (string, BaseSegmento) entradaEmMasmorra;
+            entradaEmMasmorra = SegmentoFactory.Instancia(MasmorraRepository).GeraSegmentoInicial();
             BaseSegmento segmentoInicial = entradaEmMasmorra.Item2;
             ConsequenciaDTO consequencia = new()
             {

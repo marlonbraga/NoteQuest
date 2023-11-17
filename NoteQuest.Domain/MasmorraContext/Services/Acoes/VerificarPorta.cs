@@ -35,7 +35,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             return consequencia;
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
             //TODO: Deleta-me sem cagar a Interface
             return Executar(D6.Rolagem());

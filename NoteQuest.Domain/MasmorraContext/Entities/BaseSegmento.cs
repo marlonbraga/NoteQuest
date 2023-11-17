@@ -20,6 +20,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public string DetalhesDescricao { get; set; }
         public List<IPorta> Portas { get; set; }
         public List<IEscolha> Escolhas { get; set; }
+        public IMasmorra Masmorra { get; set; }
 
         public BaseSegmento(IPorta portaDeEntrada, string descricao, int qtdPortas)
         {
@@ -47,6 +48,16 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             GerarPortas(qtdPortas);
         }
 
+        public BaseSegmento(string descricao, List<IPorta> portas)
+        {
+            ContagemDeSalas = 0;
+            IdSegmento = ContagemDeSalas++;
+            Portas = new();
+            Descricao = descricao;
+            Escolhas = GerarEscolhasBasicas();
+            GerarPortas(portas);
+        }
+
         public void DesarmarArmadilhas(int valorD6)
         {
 
@@ -71,6 +82,11 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             {
                 Portas.Add(new Porta(this, RecuperaPosicaoPorIndice(i)));
             }
+        }
+
+        private void GerarPortas(List<IPorta> portas)
+        {
+            Portas = portas;
         }
 
         private Posicao RecuperaPosicaoPorIndice(int indice)

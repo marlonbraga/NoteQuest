@@ -14,7 +14,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Torna sala segura quanto a armadilhas. Ação demorada. Gasta 1 tocha";
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
             return null;
         }

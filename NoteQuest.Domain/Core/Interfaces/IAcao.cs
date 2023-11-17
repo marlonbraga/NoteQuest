@@ -7,6 +7,6 @@ namespace NoteQuest.Domain.Core.Interfaces
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public ConsequenciaDTO Executar();
+        public ConsequenciaDTO Executar(int? indice = null);
     }
 }

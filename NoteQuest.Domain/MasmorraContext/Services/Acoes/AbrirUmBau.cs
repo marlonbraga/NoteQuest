@@ -14,7 +14,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Encontra moedas e tesouros; Raramente aciona armadilhas.";
         }
 
-        public ConsequenciaDTO Executar()
+        public ConsequenciaDTO Executar(int? indice = null)
         {
             return null;
         }
