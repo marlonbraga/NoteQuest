@@ -7,6 +7,7 @@ using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 
 namespace NoteQuest.Domain.MasmorraContext.Services
 {
@@ -40,6 +41,16 @@ namespace NoteQuest.Domain.MasmorraContext.Services
         {
             tipoMasmorraAtual = indice;
             BaseSegmento segmento = masmorraData[tipoMasmorraAtual].SegmentoInicial;
+            switch (indice)
+            {
+                case 1:
+                    IAcao novaAcao = new EntrarPelaPorta((IPortaComum)segmento.Portas[0], 5);
+                    novaAcao.Titulo = "Descer escadaria e verificar porta da frente";
+                    segmento.Portas[0].Escolhas[0].Acao = novaAcao;
+                    break;
+                default:
+                    break;
+            }    
             var entradaEmMasmorra = (descricao: masmorraData[indice].Descricao, segmentoInicial:segmento);
             return entradaEmMasmorra;
         }
