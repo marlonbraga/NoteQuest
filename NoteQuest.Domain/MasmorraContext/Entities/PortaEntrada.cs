@@ -14,11 +14,14 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public BaseSegmento SegmentoAtual { get; set; }
         public BaseSegmento SegmentoInicial { get; set; }
         public List<IEscolha> Escolhas { get; set; }
+        public int Andar { get; set; }
+        public IMasmorra Masmorra { get; set; }
 
         public PortaEntrada()
         {
             EstadoDePorta = EstadoDePorta.aberta;
             Escolhas = AbrirPorta();
+            Andar = 0;
         }
 
         public List<IEscolha> AbrirPorta()

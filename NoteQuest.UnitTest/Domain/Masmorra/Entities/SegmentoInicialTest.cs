@@ -18,16 +18,18 @@ namespace NoteQuest.UnitTest
         [TestMethod]
         public void SegmentoInicial_Criar_Sucesso()
         {
+            Mock<IMasmorra> masmorraMock = new();
             Mock<IMasmorraRepository> masmorraRepositoryMock = new();
             Mock<ISegmentoFactory> segmentoFactoryMock = new();
 
+            IMasmorra masmorra = masmorraMock.Object;
             IMasmorraRepository masmorraRepository = masmorraRepositoryMock.Object;
             ISegmentoFactory segmentoFactory = segmentoFactoryMock.Object;
 
             int qtdPortas = 3;
             string descricao = "descrição-segmento-inicial";
 
-            BaseSegmento segmentoInicial = new SegmentoInicial(qtdPortas, descricao, masmorraRepository, segmentoFactory);
+            BaseSegmento segmentoInicial = new SegmentoInicial(qtdPortas, descricao, masmorraRepository, segmentoFactory, masmorra);
 
             Assert.AreEqual(descricao, segmentoInicial.Descricao);
             Assert.AreEqual(qtdPortas+1, segmentoInicial.Portas.Count);

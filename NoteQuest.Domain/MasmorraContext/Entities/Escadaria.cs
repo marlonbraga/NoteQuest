@@ -7,7 +7,11 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public Escadaria(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
         {
             Descricao = descricao;
-            //TODO: 1 única porta com um nível abaixo
+            Andar = portaDeEntrada.Andar - 1;
+            foreach (IPorta porta in Portas)
+            {
+                porta.Andar = this.Andar;
+            }
         }
     }
 }

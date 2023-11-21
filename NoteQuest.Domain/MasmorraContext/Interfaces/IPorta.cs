@@ -23,6 +23,8 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         public Posicao Posicao { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
         public List<IEscolha> Escolhas { get; set; }
+        public int Andar { get; set; }
         List<IEscolha> AbrirPorta();
+        IMasmorra Masmorra { get; set; }
     }
 }

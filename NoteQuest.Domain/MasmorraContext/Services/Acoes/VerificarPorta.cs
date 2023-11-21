@@ -20,9 +20,9 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Checar se está aberta ou fechada. Pode acionar armadilhas.";
         }
 
-        public ConsequenciaDTO Executar(int valorD6)
+        public ConsequenciaDTO Executar(int? indice = null)
         {
-            EstadoDePorta estado = Porta.VerificarFechadura(valorD6);
+            EstadoDePorta estado = Porta.VerificarFechadura(indice ?? D6.Rolagem());
             BaseSegmento segmentoAtual = Porta.SegmentoAtual;
             List<IEscolha> escolhas = segmentoAtual.RecuperaTodasAsEscolhas();
             ConsequenciaDTO consequencia = new()
@@ -33,12 +33,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             };
 
             return consequencia;
-        }
-
-        public ConsequenciaDTO Executar(int? indice = null)
-        {
-            //TODO: Deleta-me sem cagar a Interface
-            return Executar(D6.Rolagem());
         }
     }
 }

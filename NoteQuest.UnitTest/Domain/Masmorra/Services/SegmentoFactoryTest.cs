@@ -20,6 +20,9 @@ namespace NoteQuest.UnitTest
         [TestMethod]
         public void SegmentoFactory_Criar_Sucesso()
         {
+            Mock<IMasmorra> masmorraMock = new();
+            IMasmorra masmorra = masmorraMock.Object;
+
             MasmorraDataDTO masmorraData = new();
             Mock<IMasmorraRepository> masmorraRepositoryMock = new();
             masmorraRepositoryMock.Setup(w => w.PegarDadosMasmorra(It.IsAny<string>())).Returns(masmorraData);
@@ -33,6 +36,9 @@ namespace NoteQuest.UnitTest
         public void SegmentoFactory_GerarSalaInicial_Sucesso()
         {
             #region Arrange
+            Mock<IMasmorra> masmorraMock = new();
+            IMasmorra masmorra = masmorraMock.Object;
+
             Mock<IMasmorraRepository> masmorraRepositoryMock = new();
             Mock<ISegmentoFactory> segmentoFactoryMock = new();
 
@@ -42,7 +48,7 @@ namespace NoteQuest.UnitTest
             int qtdPortas = 3;
             string descricao = "descrição-segmento-inicial";
 
-            BaseSegmento segmentoInicial = new SegmentoInicial(qtdPortas, descricao, masmorraRepository, segmentoFactory);
+            BaseSegmento segmentoInicial = new SegmentoInicial(qtdPortas, descricao, masmorraRepository, segmentoFactory, masmorra);
 
             Mock<IMasmorraData> masmorraDataMock = new();
             masmorraDataMock.Setup(w => w.SegmentoInicial).Returns((SegmentoInicial)segmentoInicial);
@@ -53,7 +59,7 @@ namespace NoteQuest.UnitTest
             SegmentoFactory.Instancia(masmorraRepository);
             #endregion
 
-            (string, BaseSegmento) tupla = SegmentoFactory.Instancia(masmorraRepository).GeraSegmentoInicial();
+            (string, BaseSegmento) tupla = SegmentoFactory.Instancia(masmorraRepository).GeraSegmentoInicial(masmorra);
 
             Assert.AreEqual(segmentoInicial, tupla.Item2);
         }

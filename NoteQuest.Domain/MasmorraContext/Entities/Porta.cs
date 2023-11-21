@@ -18,6 +18,8 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public BaseSegmento SegmentoAlvo { get; set; }
         public BaseSegmento SegmentoAtual { get; set; }
         public List<IEscolha> Escolhas { get; set; }
+        public int Andar { get; set; }
+        public IMasmorra Masmorra { get; set; }
 
         public Porta(IMasmorraRepository masmorraRepository)
         {
@@ -28,18 +30,22 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
+            Masmorra = segmentoAtual.Masmorra;
             IAcao acao = new VerificarPorta(1,this);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
+            Andar = segmentoAtual.Andar;
         }
 
         public Porta(BaseSegmento segmentoAtual, Posicao posicao, int? indice = null)
         {
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
+            Masmorra = segmentoAtual.Masmorra;
             IAcao acao = new EntrarPelaPorta(this, indice);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
+            Andar = segmentoAtual.Andar;
         }
 
         public EstadoDePorta VerificarFechadura(int valorD6)
@@ -100,7 +106,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 Posicao = novaPosicao,
                 EstadoDePorta = this.EstadoDePorta,
                 SegmentoAlvo = this.SegmentoAtual,
-                SegmentoAtual = this.SegmentoAlvo
+                SegmentoAtual = this.SegmentoAlvo,
+                Masmorra = this.SegmentoAtual.Masmorra,
+                Andar = this.Andar,
             };
             IAcao acao = new EntrarPelaPorta(porta, null);
             acao.Titulo = $"◄┘ Voltar ({porta.Posicao})";

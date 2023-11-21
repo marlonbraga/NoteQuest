@@ -40,7 +40,7 @@ namespace NoteQuest.CLI
             IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
 
             ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
-
+            EscreverCabecalho(consequencia, masmorra);
             Console.WriteLine(consequencia.Descricao);
             List<IEscolha> escolhas = consequencia.Escolhas;
             for (int i = 0; i < escolhas.Count; i++)
@@ -119,7 +119,18 @@ namespace NoteQuest.CLI
                     default:
                         break;
                 }
-                consequencia = escolhas[numeroDeEscolha].Acao.Executar();
+
+                try
+                {
+                    consequencia = escolhas[numeroDeEscolha].Acao.Executar();
+                }
+                catch
+                {
+                    Console.WriteLine(" [Opção inválida!]");
+                    continue;
+                }
+                
+                EscreverCabecalho(consequencia, masmorra);
                 Console.WriteLine(consequencia.Descricao);
                 escolhas = consequencia.Escolhas;
                 for (int i = 0; i < escolhas.Count; i++)
@@ -129,6 +140,20 @@ namespace NoteQuest.CLI
                     Console.WriteLine($"{i} → {Titulo}");
                 }
             } while (true);
+        }
+
+        static void EscreverCabecalho(ConsequenciaDTO consequencia, IMasmorra masmorra)
+        {
+            Console.WriteLine();
+            Console.WriteLine("=========================================================================");
+            Console.WriteLine($"SALA: {consequencia.Segmento.IdSegmento} | ANDAR: {consequencia.Segmento.Andar} | INEXPLORADAS: {masmorra.QtdPortasInexploradas}");
+            Console.WriteLine();
+            foreach (var porta in consequencia.Segmento.Portas)
+            {
+                Console.Write($"[{porta.Posicao.ToString()}|{porta.Andar}]");
+            }
+            Console.WriteLine();
+
         }
     }
 }

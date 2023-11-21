@@ -13,7 +13,6 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
     public abstract class BaseSegmento
     {
-        public int Nivel { get; }
         public int IdSegmento { get; }
         public static int ContagemDeSalas { get; set; }
         public string Descricao { get; set; }
@@ -21,10 +20,14 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public List<IPorta> Portas { get; set; }
         public List<IEscolha> Escolhas { get; set; }
         public IMasmorra Masmorra { get; set; }
+        public int Andar { get; set; }
 
         public BaseSegmento(IPorta portaDeEntrada, string descricao, int qtdPortas)
         {
             IdSegmento = ContagemDeSalas++;
+            Masmorra = portaDeEntrada.Masmorra;
+            Andar = portaDeEntrada.Andar;
+            Masmorra.QtdPortasInexploradas += qtdPortas;
             IPorta porta = null;
             if (portaDeEntrada is IPortaComum)
             {
@@ -38,12 +41,13 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             GerarPortas(qtdPortas);
         }
 
-        public BaseSegmento(string descricao, int qtdPortas)
+        public BaseSegmento(string descricao, int qtdPortas, IMasmorra masmorra)
         {
             ContagemDeSalas = 0;
             IdSegmento = ContagemDeSalas++;
             Portas = new();
             Descricao = descricao;
+            Masmorra = masmorra;
             Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
         }
@@ -56,9 +60,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         private List<IEscolha> GerarEscolhasBasicas()
         {
             IAcao acaoDesarmarArmadilhas = new DesarmarArmadilhas();
-            Escolha desarmarArmadilhas = new(acaoDesarmarArmadilhas);
+            Escolha desarmarArmadilhas = new (acaoDesarmarArmadilhas);
             IAcao acaoAcharPassagemSecreta = new AcharPassagemSecreta();
-            Escolha acharPassagemSecreta = new(acaoAcharPassagemSecreta);
+            Escolha acharPassagemSecreta = new (acaoAcharPassagemSecreta);
             List<IEscolha> escolhas = new() { desarmarArmadilhas, acharPassagemSecreta };
             return escolhas;
         }

@@ -10,8 +10,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
     {
         public SegmentoTipo Segmento { get; set; }
 
-        public SegmentoInicial(int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory) : base(descricao, qtdPortas)
+        public SegmentoInicial(int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IMasmorra masmorra) : base(descricao, qtdPortas, masmorra)
         {
+            Andar = 0;
             IAcao acaoSairDeMasmorra = new SairDeMasmorra();
             IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra);
             IPorta portaDeEntrada = new PortaEntrada()
