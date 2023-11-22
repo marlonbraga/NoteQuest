@@ -80,13 +80,12 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             //TODO: Fazer a passagem de tempo (perder 1 tocha)
             EstadoDePorta = EstadoDePorta.aberta;
-            IAcao acao = new EntrarPelaPorta(this, null);
-            Escolha escolha = new(acao);
-            Escolhas = new List<IEscolha>() { escolha };
+            Escolhas = AbrirPorta();
         }
 
         public void QuebrarPorta()
         {
+            //TODO: Criar evento de Passar o 1º turno SE houver batalha  
             EstadoDePorta = EstadoDePorta.quebrada;
             Escolhas = AbrirPorta();
         }
