@@ -7,8 +7,11 @@ using NoteQuest.Domain.Core.Interfaces.Masmorra;
 using NoteQuest.Domain.Core.Interfaces.Masmorra.Services;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using NoteQuest.Application;
 using static System.ConsoleColor;
+using Ninject.Selection;
+using NoteQuest.Domain.Core.ObjectValue;
 
 namespace NoteQuest.CLI
 {
@@ -43,15 +46,8 @@ namespace NoteQuest.CLI
             IDictionary<int, EscolhaView> escolhas = consequencia.Escolhas;
             Console.Write($"\n\n\n");
             Console.WriteLine(DesenharSegmento.Desenha(consequencia.Segmento));
-            ushort selecao = 0;
-            for (int i = 1; i <= escolhas.Count; i++)
-            {
-                string Titulo = escolhas[i].Titulo;
-                string Descricao = escolhas[i].Descricao;
-                if (selecao == i) Console.BackgroundColor = ConsoleColor.DarkGray;
-                else Console.BackgroundColor = ConsoleColor.Black;
-                Console.Write($" [{i}] → {Titulo} ");
-            }
+
+            ExibeMacroOpcoes(escolhas);
             Rodada(escolhas);
         }
 
@@ -64,22 +60,13 @@ namespace NoteQuest.CLI
             } while (true);
         }
 
-        public IDictionary<int, EscolhaView> EscolheTipoDeAcao(IDictionary<int, EscolhaView> escolhas)
-        {
-            AcaoTipo acaoTipo;
-            IDictionary<int, EscolhaView> result;
-            do
-            {
-                acaoTipo = EscolherTipoAcao(Console.ReadKey().Key);
-                result = ObtemEscolhasPorDirecao(acaoTipo, escolhas);
-            } while (result.Count == 0);
-            return result;
-        }
-
         public IDictionary<int, EscolhaView> EscolheAcao(IDictionary<int, EscolhaView> escolhas)
         {
             ConsequenciaView consequencia = new();
+
+            ExibeOpcoes(escolhas);
             Console.WriteLine("");
+
             ushort selecao = 0;
             int numeroDeEscolha = 0;
             do
@@ -156,51 +143,70 @@ namespace NoteQuest.CLI
                     //if(escolhas[numeroDeEscolha].Acao is IEntrarPelaPortaService)
                     //    Console.WriteLine(DesenharSegmento.Desenha(consequencia.Segmento));
                     escolhas = consequencia.Escolhas;
+                    Console.WriteLine("");
                 }
                 break;
                 
             } while (true);
 
-            Console.Write($"\r");
-            for (int i = 0; i < escolhas.Count; i++)
-            {
-                string Titulo = escolhas[i].Titulo;
-                string Descricao = escolhas[i].Descricao;
-                if (selecao == i) Console.BackgroundColor = ConsoleColor.DarkGreen;
-                else Console.BackgroundColor = ConsoleColor.Black;
-                Console.Write($"  [{Titulo}]  ");
-                Console.BackgroundColor = ConsoleColor.Black;
-            }
+            ExibeMacroOpcoes(escolhas);
+            
             return consequencia.Escolhas;
         }
 
+        public IDictionary<int, EscolhaView> EscolheTipoDeAcao(IDictionary<int, EscolhaView> escolhas)
+        {
+            AcaoTipo acaoTipo;
+            IDictionary<int, EscolhaView> result;
+            do
+            {
+                acaoTipo = EscolherTipoAcao(Console.ReadKey().Key);
+                ExibeMacroOpcoes(escolhas, acaoTipo);
+                result = ObtemEscolhasPorDirecao(acaoTipo, escolhas);
+            } while (result.Count == 0);
+            return result;
+        }
+
+        //Como esse método sabe que a escolha for de uma porta válida?
         private AcaoTipo EscolherTipoAcao(ConsoleKey consoleKey)
         {
-            AcaoTipo result;
-            while (true)
+            while(true)
             {
                 switch (consoleKey)
                 {
                     case ConsoleKey.Escape:
                     case ConsoleKey.Clear:
+                    case ConsoleKey.D0:
+                    case ConsoleKey.NumPad0:
                         CharacterProfile.ExibirFicha(Personagem);
+                        consoleKey = Console.ReadKey().Key;
                         continue;
                     case ConsoleKey.Enter:
                     case ConsoleKey.Spacebar:
                         return AcaoTipo.Segmento;
                     case ConsoleKey.LeftArrow:
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
                         return AcaoTipo.PortaEsquerda;
                     case ConsoleKey.UpArrow:
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
                         return AcaoTipo.PortaFrente;
                     case ConsoleKey.RightArrow:
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
                         return AcaoTipo.PortaDireita;
                     case ConsoleKey.DownArrow:
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
                         return AcaoTipo.PortaTras;
                     default:
+                        Console.WriteLine(consoleKey);
+                        consoleKey = Console.ReadKey().Key;
                         continue;
+
                 }
             }
-            return result;
         }
 
         private IDictionary<int, EscolhaView> ObtemEscolhasPorDirecao(AcaoTipo acaoTipo, IDictionary<int, EscolhaView> escolhas)
@@ -212,6 +218,54 @@ namespace NoteQuest.CLI
                     result.Add(escolha);
             }
             return result;
+        }
+
+        private void ExibeOpcoes(IDictionary<int, EscolhaView> escolhas)
+        {
+            Console.WriteLine("");
+            int selecao = 0;
+            foreach (var escolha in escolhas)
+            {
+                string titulo = escolha.Value.Titulo;
+                string descricao = escolha.Value.Descricao;
+                Console.BackgroundColor = selecao == escolha.Key ? ConsoleColor.DarkGray : ConsoleColor.Black;
+                Console.Write($" [{escolha.Key}] → {titulo} ");
+            }
+        }
+
+        private void ExibeMacroOpcoes(IDictionary<int, EscolhaView> escolhas, AcaoTipo acaoTipo = AcaoTipo.Nulo)
+        {
+            Console.Write($"\r");
+            foreach (var escolha in escolhas)
+            {
+                string titulo = escolha.Value.Titulo;
+                string descricao = escolha.Value.Descricao;
+                Console.BackgroundColor = acaoTipo == escolha.Value.AcaoTipo ? ConsoleColor.DarkGray : ConsoleColor.Black;
+                Console.Write($" [{ExibeTipoAcao(escolha.Value.AcaoTipo)}] Porta ");
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
+        }
+
+        private string ExibeTipoAcao(AcaoTipo acaoTipo)
+        {
+            switch (acaoTipo)
+            {
+                case AcaoTipo.PortaFrente:
+                    return "↑";
+                case AcaoTipo.PortaDireita:
+                    return "→";
+                case AcaoTipo.PortaTras:
+                    return "↓";
+                case AcaoTipo.PortaEsquerda:
+                    return "←";
+                case AcaoTipo.Segmento:
+                    return "■";
+                case AcaoTipo.Batalha:
+                    return "x";
+                default:
+                    return "-";
+
+            }
         }
     }
 }

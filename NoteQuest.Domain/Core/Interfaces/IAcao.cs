@@ -44,7 +44,8 @@ namespace NoteQuest.Domain.Core.Interfaces
         PortaTras,
         PortaEsquerda,
         Segmento,
-        Batalha
+        Batalha,
+        Nulo = 99
     }
 
     public interface IAcao

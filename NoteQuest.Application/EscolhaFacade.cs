@@ -39,7 +39,7 @@ namespace NoteQuest.Application
         {
             ConsequenciaDTO consequencia = EscolhasDaRodada[escolha].Acao.Executar();
             ConsequenciaView resultado = ConverteConsequencia(consequencia);
-            EscolhasDaRodada = (IDictionary<int, IEscolha>)consequencia.Escolhas;
+            EscolhasDaRodada = consequencia.EscolhasNumeradas;
 
             return resultado;
         }
@@ -47,7 +47,7 @@ namespace NoteQuest.Application
         public ConsequenciaView SelecionaEscolha(IEscolha escolha)
         {
             ConsequenciaDTO consequencia = escolha.Acao.Executar();
-            EscolhasDaRodada = (IDictionary<int, IEscolha>)consequencia.Escolhas;
+            EscolhasDaRodada = consequencia.EscolhasNumeradas;
             ConsequenciaView resultado = ConverteConsequencia(consequencia);
 
             return resultado;
@@ -62,9 +62,9 @@ namespace NoteQuest.Application
                 Escolhas = new Dictionary<int, EscolhaView>()
             };
 
-            for (var key = 1; key < consequencia.Escolhas.Count; key++)
+            var key = 1;
+            foreach (var escolha in consequencia.Escolhas)
             {
-                var escolha = consequencia.Escolhas[key];
                 EscolhaView value = new()
                 {
                     Titulo = escolha.Acao.Titulo,
@@ -72,6 +72,7 @@ namespace NoteQuest.Application
                     AcaoTipo = escolha.Acao.AcaoTipo
                 };
                 resultado.Escolhas.Add(key, value);
+                key++;
             }
 
             return resultado;
@@ -82,6 +83,7 @@ namespace NoteQuest.Application
             EntrarEmMasmorraService.Build(masmorra);
             ConsequenciaDTO consequencia = EntrarEmMasmorraService.Executar();
             ConsequenciaView resultado = ConverteConsequencia(consequencia);
+            EscolhasDaRodada = consequencia.EscolhasNumeradas;
 
             return resultado;
         }

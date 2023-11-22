@@ -25,6 +25,8 @@ namespace NoteQuest.Domain.Core.Entities.Classes.Basica
         public void Build()
         {
             //TODO: GetType não pega Interface!
+            //NoteQuest.Domain.Core.Entities.Classes.Basica.Chaveiro.Acao.get returned null.
+
             TipoAcao = Acao.GetType();
             Pv = 2;
             Nome = "Chaveiro";
