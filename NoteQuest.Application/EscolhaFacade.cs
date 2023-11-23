@@ -6,6 +6,7 @@ using NoteQuest.Domain.MasmorraContext.Services;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,8 @@ namespace NoteQuest.Application
         public EscolhaFacade(IContainer container)
         {
             Container = container;
-            PortaEntrada = Container.PortaEntrada;
-            MasmorraRepository = Container.MasmorraRepository;
+            //PortaEntrada = Container.PortaEntrada;
+            //MasmorraRepository = Container.MasmorraRepository;
         }
 
         public ConsequenciaDTO SelecionaEscolha(IEscolha escolha)

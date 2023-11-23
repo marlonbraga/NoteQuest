@@ -74,7 +74,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
             for (int i = 1; i <= qtdPortas; i++)
             {
-                Portas.Add(new Porta(this, RecuperaPosicaoPorIndice(i)));
+                Portas.Add(new PortaComum(this, RecuperaPosicaoPorIndice(i)));
             }
         }
 

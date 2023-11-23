@@ -4,6 +4,7 @@ using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 
@@ -12,8 +13,12 @@ namespace NoteQuest.CLI
 {
     public class Program
     {
+        static public IPersonagem Personagem;
+
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine(@"
                                                                                                                   
                                     (                                                                @              
@@ -37,6 +42,7 @@ namespace NoteQuest.CLI
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
             IContainer Container = new Container();
             //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
+            Personagem = CharacterProfile.CriarPersonagem();
             IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
 
             ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
@@ -60,6 +66,8 @@ namespace NoteQuest.CLI
                         break;
                     case ConsoleKey.Escape:
                     case ConsoleKey.Clear:
+                        CharacterProfile.ExibirFicha(Personagem);
+                        continue;
                         break;
                     case ConsoleKey.Enter:
                     case ConsoleKey.Spacebar:
@@ -117,6 +125,7 @@ namespace NoteQuest.CLI
                         numeroDeEscolha = 9;
                         break;
                     default:
+                        continue;
                         break;
                 }
 

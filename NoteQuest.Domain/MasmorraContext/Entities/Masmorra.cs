@@ -22,7 +22,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public bool FoiExplorada { get; set; }
         public bool FoiConquistada { get; set; }
         
-        public Masmorra(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository, int? indice = null)
+        public Masmorra(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository)
         {
             portaEntrada.Masmorra = this;
             PortaEntrada = portaEntrada;

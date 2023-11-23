@@ -21,9 +21,9 @@ namespace NoteQuest.UnitTest
             Mock<IMasmorraRepository> masmorraRepositoryMock = new();
             IMasmorraRepository masmorraRepository = masmorraRepositoryMock.Object;
 
-            Porta porta = new Porta(masmorraRepository);
+            PortaComum portaComum = new PortaComum(masmorraRepository);
 
-            Assert.AreEqual(porta.MasmorraRepository, masmorraRepository);
+            Assert.AreEqual(portaComum.MasmorraRepository, masmorraRepository);
         }
 
         [TestMethod]
@@ -35,11 +35,11 @@ namespace NoteQuest.UnitTest
             IPortaComum portaInicial = portaInicialMock.Object;
             Corredor segmento = new(portaInicial, "descrição", 2);
             Posicao posicao = Posicao.frente;
-            Porta porta = new (segmento, posicao);
+            PortaComum portaComum = new (segmento, posicao);
 
-            Assert.AreEqual(segmento, porta.SegmentoAtual);
-            Assert.AreEqual(posicao, porta.Posicao);
-            Assert.AreEqual("NoteQuest.Domain.MasmorraContext.Services.Acoes.VerificarPorta", porta.Escolhas[0].Acao.ToString());
+            Assert.AreEqual(segmento, portaComum.SegmentoAtual);
+            Assert.AreEqual(posicao, portaComum.Posicao);
+            Assert.AreEqual("NoteQuest.Domain.MasmorraContext.Services.Acoes.VerificarPorta", portaComum.Escolhas[0].Acao.ToString());
         }
 
         [TestMethod]
@@ -51,14 +51,14 @@ namespace NoteQuest.UnitTest
             IPortaComum portaInicial = portaInicialMock.Object;
             Corredor segmento = new(portaInicial, "descrição", 2);
             Posicao posicao = Posicao.frente;
-            Porta porta = new(segmento, posicao);
+            PortaComum portaComum = new(segmento, posicao);
 
-            EstadoDePorta estado1 = porta.VerificarFechadura(1);
-            EstadoDePorta estado2 = porta.VerificarFechadura(2);
-            EstadoDePorta estado3 = porta.VerificarFechadura(3);
-            EstadoDePorta estado4 = porta.VerificarFechadura(4);
-            EstadoDePorta estado5 = porta.VerificarFechadura(5);
-            EstadoDePorta estado6 = porta.VerificarFechadura(6);
+            EstadoDePorta estado1 = portaComum.VerificarFechadura(1);
+            EstadoDePorta estado2 = portaComum.VerificarFechadura(2);
+            EstadoDePorta estado3 = portaComum.VerificarFechadura(3);
+            EstadoDePorta estado4 = portaComum.VerificarFechadura(4);
+            EstadoDePorta estado5 = portaComum.VerificarFechadura(5);
+            EstadoDePorta estado6 = portaComum.VerificarFechadura(6);
 
             Assert.AreEqual(EstadoDePorta.aberta, estado1);
             Assert.AreEqual(EstadoDePorta.fechada, estado2);
@@ -77,12 +77,12 @@ namespace NoteQuest.UnitTest
             IPortaComum portaInicial = portaInicialMock.Object;
             Corredor segmento = new(portaInicial, "descrição", 2);
             Posicao posicao = Posicao.frente;
-            Porta porta = new(segmento, posicao);
+            PortaComum portaComum = new(segmento, posicao);
 
-            IPortaComum portaInversa = porta.InvertePorta();
+            IPortaComum portaInversa = portaComum.InvertePorta();
 
-            Assert.AreEqual(porta.SegmentoAlvo, portaInversa.SegmentoAtual);
-            Assert.AreEqual(porta.SegmentoAtual, portaInversa.SegmentoAlvo);
+            Assert.AreEqual(portaComum.SegmentoAlvo, portaInversa.SegmentoAtual);
+            Assert.AreEqual(portaComum.SegmentoAtual, portaInversa.SegmentoAlvo);
 
             Assert.AreEqual("NoteQuest.Domain.MasmorraContext.Services.Acoes.EntrarPelaPorta", portaInversa.Escolhas[0].Acao.ToString());
 

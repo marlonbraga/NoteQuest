@@ -8,7 +8,7 @@ namespace NoteQuest.UnitTest
         //[TestMethod]
         //public void Sala_Entrar_Sucesso()
         //{
-        //    IPortaComum porta = new Porta();
+        //    IPortaComum porta = new PortaComum();
         //    BaseSegmento salaAtual = new Sala(porta, "Sala inicial");
         //    BaseSegmento salaAlvo = new Sala(porta, "Sala posterior");
 

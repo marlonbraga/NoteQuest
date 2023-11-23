@@ -1,15 +1,13 @@
-﻿using NoteQuest.Domain.Core;
-using NoteQuest.Domain.MasmorraContext.Services.Acoes;
-using NoteQuest.Domain.Core.Interfaces;
+﻿using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System.Collections.Generic;
-using NoteQuest.Domain.MasmorraContext.Services;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
-    public class Porta : IPortaComum
+    public class PortaComum : IPortaComum
     {
         public int IdPorta { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
@@ -21,23 +19,23 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public int Andar { get; set; }
         public IMasmorra Masmorra { get; set; }
 
-        public Porta(IMasmorraRepository masmorraRepository)
+        public PortaComum(IMasmorraRepository masmorraRepository)
         {
             MasmorraRepository = masmorraRepository;
         }
 
-        public Porta(BaseSegmento segmentoAtual, Posicao posicao)
+        public PortaComum(BaseSegmento segmentoAtual, Posicao posicao)
         {
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
             Masmorra = segmentoAtual.Masmorra;
-            IAcao acao = new VerificarPorta(1,this);
+            IAcao acao = new VerificarPorta(1, this);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
             Andar = segmentoAtual.Andar;
         }
 
-        public Porta(BaseSegmento segmentoAtual, Posicao posicao, int? indice = null)
+        public PortaComum(BaseSegmento segmentoAtual, Posicao posicao, int? indice = null)
         {
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
@@ -100,7 +98,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 Posicao.tras => Posicao.frente,
                 _ => throw new System.NotImplementedException()
             };
-            IPortaComum porta = new Porta(MasmorraRepository)
+            IPortaComum porta = new PortaComum(MasmorraRepository)
             {
                 Posicao = novaPosicao,
                 EstadoDePorta = this.EstadoDePorta,
