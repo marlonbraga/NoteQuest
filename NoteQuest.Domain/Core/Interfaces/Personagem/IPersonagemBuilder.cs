@@ -1,6 +1,6 @@
-﻿using NoteQuest.Domain.Core.Interfaces.PersonagemContext.Data;
+﻿using NoteQuest.Domain.Core.Interfaces.Personagem.Data;
 
-namespace NoteQuest.Domain.Core.Interfaces.PersonagemContext
+namespace NoteQuest.Domain.Core.Interfaces.Personagem
 {
     public interface IPersonagemBuilder
     {

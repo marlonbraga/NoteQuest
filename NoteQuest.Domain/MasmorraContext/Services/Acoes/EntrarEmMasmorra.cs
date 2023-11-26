@@ -16,6 +16,9 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaEntrada PortaEntrada { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
+        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IMasmorra masmorra, IPortaEntrada portaEntrada)
         {

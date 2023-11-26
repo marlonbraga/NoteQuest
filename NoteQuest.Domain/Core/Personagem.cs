@@ -1,6 +1,6 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
 using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.ItensContext.Entities;
 using System.Collections.Generic;
 

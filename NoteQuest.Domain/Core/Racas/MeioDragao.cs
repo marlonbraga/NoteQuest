@@ -2,10 +2,14 @@
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Racas
 {
-    public class Humano : IRaca
+    public class MeioDragao : IRaca
     {
         public int Indice { get; set; }
         public string Nome { get; set; }
@@ -24,10 +28,10 @@ namespace NoteQuest.Domain.Core.Racas
         public void Build(/*IAcao acao*/)
         {
             //Acao = acao;
-            Pv = 20;
+            Pv = 30;
             QtdMagias = 0;
-            Nome = "Humano";
-            Vantagem = "Nenhuma.";
+            Nome = "Meio Dragão";
+            Vantagem = "Começa o jogo com 3 usos da Magia Básica: Bola de Fogo.";
         }
 
         public ConsequenciaDTO Efeito()

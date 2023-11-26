@@ -1,6 +1,6 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 
-namespace NoteQuest.Domain.Core.Interfaces.PersonagemContext
+namespace NoteQuest.Domain.Core.Interfaces.Personagem
 {
     public interface IClasse : IModificador
     {

@@ -8,7 +8,7 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         EstadoDePorta EstadoDePorta { get; set; }
 
         IPortaComum InvertePorta();
-        EstadoDePorta VerificarFechadura(int valorD6);
+        EstadoDePorta VerificarFechadura(int? indice = null);
         void AbrirFechadura();
         void QuebrarPorta();
     }

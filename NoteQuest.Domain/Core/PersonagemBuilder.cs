@@ -1,5 +1,5 @@
-﻿using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
-using NoteQuest.Domain.Core.Interfaces.PersonagemContext.Data;
+﻿using NoteQuest.Domain.Core.Interfaces.Personagem;
+using NoteQuest.Domain.Core.Interfaces.Personagem.Data;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core

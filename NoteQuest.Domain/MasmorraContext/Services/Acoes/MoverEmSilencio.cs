@@ -1,5 +1,6 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using System;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -7,6 +8,9 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
+        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public MoverEmSilencio()
         {

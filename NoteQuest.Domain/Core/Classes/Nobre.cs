@@ -1,12 +1,16 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
-using System;
 using NoteQuest.Domain.Core.ObjectValue;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Classes
 {
-    public class Mendigo : IClasse
+    public class Nobre : IClasse
     {
         public int Indice { get; set; }
         public string Nome { get; set; }
@@ -23,13 +27,14 @@ namespace NoteQuest.Domain.Core.Classes
 
         public void Build(/*IAcao acao*/)
         {
-            //Acao = null;
-            Pv = 4;
-            Nome = "Mendigo";
-            Vantagem = "Nenhuma.";
+            //Acao = acao;
+            Pv = 0;
+            QtdMagias = 1;
+            Nome = "Nobre";
+            Vantagem = "Começa o jogo com +1 Magia Básica aleatória. Pode construir castelos.";
             ArmaInicial = new Arma();
-            ArmaInicial.Build("Pedaço de pau", -2);
-            QtdMagias = 0;
+            ArmaInicial.Build("Rapieira", +1);
+            QtdMagias = 1;
         }
     }
 }

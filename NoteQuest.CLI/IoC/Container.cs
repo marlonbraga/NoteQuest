@@ -2,8 +2,8 @@
 using NoteQuest.Application;
 using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
-using NoteQuest.Domain.Core.Interfaces.PersonagemContext.Data;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
+using NoteQuest.Domain.Core.Interfaces.Personagem.Data;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;

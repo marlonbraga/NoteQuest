@@ -4,7 +4,7 @@ using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 

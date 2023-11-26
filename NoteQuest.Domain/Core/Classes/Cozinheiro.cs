@@ -1,12 +1,16 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
-using System;
 using NoteQuest.Domain.Core.ObjectValue;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Classes
 {
-    public class Mendigo : IClasse
+    public class Cozinheiro : IClasse
     {
         public int Indice { get; set; }
         public string Nome { get; set; }
@@ -23,12 +27,12 @@ namespace NoteQuest.Domain.Core.Classes
 
         public void Build(/*IAcao acao*/)
         {
-            //Acao = null;
-            Pv = 4;
-            Nome = "Mendigo";
-            Vantagem = "Nenhuma.";
+            //Acao = acao;
+            Pv = 2;
+            Nome = "Cozinheiro";
+            Vantagem = "Ganha 1 Provisão por monstro (que não seja morto-vivo).";
             ArmaInicial = new Arma();
-            ArmaInicial.Build("Pedaço de pau", -2);
+            ArmaInicial.Build("Cutelo");
             QtdMagias = 0;
         }
     }

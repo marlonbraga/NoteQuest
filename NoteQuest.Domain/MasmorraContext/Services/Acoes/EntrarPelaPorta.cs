@@ -3,6 +3,7 @@ using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using System;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -13,6 +14,10 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaComum Porta { get; set; }
         public IMasmorra Masmorra { get; set; }
         public int? IndicePreDefinido { get; set; }
+
+        public AcaoTipo AcaoTipo { get; set; }
+        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public Func<ConsequenciaDTO> Execucao { get; set; }
 
         public EntrarPelaPorta(IPortaComum porta, int? indicePreDefinido)
         {

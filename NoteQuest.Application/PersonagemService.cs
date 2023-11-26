@@ -1,9 +1,4 @@
-﻿using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NoteQuest.Domain.Core.Interfaces.Personagem;
 
 namespace NoteQuest.Application
 {
@@ -21,7 +16,6 @@ namespace NoteQuest.Application
             IPersonagem personagem = PersonagemBuilder.BuildPersonagem(nome, indiceRaca, indiceClasse);
             return personagem;
         }
-
         public IPersonagem CriarPersonagem()
         {
             IPersonagem personagem = PersonagemBuilder.BuildPersonagem();
@@ -45,5 +39,6 @@ namespace NoteQuest.Application
             personagem = PersonagemBuilder.DecorateClasse(personagem, indiceClasse);
             return personagem;
         }
+
     }
 }

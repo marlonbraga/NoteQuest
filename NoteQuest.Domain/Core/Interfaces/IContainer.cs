@@ -1,4 +1,4 @@
-﻿//using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
+﻿//using NoteQuest.Domain.Core.Interfaces.Personagem;
 //using NoteQuest.Domain.MasmorraContext.Interfaces;
 //using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 //using System;

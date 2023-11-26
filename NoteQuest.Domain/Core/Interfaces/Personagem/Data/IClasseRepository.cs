@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NoteQuest.Domain.Core.Interfaces.PersonagemContext.Data
+namespace NoteQuest.Domain.Core.Interfaces.Personagem.Data
 {
     public interface IClasseRepository
     {

@@ -1,7 +1,6 @@
-﻿using NoteQuest.Domain.Core.Interfaces;
-using System;
+﻿using System;
 
-namespace NoteQuest.Domain.Core.Interfaces.PersonagemContext
+namespace NoteQuest.Domain.Core.Interfaces.Personagem
 {
     public interface IRaca : IModificador
     {

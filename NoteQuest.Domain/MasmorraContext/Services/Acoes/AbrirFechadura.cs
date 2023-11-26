@@ -3,17 +3,23 @@ using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using System;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class AbrirFechadura : IAcao
+    public class AbrirFechadura : IAcaoPorta
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public IPortaComum Porta { get; set; }
+        public AcaoTipo AcaoTipo { get; set; }
+        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public Func<ConsequenciaDTO> Execucao { get; set; }
+        //public ISegmentoBuilder SegmentoFactory { get; set; }
 
-        public AbrirFechadura(int indice, IPortaComum porta)
+        public AbrirFechadura(IPortaComum porta, int? indice = null)
         {
+            GatilhoDeAcao = GatilhoDeAcao.AbrirFechadura;
             Porta = porta;
             Titulo = $"Abrir fechadura {porta.Posicao}";
             Descricao = "Abre acesso a sala trancada sem alertar monstros. Ação demorada. Gasta 1 tocha";

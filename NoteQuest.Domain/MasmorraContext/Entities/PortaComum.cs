@@ -46,9 +46,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Andar = segmentoAtual.Andar;
         }
 
-        public EstadoDePorta VerificarFechadura(int valorD6)
+        public EstadoDePorta VerificarFechadura(int? indice = null)
         {
-            switch (valorD6)
+            switch (indice)
             {
                 case 1:
                     Escolhas = AbrirPorta();
@@ -58,9 +58,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 case 2:
                 case 3:
                     EstadoDePorta = EstadoDePorta.fechada;
-                    IAcao acaoQuebrarPorta = new QuebrarPorta(1, this);
+                    IAcao acaoQuebrarPorta = new QuebrarPorta(this, 1);
                     Escolha escolhaQuebrarPorta = new(acaoQuebrarPorta);
-                    IAcao acaoAbrirFechadura = new AbrirFechadura(1, this);
+                    IAcao acaoAbrirFechadura = new AbrirFechadura(this,1);
                     Escolha escolhaAbrirFechadura = new(acaoAbrirFechadura);
                     Escolhas = new List<IEscolha>() { escolhaQuebrarPorta, escolhaAbrirFechadura };
                     break;

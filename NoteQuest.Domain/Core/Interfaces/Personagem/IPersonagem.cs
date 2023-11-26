@@ -1,7 +1,7 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
 using System.Collections.Generic;
 
-namespace NoteQuest.Domain.Core.Interfaces.PersonagemContext
+namespace NoteQuest.Domain.Core.Interfaces.Personagem
 {
     public interface IPersonagem
     {

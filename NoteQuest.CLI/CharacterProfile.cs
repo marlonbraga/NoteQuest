@@ -11,7 +11,7 @@ using System.Threading;
 using NoteQuest.Domain.Core;
 using System.Reflection.Metadata;
 using Document = Alba.CsConsoleFormat.Document;
-using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Application;
 
 namespace NoteQuest.CLI

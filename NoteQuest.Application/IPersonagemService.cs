@@ -1,4 +1,4 @@
-﻿using NoteQuest.Domain.Core.Interfaces.PersonagemContext;
+﻿using NoteQuest.Domain.Core.Interfaces.Personagem;
 
 namespace NoteQuest.Application
 {
