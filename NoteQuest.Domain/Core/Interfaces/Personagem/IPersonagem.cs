@@ -5,14 +5,13 @@ namespace NoteQuest.Domain.Core.Interfaces.Personagem
 {
     public interface IPersonagem
     {
-        public IPontosDeVida Pv { get; set; }
-        public string Nome { get; set; }
-        public IRaca Raca { get; set; }
-        public List<IClasse> Classes { get; set; }
-        public IInventario Inventario { get; set; }
+        IPontosDeVida Pv { get; set; }
+        string Nome { get; set; }
+        IRaca Raca { get; set; }
+        List<IClasse> Classes { get; set; }
+        IInventario Inventario { get; set; }
 
-        public IAcao ModificarAcao(IAcao acao);
-
-        public void Build(string nome, IRaca indiceRaca, IClasse indiceClasse);
+        IAcao ChainOfResponsabilityEfeito(IAcao acao);
+        void Build(string nome, IRaca indiceRaca, IClasse indiceClasse);
     }
 }

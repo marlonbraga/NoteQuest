@@ -14,22 +14,22 @@ namespace NoteQuest.Domain.Core
         public List<IClasse> Classes { get; set; }
         public IInventario Inventario { get; set; }
 
+        public IAcao ChainOfResponsabilityEfeito(IAcao acao)
+        {
+            IAcao acaoModificada;
+            acaoModificada = Raca.AplicaEfeito(acao);
+            foreach (IClasse classe in Classes)
+            {
+                acaoModificada = classe.AplicaEfeito(acao);
+            }
+
+            return acaoModificada;
+        }
+
         public Personagem()
         {
             Pv = new PontosDeVida();
             Inventario = new Inventario();
-        }
-
-        public IAcao ModificarAcao(IAcao acao)
-        {
-            IAcao acaoModificada;
-            acaoModificada = Raca.AtualizarAcao(acao);
-            foreach (IClasse classe in Classes)
-            {
-                acaoModificada = classe.AtualizarAcao(acao);
-            }
-
-            return acaoModificada;
         }
 
         public void Build(string nome, IRaca indiceRaca, IClasse indiceClasse)

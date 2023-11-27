@@ -25,7 +25,7 @@ namespace NoteQuest.Domain.Core.Classes
 
         public void Build()
         {
-            GatilhoDeAcao = Acao.GatilhoDeAcao;
+            GatilhoDeAcao = GatilhoDeAcao.AbrirFechadura;
             Pv = 2;
             Nome = "Chaveiro";
             Vantagem = "Não gasta tochas ao Abrir Fechaduras.";
@@ -34,24 +34,25 @@ namespace NoteQuest.Domain.Core.Classes
             QtdMagias = 0;
         }
 
-        public IAcao AtualizarAcao(IAcao acao)
+        public IAcao AplicaEfeito(IAcao acao)
         {
             if (acao.GatilhoDeAcao == this.GatilhoDeAcao)
             {
-                acao.Execucao = Efeito;
+                acao.Efeito = () => Efeito(acao);
                 return acao;
             }
             return acao;
         }
 
-        public ConsequenciaDTO Efeito()
+        public ConsequenciaDTO Efeito(IAcao acao, int? indice = null)
         {
-            IAcaoPorta acaoPorta = (IAcaoPorta)Acao;
-            Acao.Porta.SegmentoAlvo = acaoPorta.Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(acaoPorta.Porta, D6.Rolagem());
-            BaseSegmento novoSegmento = acaoPorta.Porta.SegmentoAlvo;
+            IAcaoPorta acaoPorta = (IAcaoPorta)acao;
+            IPortaComum porta = acaoPorta.Porta;
+            porta.AbrirFechadura();
+            porta.SegmentoAlvo = porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(porta, indice ?? D6.Rolagem(deslocamento: true));
+            BaseSegmento novoSegmento = porta.SegmentoAlvo;
             string texto = string.Empty;
-            texto += $"\n  Você destranca a fechadura com successo e consegue espiar um novo segmento da masmorra.";
-            texto += $"\n  Porém o processo foi demorado. A iluminação cessou te colocando outra vez na escuridão.";
+            texto += $"\n  Com as habilidade de CHAVEIRO, você destranca a fechadura rapidamente.";
             texto += $"\n  #{novoSegmento.IdSegmento}";
             texto += $"\n  {novoSegmento.Descricao}";
             texto += novoSegmento.DetalhesDescricao;
@@ -59,9 +60,8 @@ namespace NoteQuest.Domain.Core.Classes
             {
                 Descricao = texto,
                 Segmento = novoSegmento,
-
-                //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
                 Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
+                //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
             };
 
             return consequencia;

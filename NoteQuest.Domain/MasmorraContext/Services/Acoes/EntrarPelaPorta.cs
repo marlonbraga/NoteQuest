@@ -17,10 +17,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public EntrarPelaPorta(IPortaComum porta, int? indicePreDefinido)
         {
+            GatilhoDeAcao = GatilhoDeAcao.EntrarPelaPorta;
+            Efeito = delegate { return Executar(); };
             Porta = porta;
             Masmorra = porta.Masmorra;
             Titulo = $"Entrar pela porta de {porta.Posicao}";

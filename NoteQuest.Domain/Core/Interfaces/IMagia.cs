@@ -3,7 +3,7 @@ using System;
 
 namespace NoteQuest.Domain.Core.Interfaces
 {
-    public interface IMagia : IModificador
+    public interface IMagia : IEfeito
     {
         public int Indice { get; set; }
         public string Nome { get; set; }

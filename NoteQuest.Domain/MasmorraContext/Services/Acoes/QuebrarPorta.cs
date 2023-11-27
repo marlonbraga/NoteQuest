@@ -14,10 +14,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaComum Porta { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public QuebrarPorta(IPortaComum porta, int? indice = null)
         {
+            GatilhoDeAcao = GatilhoDeAcao.ArromarPorta;
+            Efeito = delegate { return Executar(); };
             Porta = porta;
             Titulo = $"Quebrar porta {porta.Posicao}";
             Descricao = "Abre acesso a sala trancada sem gastar tochas. Se houver monstros, sofrerá ataque primeiro.";

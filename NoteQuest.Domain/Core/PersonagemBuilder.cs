@@ -61,7 +61,7 @@ namespace NoteQuest.Domain.Core
         }
         private IClasse CriarClasse(int indice)
         {
-            IClasse classe = ClasseRepository.PegarClasseBasica(/*indice*/2);
+            IClasse classe = ClasseRepository.PegarClasseBasica(/*indice*/9);
             classe.Build();
 
             return classe;

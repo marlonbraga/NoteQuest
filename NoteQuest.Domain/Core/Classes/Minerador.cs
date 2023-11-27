@@ -23,7 +23,7 @@ namespace NoteQuest.Domain.Core.Classes
         public Type TipoAcao { get; set; }
         public IAcao Acao { get; set; }
 
-        public IAcao AtualizarAcao(IAcao acao) => acao;
+        public IAcao AplicaEfeito(IAcao acao) => acao;
 
         public void Build(/*IAcao acao*/)
         {

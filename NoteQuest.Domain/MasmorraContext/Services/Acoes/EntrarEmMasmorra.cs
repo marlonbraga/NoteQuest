@@ -18,10 +18,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IMasmorra masmorra, IPortaEntrada portaEntrada)
         {
+            GatilhoDeAcao = GatilhoDeAcao.EntrarEmMasmorra;
+            Efeito = delegate { return Executar(); };
             Indice = indice;
             MasmorraRepository = masmorraRepository;
             Masmorra = masmorra;

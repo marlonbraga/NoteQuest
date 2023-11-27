@@ -8,7 +8,6 @@ using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 
-
 namespace NoteQuest.CLI
 {
     public class Program
@@ -68,7 +67,6 @@ namespace NoteQuest.CLI
                     case ConsoleKey.Clear:
                         CharacterProfile.ExibirFicha(Personagem);
                         continue;
-                        break;
                     case ConsoleKey.Enter:
                     case ConsoleKey.Spacebar:
                         break;
@@ -126,12 +124,12 @@ namespace NoteQuest.CLI
                         break;
                     default:
                         continue;
-                        break;
                 }
 
                 try
                 {
-                    consequencia = escolhas[numeroDeEscolha].Acao.Executar();
+                    IAcao acao = Personagem.ChainOfResponsabilityEfeito(escolhas[numeroDeEscolha].Acao);
+                    consequencia = acao.Efeito();
                 }
                 catch
                 {
@@ -159,10 +157,12 @@ namespace NoteQuest.CLI
             Console.WriteLine();
             foreach (var porta in consequencia.Segmento.Portas)
             {
-                Console.Write($"[{porta.Posicao.ToString()}|{porta.Andar}]");
+                Console.Write($" [{porta.Posicao}|{porta.Andar}] ");
             }
             Console.WriteLine();
 
         }
+
+
     }
 }

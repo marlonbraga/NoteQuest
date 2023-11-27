@@ -16,9 +16,9 @@ namespace NoteQuest.Domain.Core.Racas
         public Type TipoAcao { get; set; }
         public IAcao Acao { get; set; }
 
-        public IAcao AtualizarAcao(IAcao acao)
+        public IAcao AplicaEfeito(IAcao acao)
         {
-            throw new NotImplementedException();
+            return acao;
         }
 
         public void Build(/*IAcao acao*/)

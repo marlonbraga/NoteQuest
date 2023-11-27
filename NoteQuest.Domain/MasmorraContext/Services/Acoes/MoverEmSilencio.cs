@@ -10,10 +10,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public MoverEmSilencio()
         {
+            GatilhoDeAcao = GatilhoDeAcao.MoverEmSilencio;
+            Efeito = delegate { return Executar(); };
             Titulo = "Mover-se em silêncio";
             Descricao = "Tenta entrar em sala sem que os monstros te percebam. Se falhar, sofrerá ataque primeiro. Gasta 1 tocha";
         }

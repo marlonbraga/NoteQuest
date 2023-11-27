@@ -58,8 +58,8 @@ namespace NoteQuest.Domain.Core.Interfaces
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
-        public ConsequenciaDTO Executar(int? indice = null);
+        //ConsequenciaDTO Executar(int? indice = null);
     }
 }

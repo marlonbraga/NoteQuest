@@ -10,10 +10,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public SairDeMasmorra()
         {
+            GatilhoDeAcao = GatilhoDeAcao.SairDeMasmorra;
+            Efeito = delegate { return Executar(); };
             Titulo = "Sair de Masmorra";
             Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
         }

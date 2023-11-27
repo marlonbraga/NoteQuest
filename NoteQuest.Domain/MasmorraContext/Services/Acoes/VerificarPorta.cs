@@ -15,10 +15,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public VerificarPorta(object indice, IPortaComum porta)
         {
+            GatilhoDeAcao = GatilhoDeAcao.VerificarPorta;
+            Efeito = delegate { return Executar(); };
             Porta = porta;
             Titulo = "Verificar porta";
             Descricao = "Checar se está aberta ou fechada. Pode acionar armadilhas.";

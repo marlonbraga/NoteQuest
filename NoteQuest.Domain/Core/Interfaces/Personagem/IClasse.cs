@@ -2,7 +2,7 @@
 
 namespace NoteQuest.Domain.Core.Interfaces.Personagem
 {
-    public interface IClasse : IModificador
+    public interface IClasse : IEfeito
     {
         public int Indice { get; set; }
         public string Nome { get; set; }

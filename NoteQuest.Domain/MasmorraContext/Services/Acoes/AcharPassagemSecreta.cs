@@ -10,10 +10,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public AcharPassagemSecreta()
         {
+            GatilhoDeAcao = GatilhoDeAcao.AcharPassagemSecreta;
+            Efeito = delegate { return Executar(); };
             Titulo = "Procurar passagem secreta";
             Descricao = "Ação demorada. Gasta 1 tocha";
         }

@@ -26,15 +26,15 @@ namespace NoteQuest.Application
             //MasmorraRepository = Container.MasmorraRepository;
         }
 
-        public ConsequenciaDTO SelecionaEscolha(IEscolha escolha)
-        {
-            return escolha.Acao.Executar();
-        }
+        //public ConsequenciaDTO SelecionaEscolha(IEscolha escolha)
+        //{
+        //    return escolha.Acao.Executar();
+        //}
 
-        public ConsequenciaDTO SelecionaEscolha(IEscolha escolha, int indice)
-        {
-            return escolha.Acao.Executar();
-        }
+        //public ConsequenciaDTO SelecionaEscolha(IEscolha escolha, int indice)
+        //{
+        //    return escolha.Acao.Executar();
+        //}
 
         //public ConsequenciaDTO VerificarPorta(int indice, IPortaComum porta)
         //{

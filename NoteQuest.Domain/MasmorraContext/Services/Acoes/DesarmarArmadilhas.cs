@@ -10,10 +10,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Execucao { get; set; }
+        public Func<ConsequenciaDTO> Efeito { get; set; }
 
         public DesarmarArmadilhas()
         {
+            GatilhoDeAcao = GatilhoDeAcao.DesarmarArmadilha;
+            Efeito = delegate { return Executar(); };
             Titulo = "Desarmar armadilhas";
             Descricao = "Torna sala segura quanto a armadilhas. Ação demorada. Gasta 1 tocha";
         }

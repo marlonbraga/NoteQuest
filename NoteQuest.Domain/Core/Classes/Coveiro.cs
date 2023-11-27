@@ -4,10 +4,6 @@ using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -24,7 +20,7 @@ namespace NoteQuest.Domain.Core.Classes
         public Type TipoAcao { get; set; }
         public IAcao Acao { get; set; }
 
-        public IAcao AtualizarAcao(IAcao acao) => acao;
+        public IAcao AplicaEfeito(IAcao acao) => acao;
 
         public void Build(/*IAcao acao*/)
         {
