@@ -16,6 +16,8 @@ namespace NoteQuest.CLI
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.InputEncoding = System.Text.Encoding.UTF8;
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine(@"
@@ -39,6 +41,24 @@ namespace NoteQuest.CLI
         static void CriarNovoJogo()
         {
             //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
+            /*
+
+            Salão mediano com três portas.
+            Contém grande mesa com algumas cadeiras. Pode conter passagem secreta.
+            No chão, encontra-se o corpo de um antigo aventureiro com seu inventário.
+
+            ███████▬▬███████   [Esc]   Inventário 
+            ██            ██   [Space] Vasculhar
+            ██         !  ██   [0]     Magias
+            ▌?    ᴕᴕ      X▌   [1][↑]  Porta da frente 
+            ██     ᴕᴕ     ██   [2][←]  Porta da esquerda 
+            ██            ██   [3][→]  Porta da direita  (Trancada)
+            ███████  ███████   [4][↓]  Porta de trás 
+
+             [1][→]  Porta(trancada)
+             [ destrancar ]  [ quebrar ]  [▲] |  (Descrição sobre a escolha selecionada)
+
+             */
             IContainer Container = new Container();
             //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
             Personagem = CharacterProfile.CriarPersonagem();
@@ -48,15 +68,23 @@ namespace NoteQuest.CLI
             EscreverCabecalho(consequencia, masmorra);
             Console.WriteLine(consequencia.Descricao);
             List<IEscolha> escolhas = consequencia.Escolhas;
+
+            IDictionary<int, string[]> escolhasMenu = new Dictionary<int, string[]>();
             for (int i = 0; i < escolhas.Count; i++)
             {
                 string Titulo = escolhas[i].Acao.Titulo;
                 string Descricao = escolhas[i].Acao.Descricao;
-                Console.WriteLine($"{i} → {Titulo} ({Descricao})");
+                escolhasMenu[i] = new[] { Titulo, "", $"({Descricao})"};
+                //Console.WriteLine($"{i} → {Titulo} ({Descricao})");
             }
             int numeroDeEscolha = 0;
+
+
             do
             {
+
+                numeroDeEscolha = Menu.MenuVertical(escolhasMenu);
+                /*
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.Backspace:
@@ -125,6 +153,7 @@ namespace NoteQuest.CLI
                     default:
                         continue;
                 }
+                */
 
                 try
                 {
@@ -140,11 +169,13 @@ namespace NoteQuest.CLI
                 EscreverCabecalho(consequencia, masmorra);
                 Console.WriteLine(consequencia.Descricao);
                 escolhas = consequencia.Escolhas;
+                escolhasMenu.Clear();
                 for (int i = 0; i < escolhas.Count; i++)
                 {
                     string Titulo = escolhas[i].Acao.Titulo;
                     string Descricao = escolhas[i].Acao.Descricao;
-                    Console.WriteLine($"{i} → {Titulo}");
+                    escolhasMenu[i] = new[] { Titulo, "", $"({Descricao})" };
+                    //Console.WriteLine($"{i} → {Titulo}");
                 }
             } while (true);
         }
@@ -166,3 +197,64 @@ namespace NoteQuest.CLI
 
     }
 }
+
+
+/*
+ ---
+
+╔══════════════════════════════════════════════════╗
+║  PERSONAGEM: Iglu                                ║
+║  ■ Raça: Humano                                  ║
+║  ■ Classe: Chaveiro, Vingador                    ║
+║    Não gasta tochas para abrir fechaduras        ║
+║  ■ Moedas:    0                                  ║
+║  ■ Tochas:    ■■■■■■□□□□ 6/10                    ║
+║  ■ Provisões: ■■■■■■■■■■■■■■■■■■■□ 19/20         ║
+║  ■ PV:        ●●●●●●●●●●●●●●●●●○○○○○ 17/22       ║
+║  ■ Inventário:                                   ║
+║        ▪ Mochila:  ■■■■■■□□□□ 6/10               ║
+║        ▪ Armadura:                               ║
+║           ▪ Elmo:       ●●●●●● 6/6               ║
+║           ▪ Peitoral:   ●●●●●●○○○○ 6/10          ║
+║           ▪ Braceletes: ●● 2/2                   ║
+║        ▪ Livro de Magias:                        ║
+║           ▪ Cura            ■□□ 1/3              ║
+║           ▪ Luz:            ■■■ 3/3              ║
+║           ▪ Teletransporte: ■□ 1/2               ║
+║           ▪ Raio de Gelo:   ■■■ 3/3              ║
+║           ▪ Relâmpago:      ■ 1/1                ║
+╚══════════════════════════════════════════════════╝
+
+ Pergaminho de cura
+ [◄] [ usar]  [ equipar ]  [ descartar ]  [▲] [►]
+
+[▲] 
+[0] X   
+[1] (MÃO)    Adaga da destruição (1d6+1)
+[2] (MÃO)    Tocha       ■■■■■■□□□□ 6/10
+[3] (CABEÇA) Elmo        ●●●●●● 6/6    
+[4] (PEITO)  Peitoral    ●●●●●●○○○○ 6/10    
+[5] (BRAÇOS) Braceletes  ●● 2/2  
+[▼]
+
+ ----
+
+COMBATE INICIADO!
+
+╔═════▬▬══════╗   [Esc]   Inventário 
+║             ║   [0][Space] Lutar (Adaga [1d6] -1)
+║             ║   [1]  Cura (■□□) (Recurera 5 PV)
+▌?    ᴥᴥ      X   [2]  Luz  (■□□)
+║      ᴥᴥ     ║   [3]  Teletransporte (■■)
+║             ║   [4]  Raio de Gelo (□□)
+╚════════  ═══╝   [5]  Relâmpago (□)
+
+Iglu ♥●●●●●●●●●●●●●●●●●ᴓ○○○○ 17/22
+[▲]
+[0] X
+[1] Goblin Gordo  ●●●
+[2] Goblin Caolho ●●●
+[3] Goblin Feio   ●●○
+[2] Goblin Caolho ●●●
+[▼]
+ */

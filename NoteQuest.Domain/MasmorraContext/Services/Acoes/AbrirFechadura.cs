@@ -22,7 +22,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             GatilhoDeAcao = GatilhoDeAcao.AbrirFechadura;
             Porta = porta;
             Titulo = $"Abrir fechadura {porta.Posicao}";
-            Descricao = "Abre acesso a sala trancada sem alertar monstros. Ação demorada. Gasta 1 tocha";
+            Descricao = "Arrombar fechadura silenciosamente. Ação demorada.";
             Efeito = delegate
                 {
                     //TODO: Evento de escuridão (remover 1 tocha ou encerrar o eeita da magia LUZ)

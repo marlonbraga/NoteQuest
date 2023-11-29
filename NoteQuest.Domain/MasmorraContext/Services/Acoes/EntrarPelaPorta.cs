@@ -26,7 +26,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Porta = porta;
             Masmorra = porta.Masmorra;
             Titulo = $"Entrar pela porta de {porta.Posicao}";
-            Descricao = "Acessa nova sala. Se houver monstros, você ataca primeiro.";
+            Descricao = "Acessa novo segmento";
             IndicePreDefinido = indicePreDefinido;
         }
 
@@ -36,7 +36,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
-            texto += $"\n  Você abre a porta revelando um segmento da masmorra.";
+            texto += $"\n  Você abre a porta revelando um segmento da masmorra";
             texto += $"\n  #{novoSegmento.IdSegmento}";
             texto += $"\n  {novoSegmento.Descricao}";
             texto += novoSegmento.DetalhesDescricao;

@@ -23,7 +23,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Efeito = delegate { return Executar(); };
             Porta = porta;
             Titulo = "Verificar porta";
-            Descricao = "Checar se está aberta ou fechada. Pode acionar armadilhas.";
+            Descricao = "Pode acionar armadilhas";
         }
 
         public ConsequenciaDTO Executar(int? indice = null)

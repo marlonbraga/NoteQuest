@@ -11,3 +11,4 @@ namespace NoteQuest.Domain.Core.DTO
         public List<IEscolha> Escolhas { get; set; }
     }
 }
+//TODO: Tipo de Consequencia. BATALHA / EXPLORAÇÃO EM MASMORRA / EXPLORAÇÃO MUNDO / CIDADE / EVENTO (ESCURIDÃO)

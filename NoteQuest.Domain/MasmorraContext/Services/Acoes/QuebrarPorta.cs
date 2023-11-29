@@ -22,7 +22,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Efeito = delegate { return Executar(); };
             Porta = porta;
             Titulo = $"Quebrar porta {porta.Posicao}";
-            Descricao = "Abre acesso a sala trancada sem gastar tochas. Se houver monstros, sofrerá ataque primeiro.";
+            Descricao = "Abre porta rapidamente. Alerta monstros.";
         }
 
         public ConsequenciaDTO Executar(int? indice = null)

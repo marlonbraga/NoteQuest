@@ -17,7 +17,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             GatilhoDeAcao = GatilhoDeAcao.SairDeMasmorra;
             Efeito = delegate { return Executar(); };
             Titulo = "Sair de Masmorra";
-            Descricao = "Pode voltar a cidade para se recuperar. Mas os montros da masmorra também restaurarão as energias.";
+            Descricao = "Voltar para a cidade";
         }
 
         public ConsequenciaDTO Executar(int? indice = null)
