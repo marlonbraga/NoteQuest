@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using System.Linq;
+using NoteQuest.Domain.CombateContext.Entities;
+using NoteQuest.Domain.ItensContext.Interfaces;
+using Spectre.Console;
+using NoteQuest.Domain.Core;
 
 namespace NoteQuest.CLI
 {
@@ -57,16 +62,48 @@ namespace NoteQuest.CLI
 
              [1][→]  Porta(trancada)
              [ destrancar ]  [ quebrar ]  [▲] |  (Descrição sobre a escolha selecionada)
+            ---
+               0 1 2 3 4 5 6 7
+            0 ██████▬▬████████ 0
+            1 ██            ██ 1
+            2 ██         !  ██ 2
+            3 ▌?    ᴕᴕ      X▌ 3
+            4 ██     ᴕᴕ     ██ 4
+            5 ██            ██ 5
+            6 ██████████  ████ 6
+               0 1 2 3 4 5 6 7
+            Itens de Title:
+            - ██ Parede simples
+            - ▬▬ Porta aberta frente-tras
+            - XX Porta trancada frente-tras
+            - ?? Porta inverificada frente-tras
+            - ▌ Porta aberta esquerda
+            - ▌X Porta trancada esquerda
+            - ▌? Porta inverificada esquerda
+            -  ▐ Porta aberta direita
+            - X▐ Porta trancada direita
+            - ?▐ Porta inverificada direita
+            -    Porta quebrada
+            - ᴥ  Monstro vivo
+            -  ᴕ Monstro morto
+            - □  Passagem secreta
+            -  ! Opção de vasculhar
+            - 
 
-             */
+            */
             IContainer Container = new Container();
             //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
             Personagem = CharacterProfile.CriarPersonagem();
             IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
+            _ = masmorra.GerarNome(/*index ?? D6.Rolagem(1,true)*/0, D6.Rolagem(1, true), D6.Rolagem(1, true));
+            Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n");
+            //Masmorra.Build(D6.Rolagem(), D6.Rolagem(), D6.Rolagem());
+
+            AnsiConsole.MarkupLine($"   [yellow]{masmorra.Nome.ToUpper()}[/]\n");
 
             ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
-            EscreverCabecalho(consequencia, masmorra);
             Console.WriteLine(consequencia.Descricao);
+            EscreverSala(consequencia, masmorra);
             List<IEscolha> escolhas = consequencia.Escolhas;
 
             IDictionary<int, string[]> escolhasMenu = new Dictionary<int, string[]>();
@@ -75,86 +112,12 @@ namespace NoteQuest.CLI
                 string Titulo = escolhas[i].Acao.Titulo;
                 string Descricao = escolhas[i].Acao.Descricao;
                 escolhasMenu[i] = new[] { Titulo, "", $"({Descricao})"};
-                //Console.WriteLine($"{i} → {Titulo} ({Descricao})");
             }
             int numeroDeEscolha = 0;
 
-
             do
             {
-
                 numeroDeEscolha = Menu.MenuVertical(escolhasMenu);
-                /*
-                switch (Console.ReadKey().Key)
-                {
-                    case ConsoleKey.Backspace:
-                        break;
-                    case ConsoleKey.Tab:
-                        break;
-                    case ConsoleKey.Escape:
-                    case ConsoleKey.Clear:
-                        CharacterProfile.ExibirFicha(Personagem);
-                        continue;
-                    case ConsoleKey.Enter:
-                    case ConsoleKey.Spacebar:
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        Console.WriteLine("◄");
-                        break;
-                    case ConsoleKey.UpArrow:
-                        Console.WriteLine("▲");
-                        break;
-                    case ConsoleKey.RightArrow:
-                        Console.WriteLine("►");
-                        break;
-                    case ConsoleKey.DownArrow:
-                        Console.WriteLine("▼");
-                        break;
-                    case ConsoleKey.D0:
-                    case ConsoleKey.NumPad0:
-                        numeroDeEscolha = 0;
-                        break;
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        numeroDeEscolha = 1;
-                        break;
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        numeroDeEscolha = 2;
-                        break;
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        numeroDeEscolha = 3;
-                        break;
-                    case ConsoleKey.D4:
-                    case ConsoleKey.NumPad4:
-                        numeroDeEscolha = 4;
-                        break;
-                    case ConsoleKey.D5:
-                    case ConsoleKey.NumPad5:
-                        numeroDeEscolha = 5;
-                        break;
-                    case ConsoleKey.D6:
-                    case ConsoleKey.NumPad6:
-                        numeroDeEscolha = 6;
-                        break;
-                    case ConsoleKey.D7:
-                    case ConsoleKey.NumPad7:
-                        numeroDeEscolha = 7;
-                        break;
-                    case ConsoleKey.D8:
-                    case ConsoleKey.NumPad8:
-                        numeroDeEscolha = 8;
-                        break;
-                    case ConsoleKey.D9:
-                    case ConsoleKey.NumPad9:
-                        numeroDeEscolha = 9;
-                        break;
-                    default:
-                        continue;
-                }
-                */
-
                 try
                 {
                     IAcao acao = Personagem.ChainOfResponsabilityEfeito(escolhas[numeroDeEscolha].Acao);
@@ -166,8 +129,11 @@ namespace NoteQuest.CLI
                     continue;
                 }
                 
-                EscreverCabecalho(consequencia, masmorra);
                 Console.WriteLine(consequencia.Descricao);
+
+                EscreverSala(consequencia, masmorra);
+                Console.WriteLine();
+                Mapa.DesenharSala(consequencia.Segmento);
                 escolhas = consequencia.Escolhas;
                 escolhasMenu.Clear();
                 for (int i = 0; i < escolhas.Count; i++)
@@ -175,26 +141,63 @@ namespace NoteQuest.CLI
                     string Titulo = escolhas[i].Acao.Titulo;
                     string Descricao = escolhas[i].Acao.Descricao;
                     escolhasMenu[i] = new[] { Titulo, "", $"({Descricao})" };
-                    //Console.WriteLine($"{i} → {Titulo}");
                 }
             } while (true);
         }
 
-        static void EscreverCabecalho(ConsequenciaDTO consequencia, IMasmorra masmorra)
+        static void EscreverSala(ConsequenciaDTO consequencia, IMasmorra masmorra)
         {
             Console.WriteLine();
-            Console.WriteLine("=========================================================================");
-            Console.WriteLine($"SALA: {consequencia.Segmento.IdSegmento} | ANDAR: {consequencia.Segmento.Andar} | INEXPLORADAS: {masmorra.QtdPortasInexploradas}");
-            Console.WriteLine();
-            foreach (var porta in consequencia.Segmento.Portas)
-            {
-                Console.Write($" [{porta.Posicao}|{porta.Andar}] ");
-            }
-            Console.WriteLine();
+            AdicionaConteudo(consequencia.Segmento.Descricao, "cyan");
+            if (consequencia.Segmento.GetType() != typeof(Sala))
+                return;
+            AdicionaConteudo(((Sala)consequencia.Segmento).DescricaoConteudo);
+            AdicionaMonstros(((Sala)consequencia.Segmento).Monstros);
+        }
+        
+        private static string[] conteudosInterativos =
+        {
+            "uma porta", "duas portas", "três portas", "Baú", "moedas", "Passagem Secreta", "Pergaminhos", "Itens Mágicos"
+        };
 
+        private static void AdicionaConteudo(string conteudo, string cor = "bold blue")
+        {
+            if (conteudo == null)
+                return;
+            for (int i = 0; i < conteudosInterativos.Length; i++)
+            {
+                conteudo = conteudo.Replace(conteudosInterativos[i], $"[{cor}]{conteudosInterativos[i]}[/]");
+            }
+            AnsiConsole.MarkupLine(conteudo);
         }
 
+        private static void AdicionaMonstros(List<Monstro> monstros)
+        {
+            string result = "";
+            if (monstros == null)
+                return;
+            if (monstros.Count > 0)
+            {
+                result = $"Nesse cômodo, encontra-se [bold red]{monstros.Count} {monstros[0].Nome}[/] distraído(s) (PV:{monstros[0].PV}; Dano:{monstros[0].Dano}).";
+            }
+            if (monstros.Count == 1)
+            {
+                result = result.Replace("(s)","");
+            }
+            if (monstros.Count > 1)
+            {
+                result = result.Replace("(s)","s");
+            }
 
+            AnsiConsole.MarkupLine(result);
+        }
+        
+        private static string AdicionaConteudo(IConteudo conteudo)
+        {
+            string result = "";
+            result += $"Contém {conteudo.Descricao}";
+            return $"Contém {conteudo.Descricao}";
+        }
     }
 }
 

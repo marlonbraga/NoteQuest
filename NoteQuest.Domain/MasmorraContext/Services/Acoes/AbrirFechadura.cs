@@ -32,9 +32,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
                     string texto = string.Empty;
                     texto += $"\n  Você gasta algum tempo tentando arrombar o cadeado. A porta é destravada revelando um segmento da masmorra.";
                     texto += $"\n  Porém o processo foi demorado. A iluminação cessou te colocando outra vez na escuridão.";
-                    texto += $"\n  #{novoSegmento.IdSegmento}";
-                    texto += $"\n  {novoSegmento.Descricao}";
-                    texto += novoSegmento.DetalhesDescricao;
                     ConsequenciaDTO consequencia = new()
                     {
                         Descricao = texto,

@@ -7,6 +7,7 @@ using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 
 namespace NoteQuest.Domain.MasmorraContext.Services
@@ -90,6 +91,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             descricao += masmorraData[IndiceMasmorraAtual].TabelaChefeDaMasmorra[(int)indice].Descricao;
             int qtdPortas = 0;
             BaseSegmento segmento = new Sala(portaDeEntrada, descricao, qtdPortas);
+            segmento.DetalhesDescricao = masmorraData[IndiceMasmorraAtual].TabelaChefeDaMasmorra[(int)indice].Descricao;
             portaDeEntrada.Masmorra.SalaFinal = segmento;
             //segmento = ((Sala)segmento).AdicionaMonstros(GeraChefe((TabelaChefeDaMasmorra)masmorraData[IndiceMasmorraAtual].TabelaChefeDaMasmorra[D6.Rolagem(1, deslocamento: true)]));
 
@@ -143,6 +145,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services
                 case "sala":
                     segmento = new Sala(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
                     segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros((TabelaMonstro)masmorraData[IndiceMasmorraAtual].TabelaMonstro[D6.Rolagem(2, deslocamento: true)]));
+                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo((TabelaConteudo)masmorraData[IndiceMasmorraAtual].TabelaConteudo[D6.Rolagem(2, deslocamento: true)]));
                     break;
                 case "corredor":
                     segmento = new Corredor(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
@@ -184,20 +187,10 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             return monstros;
         }
 
-        //private List<IConteudo> GeraConteudo(TabelaConteudo tabelaConteudo)
-        //{
-        //    IConteudo conteudo = new(tabelaMonstro.nome, tabelaMonstro.dano, tabelaMonstro.pvs)
-        //    {
-        //        Caracteristicas = { tabelaMonstro.caracteristicas }
-        //    };
-        //    List<Monstro> monstros = new();
-        //    for (int i = 0; i < tabelaMonstro.qtd; i++)
-        //    {
-        //        conteudo.Add(monstro);
-        //    }
-
-        //    return conteudo;
-        //}
+        private static IConteudo GeraConteudo(TabelaConteudo tabelaConteudo)
+        {
+            return new Conteudo(tabelaConteudo);
+        }
 
         private static int ConverteQtdMonstros(string qtd)
         {

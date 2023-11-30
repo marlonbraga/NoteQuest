@@ -32,9 +32,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Você aplica diversos golpes a porta. O barulho ecoa pelo ambinete. A porta logo é quebrada revelando um segmento da masmorra.";
-            texto += $"\n  #{novoSegmento.IdSegmento}";
-            texto += $"\n  {novoSegmento.Descricao}";
-            texto += novoSegmento.DetalhesDescricao;
             ConsequenciaDTO consequencia = new()
             {
                 Descricao = texto,

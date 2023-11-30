@@ -9,6 +9,7 @@ namespace NoteQuest.Infrastructure.Data.Masmorra
     public class MasmorraRepository : IMasmorraRepository
     {
         public IMasmorraData DadosDeMasmorra { get; set; }
+        public IMasmorraNomes MasmorraNomenclatura { get; set; }
 
         public IMasmorraData PegarDadosMasmorra(string nomeMasmorra = "Palacio")
         {
@@ -34,6 +35,25 @@ namespace NoteQuest.Infrastructure.Data.Masmorra
             catch (JsonSerializationException ex)
             {
                 throw ex;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public IMasmorraNomes PegarNomesMasmorra()
+        {
+            string json = LerArquivoTexto("NomeMasmorraBasico.json");
+            MasmorraNomenclatura = ConverterNomes(json);
+            return MasmorraNomenclatura;
+        }
+        private MasmorraNomesDTO ConverterNomes(string json)
+        {
+            try
+            {
+                MasmorraNomesDTO resultado = JsonConvert.DeserializeObject<MasmorraNomesDTO>(json);
+                return resultado;
             }
             catch
             {

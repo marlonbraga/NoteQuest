@@ -48,7 +48,7 @@
     {"indice":3, "descricao":"Cozinha destruída e 1d6 moedas.", "moedas":"1D6"},
     {"indice":4, "descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta."},
     {"indice":5, "descricao":"Estante de livro e 1d6 Pergaminhos.", "pergaminho":"1D6"},
-    {"indice":6, "descricao":"Escrivaninha com 1 Baú.", "baú":"1"},
+    {"indice":6, "descricao":"Escrivaninha com um Baú.", "baú":"1"},
     {"indice":7, "descricao":"Sujeira por todos cantos. Pode ter Passagem Secreta.", "PassagemSecreta":true},
     {"indice":8, "descricao":"Cama com um Baú ao lado.", "baú":"1"},
     {"indice":9, "descricao":"Jardim coberto por plantas. Pode ter Passagem Secreta.", "PassagemSecreta":true},

@@ -10,7 +10,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public string DescricaoConteudo { get; set; }
         public string DescricaoMonstros { get; set; }
         public List<Monstro> Monstros { get; set; }
-        public List<IConteudo> Conteudo { get; set; }
+        public IConteudo Conteudo { get; set; }
 
         public Sala(IPortaComum portaDeEntrada, string descricao, int qtdPortas) : base(portaDeEntrada, descricao, qtdPortas)
         {
@@ -30,15 +30,16 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             if(monstros.Count > 0)
             {
                 Monstros = monstros;
-                DescricaoMonstros = $"\n  Há {monstros.Count} {monstros[0].Nome} na sala! (PV:{monstros[0].PV}; Dano:{monstros[0].Dano})";
+                DescricaoMonstros = $"Nesse cômodo, encontra-se {monstros.Count} {monstros[0].Nome}(s) distraído(s) (PV:{monstros[0].PV}; Dano:{monstros[0].Dano}).";
                 DetalhesDescricao += DescricaoMonstros;
             }
             return this;
         }
-        public Sala AdicionaConteudo(List<IConteudo> conteudo)
+        public Sala AdicionaConteudo(IConteudo conteudo)
         {
             Conteudo = conteudo;
-            DescricaoConteudo = $"";
+            DescricaoConteudo = $"Contém {conteudo.Descricao}";
+            DetalhesDescricao += DescricaoConteudo;
             return this;
         }
     }

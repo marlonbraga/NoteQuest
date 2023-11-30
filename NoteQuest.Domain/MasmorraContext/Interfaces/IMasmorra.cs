@@ -12,5 +12,6 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         public bool FoiConquistada { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
         public ConsequenciaDTO EntrarEmMasmorra();
+        string GerarNome(int parte1, int parte2, int parte3);
     }
 }
