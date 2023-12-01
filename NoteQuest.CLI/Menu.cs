@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NoteQuest.Domain.Core;
+using Spectre.Console;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -101,6 +103,8 @@ namespace NoteQuest.CLI
                 {
                     case ConsoleKey.Escape:
                     case ConsoleKey.Clear:
+                        Console.Write("╔");
+                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
                         continue;
                     case ConsoleKey.UpArrow:
                         selecao = (ushort)Math.Max(0, selecao - 1);

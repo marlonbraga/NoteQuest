@@ -94,6 +94,8 @@ namespace NoteQuest.CLI
             IContainer Container = new Container();
             //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
             Personagem = CharacterProfile.CriarPersonagem();
+            AnsiConsole.Markup(CharacterProfile.ExibirFicha(Personagem));
+
             IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
             _ = masmorra.GerarNome(/*index ?? D6.Rolagem(1,true)*/0, D6.Rolagem(1, true), D6.Rolagem(1, true));
             Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n");

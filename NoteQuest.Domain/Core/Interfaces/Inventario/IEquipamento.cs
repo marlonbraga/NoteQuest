@@ -2,6 +2,6 @@
 {
     public interface IEquipamento : IItem
     {
-
+        IPontosDeVida Pv { get; set; }
     }
 }

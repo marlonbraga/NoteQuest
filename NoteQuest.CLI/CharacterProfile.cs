@@ -7,79 +7,124 @@ using NoteQuest.CLI.IoC;
 //using NoteQuest.Application.Interfaces;
 //using NoteQuest.Domain.Core.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using NoteQuest.Domain.Core;
 using System.Reflection.Metadata;
 using Document = Alba.CsConsoleFormat.Document;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Application;
+using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
+using Spectre.Console;
 
 namespace NoteQuest.CLI
 {
     public static class CharacterProfile
     {
         static public IContainer Container;
+        static public IPersonagem Personagem;
 
-        public static void ExibirFicha(IPersonagem personagem)
+        public static string ExibirFicha(IPersonagem? personagem = null, int linhas = 0)
         {
+            Personagem = personagem ?? Personagem;
+            IItensEquipados equipamentos = Personagem.Inventario.Equipamentos;
             var headerThickness = new LineThickness(LineWidth.Single, LineWidth.None);
 
-            var doc = new Document(
-                new Span("\n\nPERSONAGEM: ") { Color = Yellow }, personagem.Nome, "\n\n",
-                new Span("  ■ Classe: ") { Color = Yellow }, personagem.Classes[0].Nome,
-                new Span(" ■ Raça: ") { Color = Yellow }, personagem.Raca.Nome, "\n",
-                new Span("  ■ PV: ") { Color = Yellow }, $"{personagem.Pv.Pv}/{personagem.Pv.PvMaximo}",
-                new Span(" ■ Moedas: ") { Color = Yellow }, $"{personagem.Inventario.Moedas}", "\n",
-                new Span("  ■ Tochas: ") { Color = Yellow }, personagem.Inventario.Tochas,
-                new Span(" ■ Provisões: ") { Color = Yellow }, personagem.Inventario.Provisoes, "\n",
-                new Span("\n■ Itens Equipados ■") { Color = Yellow },
-                new Grid
-                {
-                    Color = Gray,
-                    Columns = { GridLength.Auto, GridLength.Auto },
-                    Children = {
-                        new Cell("Nome") { Stroke = headerThickness },
-                        new Cell("Descrição") { Stroke = headerThickness },
-                        personagem.Inventario.Equipamentos.Listar().Select(item => new[] {
-                            new Cell(item.Nome) { Align = Align.Right },
-                            new Cell(item.Descricao) { Align = Align.Left },
-                        })
-                    }
-                },
-                new Span($"\n■ Mochila (") { Color = Yellow }, personagem.Inventario.Mochila.Count,
-                new Span($"/10) ■") { Color = Yellow },
-                new Grid
-                {
-                    Color = Gray,
-                    Columns = { GridLength.Auto, GridLength.Auto },
-                    Children = {
-                        new Cell("Item") { Stroke = headerThickness },
-                        new Cell("Descrição") { Stroke = headerThickness },
-                        personagem.Inventario.Mochila.Select(item => new[] {
-                            new Cell(item.Nome) { Align = Align.Right },
-                            new Cell(item.Descricao) { Align = Align.Left },
-                        }),
-                        new Cell(" ") { Align = Align.Right },
-                        new Cell(" ") { Align = Align.Left }
-                    }
-                }
-            );
+            string ficha = $@"
+╔═ [underline][yellow]Personagem:[/] {Personagem.Nome} [/]
+║
+║ [yellow]■ Raça:[/]      {Personagem.Raca.Nome}
+║ [yellow]■ Classe:[/]    {GetClassesNome(Personagem.Classes)}
+║                    [gray]{GetClassesDescricao(Personagem.Classes)}[/]
+║ ▪ Moedas:    [#daa520]{Personagem.Inventario.Moedas}[/]
+║ ▪ Tochas:    [yellow]{GetTochaBar(Personagem)} {Personagem.Inventario.Tochas}/10[/]
+║ ▪ Provisões: [#4f7942]{GetProvisaoBar(Personagem)} {Personagem.Inventario.Provisoes}/20[/]
+║ ▪ PV:        [red]{GetPvBar(Personagem)} {Personagem.Pv.Pv}/{Personagem.Pv.PvMaximo}[/]
+║ [yellow]■ Inventário[/]
+║    [yellow]▪ Mochila:[/] {GetMochilaBar(Personagem)} {Personagem.Inventario.Mochila.Count}/10
+║    [yellow]▪ Equipamentos:[/]
+║       [gray]Mão 1[/]  {equipamentos.MaoDireita?.Nome} {equipamentos.MaoDireita?.Descricao}
+║       [gray]Mão 2[/]  [yellow]Tocha[/]{equipamentos.MaoEsquerda?.Nome} {equipamentos.MaoEsquerda?.Descricao}
+║       [gray]Peito[/]  {equipamentos.Peitoral?.Nome} {GetPv(equipamentos.Peitoral?.Pv)}
+║       [gray]Cabeça[/] {equipamentos.Elmo?.Nome} {GetPv(equipamentos.Elmo?.Pv)}
+║       [gray]Pernas[/] {equipamentos.Botas?.Nome} {GetPv(equipamentos.Botas?.Pv)}
+║       [gray]Braços[/] {equipamentos.Braceletes?.Nome} {GetPv(equipamentos.Braceletes?.Pv)}
+║    [yellow]▪ Livro de Magias:[/]
+║       [gray]- sem magias -[/]
+║       Cura   [#ad5cad]■□□ 1/3[/]
+╚═";
 
-            var doc1 = new Document(
-                new Grid
-                {
-                    Color = Gray,
-                    Columns = { GridLength.Auto },
-                    Children = {
-                        new Cell(doc) { Stroke = new LineThickness(LineWidth.Heavy, LineWidth.Heavy) }
-                    }
-                }
-            );
+            //AnsiConsole.Markup(ficha);
+            string espaçamento = "";
+            for (int i = 0; i <= linhas; i++)
+            {
+                espaçamento += "\n";
+            }
+            //AnsiConsole.Markup(espaçamento);
+            return (ficha + espaçamento);
+        }
 
-            Console.WriteLine();
-            Console.Write(">");
-            ConsoleRenderer.RenderDocument(doc1);
-            Console.WriteLine();
+        public static string GetProvisaoBar(IPersonagem personagem)
+        {
+            ushort maxLimit = 20;
+            ushort qtdProvisoes = personagem.Inventario.Provisoes;
+            return GetBar('■', '□', maxLimit, qtdProvisoes);
+        }
+
+        public static string GetMochilaBar(IPersonagem personagem)
+        {
+            int maxLimit = 10;
+            int qtdItens = personagem.Inventario.Mochila.Count();
+            return GetBar('■', '□', maxLimit, qtdItens);
+        }
+
+        public static string GetTochaBar(IPersonagem personagem)
+        {
+            ushort maxLimit = 10;
+            ushort qtdTochas = personagem.Inventario.Tochas;
+            return GetBar('■', '□', maxLimit, qtdTochas);
+        }
+
+        public static string GetPvBar(IPersonagem personagem)
+        {
+            int maxLimit = personagem.Pv.PvMaximo;
+            int qtdPontosDeVida = personagem.Pv.Pv;
+            return GetBar('●', '○', maxLimit, qtdPontosDeVida);
+        }
+
+        public static string GetPv(IPontosDeVida? pontosDeVida)
+        {
+            if (pontosDeVida is null) return String.Empty;
+            int maxLimit = pontosDeVida.PvMaximo;
+            int qtdPontosDeVida = pontosDeVida.Pv;
+            return GetBar('●', '○', maxLimit, qtdPontosDeVida);
+        }
+
+        public static string GetBar(char full, char empty, int max, int actual)
+        {
+            string result = string.Empty;
+            int i = 0;
+            for (; i < actual; i++)
+            {
+                result += full;
+            }
+            for (; i < max; i++)
+            {
+                result += empty;
+            }
+
+            return result;
+        }
+
+        public static string GetClassesNome(List<IClasse> classes)
+        {
+            return string.Join(", ", classes.Select(x=>x.Nome));
+        }
+
+        public static string GetClassesDescricao(List<IClasse> classes)
+        {
+            return string.Join("\n", classes.Select(x => x.Descricao));
         }
 
         public static IPersonagem CriarPersonagem()
