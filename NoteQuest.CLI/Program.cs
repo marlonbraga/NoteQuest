@@ -104,6 +104,7 @@ namespace NoteQuest.CLI
             ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
             Console.WriteLine(consequencia.Descricao);
             EscreverSala(consequencia, masmorra);
+            Mapa.DesenharSala(consequencia.Segmento);
             List<IEscolha> escolhas = consequencia.Escolhas;
 
             IDictionary<int, string[]> escolhasMenu = new Dictionary<int, string[]>();

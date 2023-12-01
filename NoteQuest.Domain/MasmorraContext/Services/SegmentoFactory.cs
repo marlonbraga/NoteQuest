@@ -87,7 +87,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             indice ??= D6.Rolagem(1, true);
             portaDeEntrada.Masmorra.QtdPortasInexploradas--;
 
-            string descricao = "SALA FINAL\nA Grande sala sem portas e cheia de tesouros guardados pelo chefe da masmorra.\n";
+            string descricao = "[red]SALA FINAL[/]\nA Grande sala sem portas e cheia de tesouros guardados pelo chefe da masmorra.\n";
             descricao += masmorraData[IndiceMasmorraAtual].TabelaChefeDaMasmorra[(int)indice].Descricao;
             int qtdPortas = 0;
             BaseSegmento segmento = new Sala(portaDeEntrada, descricao, qtdPortas);

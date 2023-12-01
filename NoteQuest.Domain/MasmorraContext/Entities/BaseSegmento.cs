@@ -83,9 +83,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             switch (indice)
             {
                 case 1: return Posicao.frente;
-                case 2: return Posicao.direita;
-                case 3: return Posicao.tras;
-                case 4: return Posicao.esquerda;
+                case 2: return Posicao.esquerda; 
+                case 3: return Posicao.direita;
+                case 4: return Posicao.tras;
                 default: return Posicao.frente;
             }
         }

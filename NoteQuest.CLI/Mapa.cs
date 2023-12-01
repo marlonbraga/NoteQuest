@@ -1,4 +1,5 @@
-﻿using NoteQuest.Domain.MasmorraContext.Entities;
+﻿using Alba.CsConsoleFormat;
+using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using Spectre.Console;
 using System;
@@ -25,36 +26,59 @@ namespace NoteQuest.CLI
         public static void DesenharSala(BaseSegmento segmento)
         {
             if (mapaGeral is null)
-                mapaGeral = new Dictionary<(string,int), StringBuilder[]>();
+            {
+                mapaGeral = new Dictionary<(string, int), StringBuilder[]>();
+                string salaInicial = @"█████████████████████████████████/n██           ║[#444]▓▓▓▓▓[/]║           ██/n██    [#333]██[/]     ║[#555]▒▒▒▒▒[/]║     [#333]██[/]    ██/n██           ║[#666]░░░░░[/]║           ██/n██           ║[#222]░░░░░[/]║           ██/n██              [cyan]▲[/]              ██/n██                             ██/n??  [cyan]◄[/]                       [cyan]►[/]  ??/n██                             ██/n██                             ██/n██    [#333]██[/]                 [#333]██[/]    ██/n██              [bold yellow]▼[/]              ██/n██████████████▬▬▬▬▬██████████████";
+                string[] salaArray = salaInicial.Split("/n");
+                StringBuilder[] sala0 = new StringBuilder[salaArray.Length];
+                for (int i = 0; i < salaArray.Length; i++)
+                {
+                    sala0[i] = new StringBuilder(salaArray[i].Replace("\n",""));
+                }
+                mapaGeral[(segmento.Masmorra.Nome, segmento.IdSegmento)] = sala0;
+            }
 
             int altura = 7;
             int largura = 7;
+            bool ehSalaFinal = segmento.Masmorra.SalaFinal == segmento;
+            StringBuilder[] salaF = null;
+            if (ehSalaFinal)
+            {
+                string salaFinal = @"████████████████████████████████/n██                            ██/n██    ██                ██    ██/n██                            ██/n██                            ██/n██                            ██/n██    ██                ██    ██/n██                            ██/n████████████████████████████████";
+                string[] salaArray = salaFinal.Split("/n");
+                salaF = new StringBuilder[salaArray.Length];
+                for (int i = 0; i < salaArray.Length; i++)
+                {
+                    salaF[i] = new StringBuilder(salaArray[i].Replace("\n", ""));
+                }
+            }
+
             int qtdMonstros = 0;
+
             if (segmento.GetType() == typeof(PortaEntrada))
                 return;
             if (segmento.GetType() == typeof(Sala))
             {
-                altura = 7;
-                largura = 7;
+                if(segmento.Descricao.Contains("SALA FINAL")) { altura = 9; largura = 16; }
+                else if(segmento.Descricao.Contains("Pequena sala")) { altura = 5; largura = 4; }
+                else if(segmento.Descricao.Contains("Sala mediana")) { altura = 7; largura = 7; }
+                else if(segmento.Descricao.Contains("Sala comprida")) { altura = 9; largura = 5; }
+                else if (segmento.Descricao.Contains("Grande salão")) { altura = 9; largura = 9; }
+                else if (segmento.Descricao.Contains("Salão comprido")) { altura = 12; largura = 7; }
+                else if (segmento.Descricao.Contains("Grande salão com pilares")) { altura = 12; largura = 9; }
+                else { altura = 7; largura = 7; }
                 qtdMonstros = ((Sala)segmento).Monstros?.Count ?? 0;
             }
-            if (segmento.GetType() == typeof(Corredor))
-            {
-                altura = 7;
-                largura = 3;
-            }
-            if (segmento.GetType() == typeof(Escadaria))
-            {
-                altura = 9;
-                largura = 3;
-            }
+            if (segmento.GetType() == typeof(Corredor)) { altura = 7; largura = 3; }
+            if (segmento.GetType() == typeof(Escadaria)) { altura = 9; largura = 3; }
 
             StringBuilder[] sala;
+
             if (mapaGeral.ContainsKey((segmento.Masmorra.Nome, segmento.IdSegmento)))
                 sala = mapaGeral[(segmento.Masmorra.Nome, segmento.IdSegmento)];
             else
             {
-                sala = CriarSala(altura, largura);
+                sala = ehSalaFinal ? salaF : CriarSala(altura, largura);
                 foreach (var porta in segmento.Portas)
                 {
                     sala = CriarPortas(altura, largura, sala, porta.Posicao);
@@ -75,15 +99,18 @@ namespace NoteQuest.CLI
                     case EstadoDePorta.quebrada:
                         sala = QuebrarPorta(sala, porta.Posicao);
                         break;
-                    default:
-                        break;
                 }
             }
 
             sala = MatarInimigo(sala, qtdMonstros);
 
             mapaGeral[(segmento.Masmorra.Nome, segmento.IdSegmento)] = sala;
-            DesenharSala(sala);
+            string cor = "grey";
+            if(segmento.IdSegmento == 0)
+                cor = "#daa520";
+            if(segmento.Masmorra.SalaFinal == segmento)
+                cor = "red";
+            DesenharSala(sala, cor);
         }
 
         public static StringBuilder[] CriarSala(int altura, int largura)
@@ -116,20 +143,32 @@ namespace NoteQuest.CLI
                 case Posicao.esquerda:
                     for (int I = 0; I < sala.Length; I++)
                     {
-                        if (!sala[I][0].ToString().Contains(PortaInverificada[0]))
+                        if (!sala[I][0]
+                                .ToString()
+                                .Contains(PortaInverificada[0]))
                             continue;
-
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaInverificada, novaPorta ?? PortaEsquerda));
+                        sala[I] = new StringBuilder(novaPorta + sala[I].ToString().Substring(2));
                         break;
-                    }
+                    }     
                     break;
                 case Posicao.direita:
                     for (int I = 1; I < sala.Length; I++)
                     {
-                        if (!sala[I][sala.Length - 2].ToString().Contains(PortaInverificada[0]))
+                        var stringo = sala[I][sala[I].Length - 1].ToString();
+                        if (!sala[I][sala[I].Length - 1]
+                                .ToString()
+                                .Replace("[#daa520]", "")
+                                .Replace("[cyan]", "")
+                                .Replace("[#333]", "")
+                                .Replace("[bold yellow]", "")
+                                .Replace("[#444]", "")
+                                .Replace("[#555]", "")
+                                .Replace("[#666]", "")
+                                .Replace(@"[/]", "")
+                                .Contains(PortaInverificada[0]))
                             continue;
-
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaInverificada, novaPorta ?? PortaDireita));
+                        string linha = sala[I].ToString();
+                        sala[I] = new StringBuilder(sala[I].ToString().Substring(0, linha.Length - 2) + novaPorta);
                         break;
                     }
                     break;
@@ -143,6 +182,7 @@ namespace NoteQuest.CLI
 
         public static StringBuilder[] QuebrarPorta(StringBuilder[] sala, Posicao parede = Posicao.frente) //frente-esq-dir-tras
         {
+
             switch (parede)
             {
                 case Posicao.frente:
@@ -152,22 +192,21 @@ namespace NoteQuest.CLI
                 case Posicao.esquerda:
                     for (int I = 0; I < sala.Length; I++)
                     {
-                        if (!sala[I][0].ToString().Contains(PortaInverificada[0]) && !sala[I][0].ToString().Contains(PortaTrancada[0]))
+                        if (!sala[I][1].ToString().Contains(PortaInverificada[0]) && !sala[I][0].ToString().Contains(PortaTrancada[0]))
                             continue;
 
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaInverificada, PortaQuebrada));
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaTrancada, PortaQuebrada));
+                        sala[I] = new StringBuilder(PortaQuebrada + sala[I].ToString().Substring(2));
                         break;
                     }
                     break;
                 case Posicao.direita:
                     for (int I = 1; I < sala.Length; I++)
                     {
-                        if (!sala[I][sala.Length - 2].ToString().Contains(PortaInverificada[0]) && !sala[I][sala.Length - 2].ToString().Contains(PortaTrancada[0]))
+                        if (!sala[I][sala[I].Length - 2].ToString().Contains(PortaInverificada[0]) && !sala[I][sala[I].Length - 2].ToString().Contains(PortaTrancada[0]))
                             continue;
 
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaInverificada, PortaQuebrada));
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaTrancada, PortaQuebrada));
+                        string linha = sala[I].ToString();
+                        sala[I] = new StringBuilder(sala[I].ToString().Substring(0, linha.Length - 2) + PortaQuebrada);
                         break;
                     }
                     break;
@@ -194,19 +233,18 @@ namespace NoteQuest.CLI
                         if (!sala[I][0].ToString().Contains(PortaInverificada[0]) && !sala[I][0].ToString().Contains(PortaTrancada[0]))
                             continue;
 
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaInverificada, PortaEsquerda));
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaTrancada, PortaEsquerda));
+                        sala[I] = new StringBuilder(PortaEsquerda + sala[I].ToString().Substring(2));
                         break;
                     }
                     break;
                 case Posicao.direita:
                     for (int I = 1; I < sala.Length; I++)
                     {
-                        if (!sala[I][sala.Length - 2].ToString().Contains(PortaInverificada[0]) && !sala[I][sala.Length - 2].ToString().Contains(PortaTrancada[0]))
+                        if (!sala[I][sala[I].Length - 2].ToString().Contains(PortaInverificada[0]) && !sala[I][sala[I].Length - 2].ToString().Contains(PortaTrancada[0]))
                             continue;
 
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaInverificada, PortaDireita));
-                        sala[I] = new StringBuilder(sala[I].ToString().Replace(PortaTrancada, PortaDireita));
+                        string linha = sala[I].ToString();
+                        sala[I] = new StringBuilder(sala[I].ToString().Substring(0, linha.Length - 2) + PortaDireita);
                         break;
                     }
                     break;
@@ -294,14 +332,14 @@ namespace NoteQuest.CLI
             }
         }
 
-        public static void DesenharSala(StringBuilder[] sala)
+        public static void DesenharSala(StringBuilder[] sala, string cor = "grey")
         {
             string linha;
             for (int i = 0; i < sala.Length; i++)
             {
                 linha = sala[i].ToString().Replace(MonstroVivo, $"[red]{MonstroVivo}[/]");
                 linha = linha.Replace(OpcaoDeVasculhar, $"[white]{OpcaoDeVasculhar}[/]");
-                AnsiConsole.MarkupLine(linha);
+                AnsiConsole.MarkupLine($"[{cor}]{linha}[/]");
             }
         }
 
