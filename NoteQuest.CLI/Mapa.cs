@@ -23,7 +23,7 @@ namespace NoteQuest.CLI
 
         private static IDictionary<(string,int), StringBuilder[]> mapaGeral;
 
-        public static void DesenharSala(BaseSegmento segmento)
+        public static string DesenharSala(BaseSegmento segmento)
         {
             if (mapaGeral is null)
             {
@@ -56,7 +56,7 @@ namespace NoteQuest.CLI
             int qtdMonstros = 0;
 
             if (segmento.GetType() == typeof(PortaEntrada))
-                return;
+                return string.Empty;
             if (segmento.GetType() == typeof(Sala))
             {
                 if(segmento.Descricao.Contains("SALA FINAL")) { altura = 9; largura = 16; }
@@ -110,7 +110,7 @@ namespace NoteQuest.CLI
                 cor = "#daa520";
             if(segmento.Masmorra.SalaFinal == segmento)
                 cor = "red";
-            DesenharSala(sala, cor);
+            return DesenharSala(sala, cor);
         }
 
         public static StringBuilder[] CriarSala(int altura, int largura)
@@ -332,15 +332,27 @@ namespace NoteQuest.CLI
             }
         }
 
-        public static void DesenharSala(StringBuilder[] sala, string cor = "grey")
+        public static string DesenharSala(StringBuilder[] sala, string cor = "grey")
         {
+            string result = string.Empty;
             string linha;
             for (int i = 0; i < sala.Length; i++)
             {
                 linha = sala[i].ToString().Replace(MonstroVivo, $"[red]{MonstroVivo}[/]");
                 linha = linha.Replace(OpcaoDeVasculhar, $"[white]{OpcaoDeVasculhar}[/]");
-                AnsiConsole.MarkupLine($"[{cor}]{linha}[/]");
+                result += linha + "\n";
             }
+
+            return $"{result}";
+            //return $"[{cor}]{result}[/]";
+        }
+
+        public static string DesenharLinhaDeSala(string linhaDeSala)
+        {
+            linhaDeSala = linhaDeSala.Replace(MonstroVivo, $"[red]{MonstroVivo}[/]");
+            linhaDeSala = linhaDeSala.Replace(OpcaoDeVasculhar, $"[white]{OpcaoDeVasculhar}[/]");
+ 
+            return linhaDeSala;
         }
 
         public static StringBuilder[] MatarInimigo(StringBuilder[] sala, int qtdMonstroVivo = 1)

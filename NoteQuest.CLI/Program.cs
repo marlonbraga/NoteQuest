@@ -12,6 +12,11 @@ using NoteQuest.Domain.CombateContext.Entities;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using Spectre.Console;
 using NoteQuest.Domain.Core;
+using Alba.CsConsoleFormat;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices.ComTypes;
+using NoteQuest.Domain.Core.ObjectValue;
+using Spectre.Console.Rendering;
 
 namespace NoteQuest.CLI
 {
@@ -25,7 +30,7 @@ namespace NoteQuest.CLI
             Console.InputEncoding = System.Text.Encoding.UTF8;
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine(@"
+            AnsiConsole.MarkupLine(@"[darkgreen]
                                                                                                                   
                                     (                                                                @              
 .#@@@@@@/           @@&    @@@@@@@@@@@@@@@@@@@%.     @@@@@@                                @@@@@@@@@@@@@@@@@@@@,    
@@ -38,14 +43,13 @@ namespace NoteQuest.CLI
 &@%             @@@@@@@,                             @%   (@@@@@@@@@@@@@@@@@@@@@@@%,          &@                    
                        .*.                                     .&@@@@(                                             
            
-");
+[/]");
             
             CriarNovoJogo();
         }
 
         static void CriarNovoJogo()
         {
-            //Console.WriteLine("→↓↔←↑▲►▼◄█▓▒░ ▌▐");
             /*
 
             Salão mediano com três portas.
@@ -62,100 +66,119 @@ namespace NoteQuest.CLI
 
              [1][→]  Porta(trancada)
              [ destrancar ]  [ quebrar ]  [▲] |  (Descrição sobre a escolha selecionada)
-            ---
-               0 1 2 3 4 5 6 7
-            0 ██████▬▬████████ 0
-            1 ██            ██ 1
-            2 ██         !  ██ 2
-            3 ▌?    ᴕᴕ      X▌ 3
-            4 ██     ᴕᴕ     ██ 4
-            5 ██            ██ 5
-            6 ██████████  ████ 6
-               0 1 2 3 4 5 6 7
-            Itens de Title:
-            - ██ Parede simples
-            - ▬▬ Porta aberta frente-tras
-            - XX Porta trancada frente-tras
-            - ?? Porta inverificada frente-tras
-            - ▌ Porta aberta esquerda
-            - ▌X Porta trancada esquerda
-            - ▌? Porta inverificada esquerda
-            -  ▐ Porta aberta direita
-            - X▐ Porta trancada direita
-            - ?▐ Porta inverificada direita
-            -    Porta quebrada
-            - ᴥ  Monstro vivo
-            -  ᴕ Monstro morto
-            - □  Passagem secreta
-            -  ! Opção de vasculhar
-            - 
 
             */
             IContainer Container = new Container();
             //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
+            
+            //CRIA PERSONAGEM
             Personagem = CharacterProfile.CriarPersonagem();
             AnsiConsole.Markup(CharacterProfile.ExibirFicha(Personagem));
 
+            //CRIA MASMORRA
             IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
             _ = masmorra.GerarNome(/*index ?? D6.Rolagem(1,true)*/0, D6.Rolagem(1, true), D6.Rolagem(1, true));
             Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n");
             //Masmorra.Build(D6.Rolagem(), D6.Rolagem(), D6.Rolagem());
 
-            AnsiConsole.MarkupLine($"   [yellow]{masmorra.Nome.ToUpper()}[/]\n");
+            AnsiConsole.MarkupLine($"   [underline yellow]{masmorra.Nome.ToUpper()}[/]\n");
 
             ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
             Console.WriteLine(consequencia.Descricao);
-            EscreverSala(consequencia, masmorra);
-            Mapa.DesenharSala(consequencia.Segmento);
             List<IEscolha> escolhas = consequencia.Escolhas;
+            
+            int numeroDePorta = 0;
 
-            IDictionary<int, string[]> escolhasMenu = new Dictionary<int, string[]>();
-            for (int i = 0; i < escolhas.Count; i++)
-            {
-                string Titulo = escolhas[i].Acao.Titulo;
-                string Descricao = escolhas[i].Acao.Descricao;
-                escolhasMenu[i] = new[] { Titulo, "", $"({Descricao})"};
-            }
-            int numeroDeEscolha = 0;
-
+            //Nova Partida
+            IAcao acao = null;
             do
             {
-                numeroDeEscolha = Menu.MenuVertical(escolhasMenu);
-                try
-                {
-                    IAcao acao = Personagem.ChainOfResponsabilityEfeito(escolhas[numeroDeEscolha].Acao);
-                    consequencia = acao.Efeito();
-                }
-                catch
-                {
-                    Console.WriteLine(" [Opção inválida!]");
-                    continue;
-                }
-                
-                Console.WriteLine(consequencia.Descricao);
-
+                Console.WriteLine("-------------------------------------------------");
                 EscreverSala(consequencia, masmorra);
-                Console.WriteLine();
-                Mapa.DesenharSala(consequencia.Segmento);
-                escolhas = consequencia.Escolhas;
-                escolhasMenu.Clear();
-                for (int i = 0; i < escolhas.Count; i++)
+                TipoMenu tipoMenu = Menu.MenuSegmento(consequencia.Segmento);
+                BaseSegmento sala = consequencia.Segmento;
+                int portaIndex = 0;
+                IPorta porta;
+                switch (tipoMenu)
                 {
-                    string Titulo = escolhas[i].Acao.Titulo;
-                    string Descricao = escolhas[i].Acao.Descricao;
-                    escolhasMenu[i] = new[] { Titulo, "", $"({Descricao})" };
+                    case TipoMenu.Porta1:
+                        portaIndex = 0;
+                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
+                        if (porta?.Escolhas?.Count == 1)
+                        {
+                            acao = porta.Escolhas.Single().Acao;
+                            if (acao is null) continue;
+                            break;
+                        }
+                        acao = Menu.MenuPorta(porta);
+                        if (acao is null) continue;
+                        break;
+                    case TipoMenu.Porta2:
+                        portaIndex = 1;
+                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
+                        if (porta?.Escolhas?.Count == 1)
+                        {
+                            acao = porta.Escolhas.Single().Acao;
+                            if (acao is null) continue;
+                            break;
+                        }
+                        acao = Menu.MenuPorta(porta);
+                        if (acao is null) continue;
+                        break;
+                    case TipoMenu.Porta3:
+                        portaIndex = 2;
+                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
+                        if (porta?.Escolhas?.Count == 1)
+                        {
+                            acao = porta.Escolhas.Single().Acao;
+                            if (acao is null) continue;
+                            break;
+                        }
+                        acao = Menu.MenuPorta(porta);
+                        if (acao is null) continue;
+                        break;
+                    case TipoMenu.Porta4:
+                        portaIndex = 3;
+                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
+                        if (porta?.Escolhas?.Count == 1)
+                        {
+                            acao = porta.Escolhas.Single().Acao;
+                            if (acao is null) continue;
+                            break;
+                        }
+                        acao = Menu.MenuPorta(porta);
+                        if (acao is null) continue;
+                        break;
+                    case TipoMenu.Sala:
+                        continue;
+                    case TipoMenu.Inventário:
+                        Console.Write("╔");
+                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
+                        break;
+                    case TipoMenu.Equipamentos:
+                        continue;
+                    case TipoMenu.Mochila:
+                        continue;
+                    case TipoMenu.Magias:
+                        continue;
+                    default:
+                        continue;
                 }
+
+                //Executa Ação
+                consequencia = acao.Efeito();
+                AnsiConsole.MarkupLine(consequencia.Descricao);
             } while (true);
         }
 
         static void EscreverSala(ConsequenciaDTO consequencia, IMasmorra masmorra)
         {
-            Console.WriteLine();
             AdicionaConteudo(consequencia.Segmento.Descricao, "cyan");
             if (consequencia.Segmento.GetType() != typeof(Sala))
                 return;
             AdicionaConteudo(((Sala)consequencia.Segmento).DescricaoConteudo);
             AdicionaMonstros(((Sala)consequencia.Segmento).Monstros);
+            Console.WriteLine();
         }
         
         private static string[] conteudosInterativos =

@@ -7,9 +7,9 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
     public enum Posicao : int
     {
         frente = 0,
-        direita = 1,
-        tras = 2,
-        esquerda = 3
+        esquerda = 1,
+        direita = 2,
+        tras = 3,
     }
     public enum EstadoDePorta : int
     {

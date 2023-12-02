@@ -49,10 +49,11 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             }
             switch (indice)
             {
-                case 1:
+                case 1://Palácio
                     IAcao novaAcao = new EntrarPelaPorta((IPortaComum)segmento.Portas[0], 5);
                     novaAcao.Titulo = "Descer escadaria";
                     segmento.Portas[0].Escolhas[0].Acao = novaAcao;
+                    segmento.Portas[0].EstadoDePorta = EstadoDePorta.aberta;
                     masmorra.QtdPortasInexploradas = 3;
                     break;
                 default:

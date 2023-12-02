@@ -17,7 +17,8 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra);
             IPorta portaDeEntrada = new PortaEntrada()
             {
-                Escolhas = new() { sairDeMasmorra }
+                Escolhas = new() { sairDeMasmorra },
+                Posicao = Posicao.tras
             };
             this.Portas.Add(portaDeEntrada);
         }

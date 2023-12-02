@@ -29,7 +29,6 @@ namespace NoteQuest.CLI
         {
             Personagem = personagem ?? Personagem;
             IItensEquipados equipamentos = Personagem.Inventario.Equipamentos;
-            var headerThickness = new LineThickness(LineWidth.Single, LineWidth.None);
 
             string ficha = $@"
 ╔═ [underline][yellow]Personagem:[/] {Personagem.Nome} [/]
@@ -55,13 +54,11 @@ namespace NoteQuest.CLI
 ║       Cura   [#ad5cad]■□□ 1/3[/]
 ╚═";
 
-            //AnsiConsole.Markup(ficha);
             string espaçamento = "";
             for (int i = 0; i <= linhas; i++)
             {
                 espaçamento += "\n";
             }
-            //AnsiConsole.Markup(espaçamento);
             return (ficha + espaçamento);
         }
 
