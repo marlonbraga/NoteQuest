@@ -1,30 +1,31 @@
 {
-  "Descrição": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre. Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.",
+  "Descricao": "Esta masmorra está dentro de uma grande construção com uma poderosa porta de entrada. Antigamente este foi o lar de algum nobre.",
+  "SegmentoInicial": {"segmento":"sala", "descricao":"Ao abrir a porta você encontra um salão gigante com duas portas em cada lado e uma escadaria no centro levando para baixo. Ao final da escadaria há uma porta.", "qtdPortas":3},
   "TabelaSegmentos":
   {
     "TabelaAPartirDeEscadaria": [
-      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "portas":"1"},
-      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":"2"},
-      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":"2"},
-      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "portas":"2"},
-      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":"3"},
-      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "portas":"3"}
+      {"indice":1, "segmento":"corredor", "descricao":"Corredor com uma porta.", "qtdPortas":1},
+      {"indice":2, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      {"indice":3, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      {"indice":4, "segmento":"corredor", "descricao":"Corredor com duas portas.", "qtdPortas":2},
+      {"indice":5, "segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3},
+      {"indice":6, "segmento":"corredor", "descricao":"Corredor com três portas.", "qtdPortas":3}
     ],
     "TabelaAPartirDeCorredor": [
-      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":"1"},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "portas":"1"},
-      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "portas":"1"},
-      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "portas":"2"},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "portas":"2"},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":"1"}
+      {"indice":1, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
+      {"indice":2, "segmento":"sala", "descricao":"Sala mediana com uma porta.", "qtdPortas":1},
+      {"indice":3, "segmento":"sala", "descricao":"Sala comprida com uma porta.", "qtdPortas":1},
+      {"indice":4, "segmento":"sala", "descricao":"Sala comprida com duas portas.", "qtdPortas":2},
+      {"indice":5, "segmento":"sala", "descricao":"Grande salão com duas portas.", "qtdPortas":2},
+      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
     ],
     "TabelaAPartirDeSala": [
-      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "portas":"0"},
-      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "portas":"0"},
-      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "portas":"0"},
-      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "portas":"0"},
-      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "portas":"0"},
-      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "portas":"1"}
+      {"indice":1, "segmento":"sala", "descricao":"Pequena sala.", "qtdPortas":0},
+      {"indice":2, "segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
+      {"indice":3, "segmento":"sala", "descricao":"Sala mediana.", "qtdPortas":0},
+      {"indice":4, "segmento":"sala", "descricao":"Salão comprido.", "qtdPortas":0},
+      {"indice":5, "segmento":"sala", "descricao":"Grande salão com pilares.", "qtdPortas":0},
+      {"indice":6, "segmento":"escadaria", "descricao":"Escadaria com uma porta no fundo.", "qtdPortas":1}
     ]
   },
   "TabelaPassagemSecreta": [
@@ -43,12 +44,12 @@
     {"indice":5, "descricao":"Um click, mas nada acontece."},
     {"indice":6, "descricao":"Um click, mas nada acontece."}
   ],
-  "TabelaConteúdo": [
+  "TabelaConteudo": [
     {"indice":2, "descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},
     {"indice":3, "descricao":"Cozinha destruída e 1d6 moedas.", "moedas":"1D6"},
     {"indice":4, "descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta."},
     {"indice":5, "descricao":"Estante de livro e 1d6 Pergaminhos.", "pergaminho":"1D6"},
-    {"indice":6, "descricao":"Escrivaninha com um Baú.", "baú":"1"},
+    {"indice":6, "descricao":"Escrivaninha com 1 Baú.", "baú":"1"},
     {"indice":7, "descricao":"Sujeira por todos cantos. Pode ter Passagem Secreta.", "PassagemSecreta":true},
     {"indice":8, "descricao":"Cama com um Baú ao lado.", "baú":"1"},
     {"indice":9, "descricao":"Jardim coberto por plantas. Pode ter Passagem Secreta.", "PassagemSecreta":true},
@@ -87,7 +88,7 @@
       {"indice":5, "descricao":"Poção da Fúria", "efeito":"(Dano +2 até o final do combate)"},
       {"indice":6, "descricao":"Lamparina", "efeito":"(Não precisa usar mãos pra iluminar)"}
     ],
-    "TabelaItemMágico": [
+    "TabelaItemMagico": [
       {"indice":1, "descricao":"[Armadura] da Realeza ", "efeito":"(É muito elegante)"},
       {"indice":2, "descricao":"[Armadura] do Leprechaun", "efeito":"(Ganha o dobro de moedas em baús)"},
       {"indice":3, "descricao":"[Armadura] do Centurião", "efeito":"(+1 PV)"},

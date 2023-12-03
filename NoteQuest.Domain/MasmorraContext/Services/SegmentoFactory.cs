@@ -46,14 +46,22 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             foreach (var porta in segmento.Portas)
             {
                 porta.Masmorra = masmorra;
+                foreach (var escolha in porta.Escolhas)
+                {
+                    if (escolha.Acao.GetType() == typeof(VerificarPorta))
+                        ((VerificarPorta)escolha.Acao).Masmorra = masmorra;
+                }
             }
+
             switch (indice)
             {
                 case 1://Palácio
-                    IAcao novaAcao = new EntrarPelaPorta((IPortaComum)segmento.Portas[0], 5);
+                    int index = segmento.Portas.FindIndex(s => s.Posicao == Posicao.frente);
+                    IAcao novaAcao = new EntrarPelaPorta((IPortaComum)segmento.Portas[index], 5);
                     novaAcao.Titulo = "Descer escadaria";
-                    segmento.Portas[0].Escolhas[0].Acao = novaAcao;
+                    segmento.Portas[index].Escolhas[0].Acao = novaAcao;
                     segmento.Portas[0].EstadoDePorta = EstadoDePorta.aberta;
+
                     masmorra.QtdPortasInexploradas = 3;
                     break;
                 default:

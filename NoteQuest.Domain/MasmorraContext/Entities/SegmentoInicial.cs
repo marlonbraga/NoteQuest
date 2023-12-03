@@ -3,6 +3,7 @@ using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
@@ -10,17 +11,18 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
     {
         public SegmentoTipo Segmento { get; set; }
 
-        public SegmentoInicial(int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IMasmorra masmorra) : base(descricao, qtdPortas, masmorra)
+        public SegmentoInicial(int qtdPortas, string descricao, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory) : base(descricao, qtdPortas)
         {
             Andar = 0;
             IAcao acaoSairDeMasmorra = new SairDeMasmorra();
             IEscolha sairDeMasmorra = new Escolha(acaoSairDeMasmorra);
+
             IPorta portaDeEntrada = new PortaEntrada()
             {
                 Escolhas = new() { sairDeMasmorra },
                 Posicao = Posicao.tras
             };
-            this.Portas.Add(portaDeEntrada);
+            this.Portas = SubstituirPorta(this.Portas, portaDeEntrada);
         }
     }
 }

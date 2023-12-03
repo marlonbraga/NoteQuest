@@ -14,7 +14,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaComum Porta { get; set; }
         public IMasmorra Masmorra { get; set; }
         public int? IndicePreDefinido { get; set; }
-
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
         public Func<ConsequenciaDTO> Efeito { get; set; }

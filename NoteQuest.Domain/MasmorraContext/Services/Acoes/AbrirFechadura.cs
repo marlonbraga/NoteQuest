@@ -28,15 +28,14 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
                     //TODO: Evento de escuridão (remover 1 tocha ou encerrar o eeita da magia LUZ)
                     Porta.AbrirFechadura();
                     Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indice ?? D6.Rolagem(deslocamento: true));
-                    BaseSegmento novoSegmento = Porta.SegmentoAlvo;
                     string texto = string.Empty;
                     texto += $"\n  Você gasta algum tempo tentando arrombar o cadeado. A porta é destravada revelando um segmento da masmorra.";
                     texto += $"\n  Porém o processo foi demorado. A iluminação cessou te colocando outra vez na escuridão.";
                     ConsequenciaDTO consequencia = new()
                     {
                         Descricao = texto,
-                        Segmento = novoSegmento,
-                        Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
+                        Segmento = Porta.SegmentoAtual,
+                        Escolhas = Porta.SegmentoAtual.RecuperaTodasAsEscolhas()
                         //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
                     };
 

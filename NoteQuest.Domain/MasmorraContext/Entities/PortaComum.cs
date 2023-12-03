@@ -29,7 +29,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
             Masmorra = segmentoAtual.Masmorra;
-            IAcao acao = new VerificarPorta(1, this);
+            IAcao acao = new VerificarPorta(this, 1);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
             Andar = segmentoAtual.Andar;

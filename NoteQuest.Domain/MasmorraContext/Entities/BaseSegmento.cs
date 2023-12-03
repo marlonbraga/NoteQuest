@@ -3,6 +3,9 @@ using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System.Collections.Generic;
+using System;
+using System.Security.Cryptography.X509Certificates;
+using System.Reflection;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
@@ -41,13 +44,12 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             GerarPortas(qtdPortas);
         }
 
-        public BaseSegmento(string descricao, int qtdPortas, IMasmorra masmorra)
+        public BaseSegmento(string descricao, int qtdPortas)
         {
             ContagemDeSalas = 0;
             IdSegmento = ContagemDeSalas++;
             Portas = new();
             Descricao = descricao;
-            Masmorra = masmorra;
             Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
         }
@@ -70,12 +72,20 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         private void GerarPortas(int qtdPortas)
         {
             //IPortaComum porta = ;
-            //TODO: elaborar regra de posição
-
-            for (int i = 1; i <= qtdPortas; i++)
+            Random random = new ();
+            int i = 1;
+            while(i <= qtdPortas)
             {
-                Portas.Add(new PortaComum(this, RecuperaPosicaoPorIndice(i)));
+                int indice = random.Next(1, 5);
+                Posicao posicaoDePorta = RecuperaPosicaoPorIndice(indice);
+                IPorta portaExistente = Portas.Find(x => x.Posicao == posicaoDePorta);
+                if (portaExistente is not null)
+                    continue;
+                Portas.Add(new PortaComum(this, posicaoDePorta));
+                i++;
             }
+
+            Portas = ReordenarPortas(Portas);
         }
 
         private Posicao RecuperaPosicaoPorIndice(int indice)
@@ -107,6 +117,29 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             List<IEscolha> escolhas = new();
             escolhas.AddRange(RecuperaEscolhasDePortas());
             return escolhas;
+        }
+        protected List<IPorta> SubstituirPorta(List<IPorta> portas, IPorta novaPorta)
+        {
+            int index = portas.FindIndex(s => s.Posicao == novaPorta.Posicao);
+
+            if (index != -1)
+                portas[index] = novaPorta;
+
+            return portas;
+        }
+        protected List<IPorta> ReordenarPortas(List<IPorta> portas)
+        {
+            List<IPorta> novaLista = new(portas.Count);
+
+            for (int i = 0; i < 4; i++)
+            {
+                int index = portas.FindIndex(s => s.Posicao == (Posicao)i);
+                if (index >= 0)
+                    novaLista.Add(portas[index]);
+            }
+
+            portas = novaLista;
+            return portas;
         }
     }
 }

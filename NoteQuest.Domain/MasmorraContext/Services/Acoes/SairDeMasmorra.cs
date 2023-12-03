@@ -22,6 +22,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 
         public ConsequenciaDTO Executar(int? indice = null)
         {
+            Console.WriteLine("[[Opção em desenvolvimento]]");
             return null;
         }
     }

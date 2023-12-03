@@ -13,7 +13,7 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
     }
     public enum EstadoDePorta : int
     {
-        inverificada = 0,
+        none = 0,
         aberta = 1,
         fechada = 2,
         quebrada = 3

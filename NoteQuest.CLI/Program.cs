@@ -93,8 +93,9 @@ namespace NoteQuest.CLI
             IAcao acao = null;
             do
             {
-                Console.WriteLine("-------------------------------------------------");
+                Console.WriteLine("-------------------------------------------------\n");
                 EscreverSala(consequencia, masmorra);
+                Console.WriteLine();
                 TipoMenu tipoMenu = Menu.MenuSegmento(consequencia.Segmento);
                 BaseSegmento sala = consequencia.Segmento;
                 int portaIndex = 0;
@@ -167,14 +168,15 @@ namespace NoteQuest.CLI
 
                 //Executa Ação
                 consequencia = acao.Efeito();
-                AnsiConsole.MarkupLine(consequencia.Descricao);
+                AnsiConsole.MarkupLine(consequencia?.Descricao);
             } while (true);
         }
 
         static void EscreverSala(ConsequenciaDTO consequencia, IMasmorra masmorra)
         {
-            AdicionaConteudo(consequencia.Segmento.Descricao, "cyan");
-            if (consequencia.Segmento.GetType() != typeof(Sala))
+            AnsiConsole.MarkupLine($"QtdPortasInexploradas=[[{masmorra.QtdPortasInexploradas}]]");
+            AdicionaConteudo(consequencia?.Segmento.Descricao, "cyan");
+            if (consequencia?.Segmento.GetType() != typeof(Sala))
                 return;
             AdicionaConteudo(((Sala)consequencia.Segmento).DescricaoConteudo);
             AdicionaMonstros(((Sala)consequencia.Segmento).Monstros);

@@ -50,24 +50,21 @@ namespace NoteQuest.CLI
         //escolhasHorizontais[4] = " x ";
         //Console.WriteLine($"Opção {MenuHorizontal(escolhasHorizontais)} escolhida");
         */
-        public static TipoMenu MenuSegmento(BaseSegmento segmento, ConsoleColor[] cor = null)
+        public static TipoMenu MenuSegmento(BaseSegmento segmento, string cor = "default")
         {
-            cor = cor ?? new ConsoleColor[]
-            {
-                ConsoleColor.Gray,
-                ConsoleColor.Gray,
-                ConsoleColor.DarkGray,
-                ConsoleColor.White,
-                ConsoleColor.DarkGray
-            };
-
+            if (segmento.IdSegmento == 0)
+                cor = "#daa520";
+            if (segmento.Masmorra.SalaFinal == segmento)
+                cor = "red";
             string mapa = Mapa.DesenharSala(segmento);
+            
             string[] linhaDeMapa = mapa.Split("\n");
+            linhaDeMapa = linhaDeMapa.Select(linha => $"[{cor}]{linha}[/]").ToArray();
 
             IDictionary<int, string[]> escolhas = new Dictionary<int, string[]>();
-            escolhas[0] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[0]), "[[Esc]]", "Inventário", "" };
-            escolhas[1] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[1]), "[[Space]]", "Vasculhar", "" };
-            escolhas[2] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[2]), "[[0]]", "Magias", "" };
+            escolhas[0] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[0]), "[[Esc]]", "Inventário", "", "" };
+            escolhas[1] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[1]), "[[Space]]", "Vasculhar", "", "" };
+            escolhas[2] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[2]), "[[0]]", "Magias", "", "" };
             int numLinha = 3;
             for (int indexPortas = 0; indexPortas < 4 || numLinha < linhaDeMapa.Length; indexPortas++, numLinha++)
             {
@@ -80,13 +77,30 @@ namespace NoteQuest.CLI
                 {
                     IPorta porta = segmento.Portas.Where(porta => porta.Posicao == (Posicao)indexPortas).FirstOrDefault();
                     if (porta != null)
-                        escolhas[numLinha] = new[] { linhaDesenhada, $"[[{indexPortas+1}]][[{Seta(porta.Posicao)}]]", "Porta", porta.EstadoDePorta.ToString() };
+                    {
+                        string descricaoPorta = string.Empty;
+                        if (TryCast(porta, out IPortaComum portaComum))
+                            if (TryCast(portaComum.SegmentoAlvo, out Sala sala))
+                            {
+                                int? count = sala.Monstros?.Count;
+                                string inimigos = string.Empty;
+                                for (; count > 0; count--)
+                                {
+                                    inimigos += "ᴥ";
+                                }
+                                descricaoPorta += sala.Conteudo is not null? "[blue]●[/]" : "";
+                                descricaoPorta += $"[red]{inimigos}[/]";
+                                if (descricaoPorta != string.Empty)
+                                    descricaoPorta = $"[#333]({descricaoPorta})[/]";
+                            }
+                        escolhas[numLinha] = new[] { linhaDesenhada, $"[[{indexPortas+1}]][[{Seta(porta.Posicao)}]]", $"Porta {porta.EstadoDePorta.ToString()}", $"{descricaoPorta}", "" };
+                    }
                     else
                         numLinha--;
                 }
                 else
                 {
-                    escolhas[numLinha] = new[] { linhaDesenhada, "", "", "" };
+                    escolhas[numLinha] = new[] { linhaDesenhada, "", "", "", "" };
                 }
             }
 
@@ -126,10 +140,8 @@ namespace NoteQuest.CLI
                 text = text.Remove(start - 1, end - start + 2);
 
             } while (text != auxText);
-
-            _ = text.Length;
+            
             return text;
-            //[blue][/]  {Dano [red]+4[/]}
         }
 
         public static int MenuVertical2(IDictionary<int, string[]> escolhas, string[] cores = null)
@@ -144,7 +156,7 @@ namespace NoteQuest.CLI
             var currentLineNumber = Console.CursorTop - (escolhas.Count + 2);
             int selecao = 1;
             int numeroDeEscolha = 0;
-            int[] largurDeColuna = new int[5];
+            int[] largurDeColuna = new int[6];
             for (int i = 0; i < escolhas.Count; i++)
             {
                 for (int j = 0; j < escolhas[i].Length; j++)
@@ -175,17 +187,17 @@ namespace NoteQuest.CLI
                     AnsiConsole.Markup($"[{corColuna2}] {escolha.Value[1]}[/] ");
 
                     //Coluna 3
-                    string corColuna4 = corColuna2;
-                    if (escolha.Value[3].TrimEnd() == "inverificada") { corColuna4 = "yellow"; }
-                    else if (escolha.Value[3].TrimEnd() == "fechada") { corColuna4 = "red"; }
-                    else if (escolha.Value[3].TrimEnd() == "aberta") { corColuna4 = "green"; }
-                    else if (escolha.Value[3].TrimEnd() == "quebrada") { corColuna4 = "green"; }
-                    else corColuna4 = corColuna2;
-                    AnsiConsole.Markup($"[{corColuna3}] {escolha.Value[2].Trim()}[/] [{corColuna4}]{escolha.Value[3]}[/] ");
+                    //string corColuna4 = corColuna2;
+                    if (escolha.Value[2].Contains("none")) { escolha.Value[2] = escolha.Value[2].Replace("none", "[yellow]???[/]");}
+                    else if (escolha.Value[2].Contains("fechada")) { escolha.Value[2] = escolha.Value[2].Replace("fechada", "[red]trancada[/]"); }
+                    else if (escolha.Value[2].Contains("aberta")) { escolha.Value[2] = escolha.Value[2].Replace("aberta", "[green]aberta[/]"); }
+                    else if (escolha.Value[2].Contains("quebrada")) { escolha.Value[2] = escolha.Value[2].Replace("quebrada", "[green]quebrada[/]"); }
+                    //else corColuna4 = corColuna2;
+                    AnsiConsole.Markup($"[{corColuna3}] {escolha.Value[2]}[/] {escolha.Value[3]}");
 
                     //Coluna 4
-                    //if (selecao == escolha.Key || exibirDescricao)
-                    //    AnsiConsole.Markup($"[{corColuna2}] {escolha.Value[3]}[/] ");
+                    if (selecao == escolha.Key || exibirDescricao)
+                        AnsiConsole.Markup($"[{corColuna2}]{escolha.Value[4]}[/]");
                     AnsiConsole.MarkupLine("");
                 }
 
@@ -479,6 +491,19 @@ namespace NoteQuest.CLI
             int numPorta = Menu.MenuHorizontal(escolhasHorizontais);
 
             return porta.Escolhas[numPorta].Acao;
+        }
+
+
+        public static bool TryCast<T>(object obj, out T result)
+        {
+            if (obj is T)
+            {
+                result = (T)obj;
+                return true;
+            }
+
+            result = default(T);
+            return false;
         }
     }
 }

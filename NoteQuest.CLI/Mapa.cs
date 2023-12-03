@@ -16,7 +16,7 @@ namespace NoteQuest.CLI
         private static string PortaDireita = " ▌";
         private static string PortaInverificada = "??";
         private static string PortaTrancada = "XX";
-        private static string PortaQuebrada = "  ";
+        private static string PortaQuebrada = "░░";
         private static string MonstroVivo = "ᴥ";
         private static string MonstroMorto = "ᴕ";
         private static string OpcaoDeVasculhar = "●";
@@ -25,6 +25,14 @@ namespace NoteQuest.CLI
 
         public static string DesenharSala(BaseSegmento segmento)
         {
+            string escada = @"██████/n██  ██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██≡≡██/n██  ██/n██████";
+            string[] escadaArray = escada.Split("/n");
+            StringBuilder[] escada0 = new StringBuilder[escadaArray.Length];
+            for (int i = 0; i < escadaArray.Length; i++)
+            {
+                escada0[i] = new StringBuilder(escadaArray[i].Replace("\n", ""));
+            }
+
             if (mapaGeral is null)
             {
                 mapaGeral = new Dictionary<(string, int), StringBuilder[]>();
@@ -41,6 +49,7 @@ namespace NoteQuest.CLI
             int altura = 7;
             int largura = 7;
             bool ehSalaFinal = segmento.Masmorra.SalaFinal == segmento;
+            bool ehEscada = false;
             StringBuilder[] salaF = null;
             if (ehSalaFinal)
             {
@@ -69,16 +78,16 @@ namespace NoteQuest.CLI
                 else { altura = 7; largura = 7; }
                 qtdMonstros = ((Sala)segmento).Monstros?.Count ?? 0;
             }
+
             if (segmento.GetType() == typeof(Corredor)) { altura = 7; largura = 3; }
-            if (segmento.GetType() == typeof(Escadaria)) { altura = 9; largura = 3; }
+            if (segmento.GetType() == typeof(Escadaria)) { altura = 14; largura = 3; ehEscada = true; }
 
             StringBuilder[] sala;
-
             if (mapaGeral.ContainsKey((segmento.Masmorra.Nome, segmento.IdSegmento)))
                 sala = mapaGeral[(segmento.Masmorra.Nome, segmento.IdSegmento)];
             else
             {
-                sala = ehSalaFinal ? salaF : CriarSala(altura, largura);
+                sala = ehSalaFinal ? salaF : ehEscada ? escada0 : CriarSala(altura, largura);
                 foreach (var porta in segmento.Portas)
                 {
                     sala = CriarPortas(altura, largura, sala, porta.Posicao);
@@ -342,7 +351,12 @@ namespace NoteQuest.CLI
                 linha = linha.Replace(OpcaoDeVasculhar, $"[white]{OpcaoDeVasculhar}[/]");
                 result += linha + "\n";
             }
-
+            result = result.Replace(PortaFrenteTras[0].ToString(), $"[green]{PortaFrenteTras[0]}[/]");
+            result = result.Replace(PortaEsquerda, $"[green]{PortaEsquerda}[/]");
+            result = result.Replace(PortaDireita, $"[green]{PortaDireita}[/]");
+            result = result.Replace(PortaInverificada, $"[yellow]{PortaInverificada}[/]");
+            result = result.Replace(PortaTrancada, $"[red]{PortaTrancada}[/]");
+            result = result.Replace(PortaQuebrada[0].ToString(), $"[green]{PortaQuebrada[0]}[/]");
             return $"{result}";
             //return $"[{cor}]{result}[/]";
         }
