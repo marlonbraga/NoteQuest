@@ -1,5 +1,4 @@
-﻿using NoteQuest.Application;
-using NoteQuest.CLI.IoC;
+﻿using NoteQuest.CLI.IoC;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
@@ -12,11 +11,6 @@ using NoteQuest.Domain.CombateContext.Entities;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using Spectre.Console;
 using NoteQuest.Domain.Core;
-using Alba.CsConsoleFormat;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.InteropServices.ComTypes;
-using NoteQuest.Domain.Core.ObjectValue;
-using Spectre.Console.Rendering;
 
 namespace NoteQuest.CLI
 {
@@ -50,24 +44,6 @@ namespace NoteQuest.CLI
 
         static void CriarNovoJogo()
         {
-            /*
-
-            Salão mediano com três portas.
-            Contém grande mesa com algumas cadeiras. Pode conter passagem secreta.
-            No chão, encontra-se o corpo de um antigo aventureiro com seu inventário.
-
-            ███████▬▬███████   [Esc]   Inventário 
-            ██            ██   [Space] Vasculhar
-            ██         !  ██   [0]     Magias
-            ▌?    ᴕᴕ      X▌   [1][↑]  Porta da frente 
-            ██     ᴕᴕ     ██   [2][←]  Porta da esquerda 
-            ██            ██   [3][→]  Porta da direita  (Trancada)
-            ███████  ███████   [4][↓]  Porta de trás 
-
-             [1][→]  Porta(trancada)
-             [ destrancar ]  [ quebrar ]  [▲] |  (Descrição sobre a escolha selecionada)
-
-            */
             IContainer Container = new Container();
             //EscolhaFacade EscolhaFacade = new EscolhaFacade(Container);
             
@@ -93,7 +69,7 @@ namespace NoteQuest.CLI
             IAcao acao = null;
             do
             {
-                Console.WriteLine("-------------------------------------------------\n");
+                AnsiConsole.MarkupLine("-------------------------------------------------\n");
                 EscreverSala(consequencia, masmorra);
                 Console.WriteLine();
                 TipoMenu tipoMenu = Menu.MenuSegmento(consequencia.Segmento);
@@ -152,15 +128,9 @@ namespace NoteQuest.CLI
                         break;
                     case TipoMenu.Sala:
                         continue;
-                    case TipoMenu.Inventário:
-                        Console.Write("╔");
+                    case TipoMenu.Inventário: Console.Write("╔");
                         AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
-                        break;
-                    case TipoMenu.Equipamentos:
-                        continue;
-                    case TipoMenu.Mochila:
-                        continue;
-                    case TipoMenu.Magias:
+                        Inventario(Personagem);
                         continue;
                     default:
                         continue;
@@ -172,9 +142,34 @@ namespace NoteQuest.CLI
             } while (true);
         }
 
+        static void Inventario(IPersonagem personagem)
+        {
+            TipoMenu tipoMenu;
+            do
+            {
+                tipoMenu = Menu.MenuInventario(personagem);
+                switch (tipoMenu)
+                {
+                    case TipoMenu.Equipamentos:
+                        /*tipoMenu = */Menu.MenuEquipamentos(personagem.Inventario);
+                        continue;
+                    case TipoMenu.Mochila:
+                        /*tipoMenu = */Menu.MenuMochila(personagem.Inventario);
+                        continue;
+                    case TipoMenu.Magias:
+                        /*tipoMenu = */Menu.MenuMagias(personagem.Inventario);
+                        continue;
+                    default:
+                        tipoMenu = TipoMenu.None;
+                        continue;
+                }
+
+
+            } while (tipoMenu != TipoMenu.None);
+        }
+
         static void EscreverSala(ConsequenciaDTO consequencia, IMasmorra masmorra)
         {
-            AnsiConsole.MarkupLine($"QtdPortasInexploradas=[[{masmorra.QtdPortasInexploradas}]]");
             AdicionaConteudo(consequencia?.Segmento.Descricao, "cyan");
             if (consequencia?.Segmento.GetType() != typeof(Sala))
                 return;

@@ -10,6 +10,8 @@ using static System.Net.Mime.MediaTypeNames;
 using NoteQuest.Domain.Core.ObjectValue;
 using System.ComponentModel;
 using Newtonsoft.Json.Linq;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
+using NoteQuest.Domain.Core.Interfaces.Inventario;
 
 namespace NoteQuest.CLI
 {
@@ -61,11 +63,11 @@ namespace NoteQuest.CLI
             string[] linhaDeMapa = mapa.Split("\n");
             linhaDeMapa = linhaDeMapa.Select(linha => $"[{cor}]{linha}[/]").ToArray();
 
-            IDictionary<int, string[]> escolhas = new Dictionary<int, string[]>();
-            escolhas[0] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[0]), "[[Esc]]", "Inventário", "", "" };
-            escolhas[1] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[1]), "[[Space]]", "Vasculhar", "", "" };
-            escolhas[2] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[2]), "[[0]]", "Magias", "", "" };
-            int numLinha = 3;
+            IDictionary<TipoMenu, string[]> escolhas = new Dictionary<TipoMenu, string[]>();
+            escolhas[TipoMenu.Inventário] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[0]), "[[Esc]]", "Inventário", "", "" };
+            escolhas[TipoMenu.Sala] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[1]), "[[Space]]", "Vasculhar", "", "" };
+            escolhas[TipoMenu.Magias] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[2]), "[[0]]", "Magias", "", "" };
+            int numLinha = 4;
             for (int indexPortas = 0; indexPortas < 4 || numLinha < linhaDeMapa.Length; indexPortas++, numLinha++)
             {
                 string linhaDesenhada = string.Empty;
@@ -93,23 +95,22 @@ namespace NoteQuest.CLI
                                 if (descricaoPorta != string.Empty)
                                     descricaoPorta = $"[#333]({descricaoPorta})[/]";
                             }
-                        escolhas[numLinha] = new[] { linhaDesenhada, $"[[{indexPortas+1}]][[{Seta(porta.Posicao)}]]", $"Porta {porta.EstadoDePorta.ToString()}", $"{descricaoPorta}", "" };
+                        escolhas[(TipoMenu)numLinha] = new[] { linhaDesenhada, $"[[{indexPortas+1}]][[{Seta(porta.Posicao)}]]", $"Porta {porta.EstadoDePorta.ToString()}", $"{descricaoPorta}", "" };
                     }
                     else
                         numLinha--;
                 }
                 else
                 {
-                    escolhas[numLinha] = new[] { linhaDesenhada, "", "", "", "" };
+                    escolhas[(TipoMenu)numLinha] = new[] { linhaDesenhada, "", "", "", "" };
                 }
             }
 
             int portaIndex = 0;
-            
+
 
             //Pegar a porta selecionada
-            portaIndex = MenuVertical2(escolhas)+3;
-            return (TipoMenu)portaIndex;
+            return MenuVertical2(escolhas);
         }
 
         public static string Seta(Posicao posicao)
@@ -144,7 +145,7 @@ namespace NoteQuest.CLI
             return text;
         }
 
-        public static int MenuVertical2(IDictionary<int, string[]> escolhas, string[] cores = null)
+        public static TipoMenu MenuVertical2(IDictionary<TipoMenu, string[]> escolhas, string[] cores = null)
         {
             string defaultBackgroundColor = cores?[1] ?? "default";
             string corColuna1 = cores?[2] ?? "default";
@@ -154,12 +155,13 @@ namespace NoteQuest.CLI
             for (int i = 0; i < escolhas.Count + 2; i++)
                 Console.WriteLine();
             var currentLineNumber = Console.CursorTop - (escolhas.Count + 2);
-            int selecao = 1;
-            int numeroDeEscolha = 0;
+            TipoMenu selecao = TipoMenu.None;
+            TipoMenu opcaoMenu;
             int[] largurDeColuna = new int[6];
+
             for (int i = 0; i < escolhas.Count; i++)
             {
-                for (int j = 0; j < escolhas[i].Length; j++)
+                for (int j = 0; j < escolhas[(TipoMenu)i+1].Length; j++)
                     largurDeColuna[j] = escolhas.Max(x => Remove(x.Value[j], "[", "]").Length);
             }
             do
@@ -205,70 +207,69 @@ namespace NoteQuest.CLI
                 {
                     case ConsoleKey.Escape:
                     case ConsoleKey.Clear:
-                        AnsiConsole.Markup("╔");
-                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
-                        continue;
+                        opcaoMenu = TipoMenu.Inventário;
+                        break;
                     case ConsoleKey.Enter:
                     case ConsoleKey.Spacebar:
+                        opcaoMenu = TipoMenu.Sala;
                         break;
                     case ConsoleKey.D0:
                     case ConsoleKey.NumPad0:
-                        numeroDeEscolha = 0;
+                        opcaoMenu = TipoMenu.Magias;
                         break;
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
                     case ConsoleKey.UpArrow:
-                        numeroDeEscolha = 1;
+                        opcaoMenu = TipoMenu.Porta1;
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
                     case ConsoleKey.LeftArrow:
-                        numeroDeEscolha = 2;
+                        opcaoMenu = TipoMenu.Porta2;
                         break;
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
                     case ConsoleKey.RightArrow:
-                        numeroDeEscolha = 3;
+                        opcaoMenu = TipoMenu.Porta3;
                         break;
                     case ConsoleKey.D4:
                     case ConsoleKey.NumPad4:
                     case ConsoleKey.DownArrow:
-                        numeroDeEscolha = 4;
+                        opcaoMenu = TipoMenu.Porta4;
                         break;
                     default:
                         continue;
                 }
                 Console.Write($"\r ");
-                if (numeroDeEscolha < escolhas.Count)
+                if (escolhas.ContainsKey(opcaoMenu))
                     break;
             } while (true);
-            return numeroDeEscolha;
+            return opcaoMenu;
         }
 
-
-        public static int MenuVertical(IDictionary<int, string[]> escolhas, ConsoleColor cor1 = ConsoleColor.Gray, ConsoleColor cor2 = ConsoleColor.Gray, ConsoleColor cor3 = ConsoleColor.DarkGray, ConsoleColor cor4 = ConsoleColor.White, ConsoleColor cor5 = ConsoleColor.DarkGray)
+        public static int MenuVertical(IDictionary<int, string[]> escolhas, string[] cor = null)
         {
-            ConsoleColor defaultForegroundColor = Console.ForegroundColor;
             ConsoleColor defaultBackgroundColor = Console.BackgroundColor;
-            ConsoleColor corColuna1 = cor1;
-            ConsoleColor corColuna2 = cor2;
-            ConsoleColor corColuna3 = cor3;
-            ConsoleColor corDeSelecaoBg = cor5;
-            ConsoleColor corDeSelecaoFg = cor4;
+            string cor0 = cor?[0] ?? "default";
+            string cor1 = cor?[1] ?? "default";
+            string cor2 = cor?[2] ?? "default";
+            string cor3 = cor?[3] ?? "default";
+            string cor4 = cor?[4] ?? "default";
+            string cor5 = cor?[5] ?? "default";
             bool exibirDescricao = false;
             for (int i = 0; i < escolhas.Count + 2; i++)
-                Console.WriteLine();
+                Console.WriteLine($"║");
             var currentLineNumber = Console.CursorTop - (escolhas.Count + 2);
             int selecao = 1;
             int numeroDeEscolha;
             int[] largurDeColuna = new int[5];
             for (int i = 0; i < escolhas.Count; i++)
                 for (int j = 0; j < escolhas[i].Length; j++)
-                    largurDeColuna[j] = escolhas.Max(x => x.Value[j].Length);
+                    largurDeColuna[j] = escolhas.Max(x => Remove(x.Value[j], "[", "]").Length);
             do
             {
                 Console.SetCursorPosition(0, Math.Max(0, currentLineNumber));
-                Console.WriteLine($"  ▲");
+                AnsiConsole.MarkupLine($"║  ▲");
                 foreach (var escolha in escolhas)
                 {
                     if (escolha.Key is not 0)
@@ -284,44 +285,30 @@ namespace NoteQuest.CLI
                     }
 
                     //Índice
-                    Console.Write($" [{escolha.Key}] ");
+                    AnsiConsole.Markup($"║ [{cor0}] [[{escolha.Key}]] [/]");
 
-                    //Coluna 1
-                    Console.BackgroundColor = selecao == escolha.Key ? corDeSelecaoBg : defaultBackgroundColor;
-                    Console.ForegroundColor = selecao == escolha.Key ? corDeSelecaoFg : corColuna1;
-                    Console.Write($" {escolha.Value[0]} ");
-                    Console.ForegroundColor = defaultForegroundColor;
-                    Console.BackgroundColor = defaultBackgroundColor;
-
-                    //Coluna 2
-                    Console.ForegroundColor = corColuna2;
-                    Console.Write($" {escolha.Value[1]} ");
-                    Console.ForegroundColor = defaultForegroundColor;
-
-                    //Coluna 3
+                    string invert = "";
+                    if(selecao == escolha.Key)
+                        invert = "invert ";
+                    AnsiConsole.Markup($"[{cor1}] {escolha.Value[0]} [/]");
+                    AnsiConsole.Markup($"[{invert}{cor2}] {escolha.Value[1]} [/]");
+                    AnsiConsole.Markup($"[{cor3}] {escolha.Value[2]} [/]");
+                    AnsiConsole.Markup($"[{cor4}] {escolha.Value[3]} [/]");
                     if (selecao == escolha.Key || exibirDescricao)
-                    {
-                        Console.ForegroundColor = corColuna3;
-                        Console.Write($" {escolha.Value[2]} ");
-                        Console.ForegroundColor = defaultForegroundColor;
-                    }
+                        AnsiConsole.MarkupLine($"[{cor5}] {escolha.Value[4]} [/]");
                     else
                     {
                         Console.ForegroundColor = defaultBackgroundColor;
-                        Console.Write($" {escolha.Value[2]} ");
-                        Console.ForegroundColor = defaultForegroundColor;
+                        AnsiConsole.MarkupLine($"[{cor5}] {escolha.Value[4]} [/]");
                     }
-                    Console.WriteLine();
-
                 }
-                Console.WriteLine($"  ▼");
+                AnsiConsole.Markup($"║  ▼");
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.Escape:
                     case ConsoleKey.Clear:
-                        Console.Write("╔");
-                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
-                        continue;
+                        numeroDeEscolha = 0;
+                        break;
                     case ConsoleKey.UpArrow:
                         selecao = (ushort)Math.Max(0, selecao - 1);
                         continue;
@@ -375,48 +362,51 @@ namespace NoteQuest.CLI
                     default:
                         continue;
                 }
-                Console.Write($"\r ");
+                AnsiConsole.Markup($"\r║");
                 if (numeroDeEscolha < escolhas.Count)
+                {
+                    if (numeroDeEscolha == 0)
+                    {
+                        ClearMultipleConsoleLines(currentLineNumber-3, currentLineNumber + escolhas.Count + 3);
+                        Console.SetCursorPosition(0, Math.Max(0, currentLineNumber-3));
+                    }
                     break;
+                }
             } while (true);
             return numeroDeEscolha;
         }
 
-        public static int MenuHorizontal(IDictionary<int, string> escolhas, ConsoleColor cor1 = ConsoleColor.Gray, ConsoleColor cor4 = ConsoleColor.White, ConsoleColor cor5 = ConsoleColor.DarkGray)
+        public static int MenuHorizontal(IDictionary<int, string[]> escolhas, string titulo = "")
         {
-            ConsoleColor defaultForegroundColor = Console.ForegroundColor;
-            ConsoleColor defaultBackgroundColor = Console.BackgroundColor;
-            ConsoleColor corColuna1 = cor1;
-            ConsoleColor corDeSelecaoBg = cor5;
-            ConsoleColor corDeSelecaoFg = cor4;
-            bool exibirDescricao = false;
-
-            Console.WriteLine();
+            AnsiConsole.Markup($"║ {titulo }");
             var currentLineNumber = Console.CursorTop - 1;
             int selecao = 0;
             int numeroDeEscolha;
+            int max = escolhas.Count-1;
             string invert;
             do
             {
                 Console.SetCursorPosition(0, Math.Max(0, currentLineNumber));
-                AnsiConsole.Markup($" ◄ ");
+                ClearCurrentConsoleLine();
+                AnsiConsole.Markup($"║  ◄ ");
                 foreach (var escolha in escolhas)
                 {
                     string escolhaValue = "";
                     invert = "";
                     if(selecao == escolha.Key)
                         invert = "invert ";
-                    escolhaValue = (escolha.Key == escolhas.Last().Key) ? escolha.Value : $" [[{escolha.Value}]] ";
+                    escolhaValue = (escolha.Key == escolhas.Last().Key) ? escolha.Value[0] : $" [[{escolha.Value[0]}]] ";
                     AnsiConsole.Markup($"[{invert}default on default]{escolhaValue}[/]");
                 }
 
                 AnsiConsole.Markup($" ► ");
-                Console.WriteLine();
+                AnsiConsole.Markup($" [#333]| {escolhas[selecao][1]}[/]");
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.Escape:
                     case ConsoleKey.Clear:
-                        continue;
+                        numeroDeEscolha = max;
+                        break;
                     case ConsoleKey.LeftArrow:
                         selecao = (ushort)Math.Max(0, selecao - 1);
                         continue;
@@ -470,29 +460,147 @@ namespace NoteQuest.CLI
                     default:
                         continue;
                 }
-                Console.Write($"\r ");
+                Console.Write($"\r║");
                 if (numeroDeEscolha < escolhas.Count)
                     break;
             } while (true);
+            Console.WriteLine($"");
             return numeroDeEscolha;
         }
 
         public static IAcao MenuPorta(IPorta porta)
         {
             if (porta == null) return null;
-            IDictionary<int, string> escolhasHorizontais = new Dictionary<int, string>();
+            AnsiConsole.MarkupLine($" Porta {porta.EstadoDePorta} à {porta.Posicao}:\n");
+            IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
             int max = porta.Escolhas.Count;
             for (int i = 0; i < max; i++)
             {
-                escolhasHorizontais[i] = porta.Escolhas[i].Acao.Titulo;
+                escolhasHorizontais[i] = new[] { porta.Escolhas[i].Acao.Titulo, porta.Escolhas[i].Acao.Descricao};
             }
-            escolhasHorizontais[max] = "[red][[X]][/]";
+            escolhasHorizontais[max] = new [] { "[red][[X]][/]", $"" };
 
             int numPorta = Menu.MenuHorizontal(escolhasHorizontais);
-
+            if (numPorta == max)
+                return null;
             return porta.Escolhas[numPorta].Acao;
         }
 
+        public static TipoMenu MenuInventario(IPersonagem personagem)
+        {
+            if (personagem.Inventario == null) return TipoMenu.None;
+            IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
+            int max = 3;
+            IList<IItem> mochila = personagem.Inventario.Mochila;
+            escolhasHorizontais[0] = new[] { "Mochila", $"(Capacidade: {CharacterProfile.GetMochilaBar(mochila)} {mochila.Count}/10" };
+            escolhasHorizontais[1] = new[] { "Equipamentos", "Armas e Armaduras" };
+            escolhasHorizontais[2] = new[] { "Grimório", "Livro de Magias" };
+            escolhasHorizontais[max] = new[] { "[red][[X]][/]", "(voltar)" };
+
+            AnsiConsole.MarkupLine($"║\n║ [yellow]■ Inventário[/]\n");
+            return Menu.MenuHorizontal(escolhasHorizontais) switch
+            {
+                0 => TipoMenu.Mochila,
+                1 => TipoMenu.Equipamentos,
+                2 => TipoMenu.Magias,
+                _ => TipoMenu.None,
+            };
+        }
+
+        public static void MenuMochila(IInventario inventario)
+        {
+            IList<IItem> mochila = inventario.Mochila;
+            string descricao = "";
+            if (mochila.Count is 0)
+            {
+                descricao="[#333](vazia)[/]";
+            }
+
+            IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
+            escolhasVerticais[0] = new[] { $"", $"[red] [[X]] [/]", $"{descricao}", $"", $""};
+            for (int i = 1; i < mochila.Count; i++)
+            {
+                escolhasVerticais[i] = new [] {$"{mochila.ElementAt(i).Nome}",$"{mochila.ElementAt(i).Descricao}", $"", $"", $"" };
+            }
+
+            int max;
+            int acaoItem;
+            do {
+                int indiceItem = Menu.MenuVertical(escolhasVerticais);
+                if (indiceItem == 0) break;
+                AnsiConsole.MarkupLine($"║ {mochila.ElementAt(indiceItem)?.Nome}");
+                IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
+                escolhasHorizontais[0] = new [] {$"Usar", $""};
+                escolhasHorizontais[1] = new [] {$"Equipar", "Vestir/Segurar" };
+                escolhasHorizontais[2] = new [] {$"Descartar", "Jogar fora" };
+                escolhasHorizontais[3] = new [] {$"[red][[X]][/]", "(voltar)" };
+
+                max = escolhasHorizontais.Count;
+                acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+            }
+            while (acaoItem == max) ;
+        }
+
+        public static void MenuEquipamentos(IInventario inventario)
+        {
+            IItensEquipados equipamentos = inventario.Equipamentos;
+            IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
+
+            escolhasVerticais[0] = new[] { $"", $"[red][[X]][/]", $"", $"", $"" };
+            escolhasVerticais[1] = new[] { $"Mão 1", $"{equipamentos.MaoDireita?.Nome}", $"{equipamentos.MaoDireita?.Descricao}", $"", $"" };
+            escolhasVerticais[2] = new[] { $"Mão 2", $"{equipamentos.MaoEsquerda?.Nome}", $"{equipamentos.MaoEsquerda?.Descricao}", $"", $"" };
+            escolhasVerticais[3] = new[] { $"Peito", $"{equipamentos.Peitoral?.Nome}", $"{CharacterProfile.GetPvBar(equipamentos.Peitoral?.Pv)}", $"{equipamentos.Peitoral?.Descricao}", $"" };
+            escolhasVerticais[4] = new[] { $"Cabeça", $"{equipamentos.Elmo?.Nome}", $"{CharacterProfile.GetPvBar(equipamentos.Elmo?.Pv)} {equipamentos.Elmo?.Pv.Pv}", $"{equipamentos.Elmo?.Descricao}", $"" };
+            escolhasVerticais[5] = new[] { $"Ombros", $"{equipamentos.Ombreiras?.Nome}", $"{CharacterProfile.GetPvBar(equipamentos.Ombreiras?.Pv)} {equipamentos.Ombreiras?.Pv.Pv}", $"{equipamentos.Ombreiras?.Descricao}", $"" };
+            escolhasVerticais[6] = new[] { $"Pernas", $"{equipamentos.Botas?.Nome}", $"{CharacterProfile.GetPvBar(equipamentos.Botas?.Pv)} {equipamentos.Botas?.Pv.Pv}", $"{equipamentos.Botas?.Descricao}", $"" };
+            escolhasVerticais[7] = new[] { $"Braços", $"{equipamentos.Braceletes?.Nome}", $"{CharacterProfile.GetPvBar(equipamentos.Braceletes?.Pv)} {equipamentos.Braceletes?.Pv.Pv}", $"{equipamentos.Braceletes?.Descricao}", $"" };
+            //escolhasVerticais[7] = new[] { $"{equipamentos.Amuletos.Nome}", $"{equipamentos.Amuletos.Descricao}" };
+            //escolhasVerticais[8] = new[] { $"{equipamentos.MaoDireita.Nome}", $"{equipamentos.MaoDireita.Descricao}" };
+
+            string[] cor = { "#333", "yellow", "default", "default", "#d00", "#333" };
+            int max;
+            int acaoItem;
+            do {
+                int indiceEquipamento = Menu.MenuVertical(escolhasVerticais, cor);
+                if (indiceEquipamento == 0)
+                    return;
+                IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
+                if (escolhasVerticais[indiceEquipamento][1].Trim() == string.Empty)
+                {
+                    AnsiConsole.MarkupLine($"\n\n{escolhasVerticais[indiceEquipamento][1]}");
+                    escolhasHorizontais[0] = new [] {$"Equipar","Vestir/Segurar"};
+                    escolhasHorizontais[1] = new [] {"[red][[X]][/]", "(voltar)" };
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine($"\n\n{escolhasVerticais[indiceEquipamento][1]}");
+                    escolhasHorizontais[0] = new [] {$"Desequipar","Colocar na mochila"};
+                    escolhasHorizontais[1] = new [] {$"Descartar","Jogar fora"};
+                    escolhasHorizontais[2] = new [] {$"[red][[X]][/]", "(voltar)" };
+                }
+                max = escolhasHorizontais.Count-1;
+                acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+            } while (acaoItem == max);
+        }
+
+        public static void MenuMagias(IInventario inventario)
+        {
+            IList<IItem> mochila = inventario.Mochila;
+            IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
+            for (int i = 0; i < mochila.Count; i++)
+            {
+                escolhasVerticais[i] = new[] { $"{mochila.ElementAt(i).Nome}", $"{mochila.ElementAt(i).Descricao}" };
+            }
+
+            int indiceItem = Menu.MenuVertical(escolhasVerticais);
+
+            AnsiConsole.MarkupLine($"{mochila.ElementAt(indiceItem).Nome}");
+            IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
+            escolhasHorizontais[0] = new[] {$"Conjurar", "Lançar magia"};
+            escolhasHorizontais[1] = new[] {$"[red][[X]][/]", "(voltar)"};
+            int max = escolhasHorizontais.Count;
+            int acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+        }
 
         public static bool TryCast<T>(object obj, out T result)
         {
@@ -504,6 +612,25 @@ namespace NoteQuest.CLI
 
             result = default(T);
             return false;
+        }
+        
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
+        }
+
+        public static void ClearMultipleConsoleLines(int initialLineCursor, int size)
+        {
+            Console.SetCursorPosition(0, initialLineCursor);
+            for (int i = initialLineCursor; i < size; i++)
+            {
+                Console.Write(new string(' ', Console.WindowWidth));
+                
+            }
+            Console.SetCursorPosition(0, initialLineCursor);
         }
     }
 }

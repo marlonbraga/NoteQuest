@@ -40,26 +40,15 @@ namespace NoteQuest.CLI
 ║ ▪ Tochas:    [yellow]{GetTochaBar(Personagem)} {Personagem.Inventario.Tochas}/10[/]
 ║ ▪ Provisões: [#4f7942]{GetProvisaoBar(Personagem)} {Personagem.Inventario.Provisoes}/20[/]
 ║ ▪ PV:        [red]{GetPvBar(Personagem)} {Personagem.Pv.Pv}/{Personagem.Pv.PvMaximo}[/]
-║ [yellow]■ Inventário[/]
-║    [yellow]▪ Mochila:[/] {GetMochilaBar(Personagem)} {Personagem.Inventario.Mochila.Count}/10
-║    [yellow]▪ Equipamentos:[/]
-║       [gray]Mão 1[/]  {equipamentos.MaoDireita?.Nome} {equipamentos.MaoDireita?.Descricao}
-║       [gray]Mão 2[/]  [yellow]Tocha[/]{equipamentos.MaoEsquerda?.Nome} {equipamentos.MaoEsquerda?.Descricao}
-║       [gray]Peito[/]  {equipamentos.Peitoral?.Nome} {GetPv(equipamentos.Peitoral?.Pv)}
-║       [gray]Cabeça[/] {equipamentos.Elmo?.Nome} {GetPv(equipamentos.Elmo?.Pv)}
-║       [gray]Pernas[/] {equipamentos.Botas?.Nome} {GetPv(equipamentos.Botas?.Pv)}
-║       [gray]Braços[/] {equipamentos.Braceletes?.Nome} {GetPv(equipamentos.Braceletes?.Pv)}
-║    [yellow]▪ Livro de Magias:[/]
-║       [gray]- sem magias -[/]
-║       Cura   [#ad5cad]■□□ 1/3[/]
-╚═";
+";
 
-            string espaçamento = "";
-            for (int i = 0; i <= linhas; i++)
-            {
-                espaçamento += "\n";
-            }
-            return (ficha + espaçamento);
+            //string espaçamento = "";
+            //for (int i = 0; i <= linhas; i++)
+            //{
+            //    espaçamento += "\n";
+            //}
+            //return (ficha + espaçamento);
+            return (ficha);
         }
 
         public static string GetProvisaoBar(IPersonagem personagem)
@@ -71,8 +60,13 @@ namespace NoteQuest.CLI
 
         public static string GetMochilaBar(IPersonagem personagem)
         {
+            return GetMochilaBar(personagem.Inventario.Mochila);
+        }
+
+        public static string GetMochilaBar(IList<IItem> mochila)
+        {
             int maxLimit = 10;
-            int qtdItens = personagem.Inventario.Mochila.Count();
+            int qtdItens = mochila.Count();
             return GetBar('■', '□', maxLimit, qtdItens);
         }
 
@@ -90,7 +84,7 @@ namespace NoteQuest.CLI
             return GetBar('●', '○', maxLimit, qtdPontosDeVida);
         }
 
-        public static string GetPv(IPontosDeVida? pontosDeVida)
+        public static string GetPvBar(IPontosDeVida? pontosDeVida)
         {
             if (pontosDeVida is null) return String.Empty;
             int maxLimit = pontosDeVida.PvMaximo;
