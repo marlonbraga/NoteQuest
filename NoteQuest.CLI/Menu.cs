@@ -67,7 +67,7 @@ namespace NoteQuest.CLI
             escolhas[TipoMenu.Inventário] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[0]), "[[Esc]]", "Inventário", "", "" };
             escolhas[TipoMenu.Sala] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[1]), "[[Space]]", "Vasculhar", "", "" };
             escolhas[TipoMenu.Magias] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[2]), "[[0]]", "Magias", "", "" };
-            int numLinha = 4;
+            int numLinha = 3;
             for (int indexPortas = 0; indexPortas < 4 || numLinha < linhaDeMapa.Length; indexPortas++, numLinha++)
             {
                 string linhaDesenhada = string.Empty;
@@ -95,14 +95,14 @@ namespace NoteQuest.CLI
                                 if (descricaoPorta != string.Empty)
                                     descricaoPorta = $"[#333]({descricaoPorta})[/]";
                             }
-                        escolhas[(TipoMenu)numLinha] = new[] { linhaDesenhada, $"[[{indexPortas+1}]][[{Seta(porta.Posicao)}]]", $"Porta {porta.EstadoDePorta.ToString()}", $"{descricaoPorta}", "" };
+                        escolhas[(TipoMenu)numLinha+1] = new[] { linhaDesenhada, $"[[{indexPortas+1}]][[{Seta(porta.Posicao)}]]", $"Porta {porta.EstadoDePorta.ToString()}", $"{descricaoPorta}", "" };
                     }
                     else
                         numLinha--;
                 }
                 else
                 {
-                    escolhas[(TipoMenu)numLinha] = new[] { linhaDesenhada, "", "", "", "" };
+                    escolhas[(TipoMenu)numLinha+1] = new[] { linhaDesenhada, "", "", "", "" };
                 }
             }
 
@@ -628,7 +628,6 @@ namespace NoteQuest.CLI
             for (int i = initialLineCursor; i < size; i++)
             {
                 Console.Write(new string(' ', Console.WindowWidth));
-                
             }
             Console.SetCursorPosition(0, initialLineCursor);
         }
