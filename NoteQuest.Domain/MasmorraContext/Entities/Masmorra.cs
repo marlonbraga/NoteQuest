@@ -49,6 +49,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         public ConsequenciaDTO EntrarEmMasmorra()
         {
+            //AcaoFactory = new (personagem, this);
             return Consequencia;
         }
 
