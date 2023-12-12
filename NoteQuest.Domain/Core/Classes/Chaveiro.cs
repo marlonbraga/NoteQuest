@@ -50,7 +50,7 @@ namespace NoteQuest.Domain.Core.Classes
         { IAcaoPorta acaoPorta = (IAcaoPorta)acao;
             IPortaComum porta = acaoPorta.Porta;
             porta.AbrirFechadura();
-            porta.SegmentoAlvo = porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(porta, indice ?? D6.Rolagem(deslocamento: true));
+            porta.SegmentoAlvo = porta.SegmentoAlvo ?? porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(porta, indice ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Com as habilidade de CHAVEIRO, {acao.Personagem.Nome} destranca a fechadura rapidamente.";

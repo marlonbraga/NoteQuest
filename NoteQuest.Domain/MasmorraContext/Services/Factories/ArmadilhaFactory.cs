@@ -7,14 +7,11 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Factories
 {
-    public class ArmadilhaFactory
+    public class ArmadilhaFactory : IArmadilhaFactory
     {
-        private static IDictionary<int, IMasmorraData> masmorraData;
-        private static ArmadilhaFactory Singleton;
         private IDictionary<TipoMasmorra, IArmadilha[]> Armadilhas;
-        private readonly IMasmorraRepository MasmorraRepository;
 
-        private ArmadilhaFactory(IMasmorra masmorra)
+        public ArmadilhaFactory(IMasmorraRepository masmorraRepository)
         {
             Armadilhas = new Dictionary<TipoMasmorra, IArmadilha[]>();
             TabelaArmadilhaElement[] tabelaDeArmadilhas;
@@ -23,7 +20,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             {
                 TipoMasmorra tipo = (TipoMasmorra)i;
                 Armadilhas[tipo] = new IArmadilha[6];
-                tabelaDeArmadilhas = masmorra.MasmorraRepository.PegarDadosMasmorra(/*tipo.ToString()*/).TabelaArmadilha;
+                tabelaDeArmadilhas = masmorraRepository.PegarDadosMasmorra(/*tipo.ToString()*/).TabelaArmadilha;
 
                 for (int j = 0; j < 6; j++)
                 {
@@ -87,19 +84,10 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return result;
         }
 
-        public static ArmadilhaFactory Instancia(IMasmorra masmorra)
-        {
-            if (Singleton is null)
-            {
-                Singleton = new ArmadilhaFactory(masmorra);
-            }
-            return Singleton;
-        }
-
-        public static IArmadilha GeraArmadilha(IMasmorra masmorra, int? indice = null)
+        public IArmadilha GeraArmadilha(IMasmorra masmorra, int? indice = null)
         {
             indice ??= D6.Rolagem(1, true);
-            return Instancia(masmorra).Armadilhas[masmorra.TipoMasmorra][(int)indice];
+            return Armadilhas[masmorra.TipoMasmorra][(int)indice];
         }
     }
 }

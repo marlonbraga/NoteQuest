@@ -1,4 +1,5 @@
 ﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
@@ -37,10 +38,11 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         public TipoMasmorra TipoMasmorra { get; set; }
         public BaseSegmento SalaFinal { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
+        public IArmadilhaFactory ArmadilhaFactory { get; set; }
+        public ISegmentoFactory SegmentoFactory { get; set; }
         public int QtdPortasInexploradas {get; set; }
         public bool FoiConquistada { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
         public IEnumerable<ActionResult> EntrarEmMasmorra();
-        string GerarNome(int parte2, int parte3);
     }
 }

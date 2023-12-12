@@ -37,7 +37,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         {
             Porta.QuebrarPorta();
             IndicePreDefinido = EhEscadariaObrigatoria(Porta);
-            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Você aplica diversos golpes a porta. O barulho ecoa pelo ambinete. A porta logo é quebrada revelando um segmento da masmorra.";

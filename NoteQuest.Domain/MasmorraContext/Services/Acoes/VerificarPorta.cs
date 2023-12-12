@@ -41,7 +41,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             EstadoDePorta estado = Porta.VerificarFechadura(indicePorta ?? D6.Rolagem());
             IndicePreDefinido = EhEscadariaObrigatoria(Porta);
             if (estado == EstadoDePorta.aberta)
-                Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indicePorta ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+                Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indicePorta ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
 
             indiceArmadilha ??= D6.Rolagem();
             if (indiceArmadilha == 1)

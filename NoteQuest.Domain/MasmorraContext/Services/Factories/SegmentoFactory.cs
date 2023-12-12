@@ -12,22 +12,12 @@ using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Factories
 {
-    public class SegmentoFactory
+    public class SegmentoFactory : ISegmentoFactory
     {
-        private static IDictionary<int, IMasmorraData> masmorraData;
-        private static SegmentoFactory Singleton;
-        private static int IndiceMasmorraAtual;
+        private IDictionary<int, IMasmorraData> masmorraData;
+        private int IndiceMasmorraAtual;
 
-        public static SegmentoFactory Instancia(IMasmorraRepository masmorraRepository)
-        {//TODO: Remover a opcionalidade do indice;
-            if (Singleton is null)
-            {
-                Singleton = new SegmentoFactory(masmorraRepository);
-            }
-            return Singleton;
-        }
-
-        private SegmentoFactory(IMasmorraRepository masmorraRepository)
+        public SegmentoFactory(IMasmorraRepository masmorraRepository)
         {
             masmorraData = new Dictionary<int, IMasmorraData>();
             masmorraData[1] = masmorraRepository.PegarDadosMasmorra("Palacio");
@@ -71,7 +61,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return entradaEmMasmorra;
         }
 
-        public static BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice)
+        public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice)
         {
             portaDeEntrada.Masmorra.QtdPortasInexploradas--;
 
@@ -81,7 +71,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return GerarSegmentoPorSegmento(portaDeEntrada, indice);
         }
 
-        public static bool EhSalaFinal(IPortaComum portaDeEntrada)
+        public bool EhSalaFinal(IPortaComum portaDeEntrada)
         {
             int andar = portaDeEntrada.Andar;
             BaseSegmento salaFinal = portaDeEntrada.Masmorra.SalaFinal;
@@ -91,7 +81,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return false;
         }
 
-        public static BaseSegmento GeraSalaFinal(IPortaComum portaDeEntrada, int? indice = null)
+        public BaseSegmento GeraSalaFinal(IPortaComum portaDeEntrada, int? indice = null)
         {
             indice ??= D6.Rolagem(1, true);
             portaDeEntrada.Masmorra.QtdPortasInexploradas--;
@@ -107,7 +97,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return segmento;
         }
 
-        private static (SegmentoTipo segmentoTipo, string descricao, int qtdPortas) TipoSegmento(BaseSegmento segmentoAtual, int indice)
+        private (SegmentoTipo segmentoTipo, string descricao, int qtdPortas) TipoSegmento(BaseSegmento segmentoAtual, int indice)
         {
             string descricao;
             int qtdPortas;
@@ -142,7 +132,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return (SegmentoTipo.escadaria, "-", 0);
         }
 
-        private static BaseSegmento GerarSegmentoPorSegmento(IPortaComum portaDeEntrada, int indice)
+        private BaseSegmento GerarSegmentoPorSegmento(IPortaComum portaDeEntrada, int indice)
         {
             BaseSegmento segmento = null;
             BaseSegmento segmentoAtual = portaDeEntrada.SegmentoAtual;
@@ -166,7 +156,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return segmento;
         }
 
-        private static List<Monstro> GeraMonstros(TabelaMonstro tabelaMonstro)
+        private List<Monstro> GeraMonstros(TabelaMonstro tabelaMonstro)
         {
             Monstro monstro = new(tabelaMonstro.Nome, tabelaMonstro.Dano, tabelaMonstro.Pvs)
             {

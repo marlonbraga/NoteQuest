@@ -16,6 +16,9 @@ namespace NoteQuest.CLI.IoC
     {
         public IPortaEntrada PortaEntrada { get; set; }
         public IMasmorra Masmorra { get; set; }
+
+        public ISegmentoFactory SegmentoFactory { get; set; }
+        public IArmadilhaFactory ArmadilhaFactory { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
         //public IClasseBasicaRepository MasmorraRepository { get; set; }
         //public ISegmentoBuilder SegmentoFactory { get; set; }

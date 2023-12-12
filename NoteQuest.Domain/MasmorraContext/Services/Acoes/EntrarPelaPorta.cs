@@ -36,7 +36,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IEnumerable<ActionResult> Executar(int? indice = null)
         {
             IndicePreDefinido = EhEscadariaObrigatoria(Porta);
-            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = $"\n  Você abre a porta revelando um segmento da masmorra";
             DungeonConsequence consequencia = new()

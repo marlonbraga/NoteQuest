@@ -10,6 +10,7 @@ using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Services;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using NoteQuest.Infrastructure.Data.Masmorra;
 
 namespace NoteQuest.CLI.IoC
@@ -50,6 +51,8 @@ namespace NoteQuest.CLI.IoC
 
             //Bind<IClasseBasicaRepository>().To<MasmorraRepository>();
 
+            Bind<ISegmentoFactory>().To<SegmentoFactory>();
+            Bind<IArmadilhaFactory>().To<ArmadilhaFactory>();
             Bind<IMasmorraRepository>().To<MasmorraRepository>();
             Bind<IPortaEntrada>().To<PortaEntrada>();
             Bind<IPortaComum>().To<PortaComum>();

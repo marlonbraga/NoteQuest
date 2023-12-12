@@ -1,14 +1,16 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using System;
 
 namespace NoteQuest.Domain.Core.Interfaces
 {
     public interface ISegmentoFactory
     {
-        public Tuple<string, BaseSegmento> GeraSegmentoInicial();
+        public (string descricao, BaseSegmento segmentoInicial) GeraSegmentoInicial(IMasmorra masmorra, int indice = 1);
+        
         public BaseSegmento GeraSegmento(IPortaComum portaDeEntrada, int indice);
-        void Instancia(IMasmorraRepository masmorraRepository, object indice);
+
+        public bool EhSalaFinal(IPortaComum portaDeEntrada);
+
+        public BaseSegmento GeraSalaFinal(IPortaComum portaDeEntrada, int? indice = null);
     }
 }

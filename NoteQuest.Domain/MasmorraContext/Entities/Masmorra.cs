@@ -5,6 +5,7 @@ using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System.Collections.Generic;
+using NoteQuest.Domain.Core.Interfaces;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
@@ -15,20 +16,24 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public TipoMasmorra TipoMasmorra { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
+        public IArmadilhaFactory ArmadilhaFactory { get; set; }
+        public ISegmentoFactory SegmentoFactory { get; set; }
         private IEnumerable<ActionResult> Consequencia { get; set; }
         public BaseSegmento SalaFinal { get; set; }
         public int QtdPortasInexploradas { get; set; }
         public bool FoiExplorada { get; set; }
         public bool FoiConquistada { get; set; }
 
-        public Masmorra(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository/*, int? index = null*/)
+        public Masmorra(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IArmadilhaFactory armadilhaFactory)
         {
             portaEntrada.Masmorra = this;
             PortaEntrada = portaEntrada;
             MasmorraRepository = masmorraRepository;
+            SegmentoFactory = segmentoFactory;
+            ArmadilhaFactory = armadilhaFactory;
 
             (string descricao, BaseSegmento segmentoInicial) entradaEmMasmorra;
-            entradaEmMasmorra = SegmentoFactory.Instancia(masmorraRepository).GeraSegmentoInicial(this);
+            entradaEmMasmorra = GeraSegmentoInicial();
 
             BaseSegmento segmentoInicial = entradaEmMasmorra.segmentoInicial;
             segmentoInicial.Masmorra = this;
@@ -49,66 +54,21 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
             return Consequencia;
         }
-
-        public static Masmorra GerarMasmorra(IMasmorraRepository masmorraRepository, int? indice = null)
-        {
-            IPortaEntrada portaEntrada = new PortaEntrada();
-            indice ??= D6.Rolagem();
-            Masmorra masmorra = new(portaEntrada, masmorraRepository)
-            {
-                Nome = "Masmorra teste",
-                QtdPortasInexploradas = 1,
-                FoiExplorada = false,
-                FoiConquistada = false,
-                TipoMasmorra = (TipoMasmorra)indice,
-            };
-
-            var entradaEmMasmorra = SegmentoFactory.Instancia(masmorraRepository).GeraSegmentoInicial(masmorra);
-            portaEntrada.SegmentoAtual = entradaEmMasmorra.segmentoInicial;
-            masmorra.Descrição = entradaEmMasmorra.descricao;
-            portaEntrada.Masmorra = masmorra;
-            return masmorra;
-        }
-
-        public string GerarNome(int indice2, int indice3)
-        {
-            IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            string nomeParte1 = masmorraNomes.TipoDeMasmorra[((int)TipoMasmorra)-1];
-            string nomeParte2 = masmorraNomes.SegundaParte[indice2];
-            string nomeParte3 = masmorraNomes.TerceiraParte[indice3];
-
-            nomeParte3 = TratarGenero(nomeParte2, nomeParte3);
-
-            Nome = $"{nomeParte1} {nomeParte2} {nomeParte3}";
-
-            return Nome;
-        }
-
-        private string TratarGenero(string nomeParte2, string nomeParte3)
-        {
-            if (nomeParte2[1] == 'o' || nomeParte2[1] == 'a')
-            {
-                nomeParte3 = nomeParte3.Replace("o(a)", nomeParte2[1].ToString());
-            }
-            return nomeParte3;
-        }
-
+        
         public string BuscarTipo(int indice)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
             return masmorraNomes.TipoDeMasmorra[indice];
         }
 
-        public string BuscarSegundaParteDoNome(ushort indice)
+        public IArmadilha GeraArmadilha(int? indice = null)
         {
-            IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            return masmorraNomes.SegundaParte[indice];
+            return ArmadilhaFactory.GeraArmadilha(this, indice);
         }
 
-        public string BuscarTerceiraParteDoNome(ushort indice)
+        public (string descricao, BaseSegmento segmentoInicial) GeraSegmentoInicial()
         {
-            IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            return masmorraNomes.TerceiraParte[indice];
+            return SegmentoFactory.GeraSegmentoInicial(this);
         }
     }
 }

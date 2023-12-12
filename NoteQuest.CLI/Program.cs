@@ -11,6 +11,7 @@ using NoteQuest.Domain.CombateContext.Entities;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using Spectre.Console;
 using NoteQuest.Domain.Core;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 
 namespace NoteQuest.CLI
 {
@@ -52,8 +53,8 @@ namespace NoteQuest.CLI
             AnsiConsole.Markup(CharacterProfile.ExibirFicha(Personagem));
 
             //CRIA MASMORRA
-            IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository, 1);
-            _ = masmorra.GerarNome(D6.Rolagem(1, true), D6.Rolagem(1, true));
+            MasmorraAbstractFactory masmorraAbstractFactory = new MasmorraAbstractFactory(Container.MasmorraRepository, Container.SegmentoFactory, Container.ArmadilhaFactory);
+            IMasmorra masmorra = masmorraAbstractFactory.GerarMasmorra(1);
             Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n");
 
             AnsiConsole.MarkupLine($"   [underline yellow]{masmorra.Nome.ToUpper()}[/]\n");

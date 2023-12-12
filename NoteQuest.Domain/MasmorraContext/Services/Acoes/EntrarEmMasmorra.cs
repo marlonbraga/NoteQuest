@@ -38,7 +38,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IEnumerable<ActionResult> Executar(int? indice = null)
         {
             (string, BaseSegmento) entradaEmMasmorra;
-            entradaEmMasmorra = SegmentoFactory.Instancia(MasmorraRepository).GeraSegmentoInicial(Masmorra);
+            entradaEmMasmorra = Masmorra.SegmentoFactory.GeraSegmentoInicial(Masmorra);
             BaseSegmento segmentoInicial = entradaEmMasmorra.Item2;
             DungeonConsequence consequencia = new()
             {
