@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 
-namespace NoteQuest.Domain.MasmorraContext.Services
+namespace NoteQuest.Domain.MasmorraContext.Services.Factories
 {
     public class SegmentoFactory
     {
@@ -66,8 +66,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services
                     break;
                 default:
                     break;
-            }    
-            var entradaEmMasmorra = (descricao: masmorraData[indice].Descricao, segmentoInicial:segmento);
+            }
+            var entradaEmMasmorra = (descricao: masmorraData[indice].Descricao, segmentoInicial: segmento);
             return entradaEmMasmorra;
         }
 
@@ -153,8 +153,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services
             {
                 case "sala":
                     segmento = new Sala(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
-                    segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros((TabelaMonstro)masmorraData[IndiceMasmorraAtual].TabelaMonstro[D6.Rolagem(2, deslocamento: true)]));
-                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo((TabelaConteudo)masmorraData[IndiceMasmorraAtual].TabelaConteudo[D6.Rolagem(2, deslocamento: true)]));
+                    segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros(masmorraData[IndiceMasmorraAtual].TabelaMonstro[D6.Rolagem(2, deslocamento: true)]));
+                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo(masmorraData[IndiceMasmorraAtual].TabelaConteudo[D6.Rolagem(2, deslocamento: true)]));
                     break;
                 case "corredor":
                     segmento = new Corredor(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);

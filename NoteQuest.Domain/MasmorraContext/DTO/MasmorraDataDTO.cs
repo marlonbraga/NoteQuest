@@ -1,5 +1,5 @@
 ﻿using NoteQuest.Domain.MasmorraContext.Entities;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 
 namespace NoteQuest.Domain.MasmorraContext.DTO
 {
@@ -30,6 +30,7 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
     public partial class TabelaArmadilhaElement
     {
         public int Indice { get; set; }
+        public string Efeito { get; set; }
         public string Descricao { get; set; }
     }
 

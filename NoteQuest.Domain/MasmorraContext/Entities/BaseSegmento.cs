@@ -4,8 +4,6 @@ using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System.Collections.Generic;
 using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Reflection;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {

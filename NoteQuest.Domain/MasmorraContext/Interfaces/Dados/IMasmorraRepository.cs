@@ -2,7 +2,8 @@
 {
     public interface IMasmorraRepository
     {
-        IMasmorraData PegarDadosMasmorra(string nomeMasmorra);
+        public IMasmorraData DadosDeMasmorra { get; set; }
+        IMasmorraData PegarDadosMasmorra(string nomeMasmorra = "Palacio");
         IMasmorraNomes PegarNomesMasmorra();
     }
 }

@@ -7,5 +7,6 @@
         public void Alterar(int Pv);
         public void RecuperarTudo();
         public void AlterarMaximo(int Pv);
+        public void ReceberDano(int pv, out bool morreu);
     }
 }

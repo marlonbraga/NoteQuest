@@ -37,12 +37,12 @@
     {"indice":6, "descricao":"Passagem para uma Escadaria."}
   ],
   "TabelaArmadilha": [
-    {"indice":1, "descricao":"Uma lâmina desce do teto. Role o dado. Se cair 2 você perde um dos braços e se cair 1 você morre."},
-    {"indice":2, "descricao":"Jorro de Ácido (5 de dano)."},
-    {"indice":3, "descricao":"Você cai em um fosso (gaste 1 tocha para sair)."},
-    {"indice":4, "descricao":"Um dardo te acerta (1 de dano)."},
-    {"indice":5, "descricao":"Um click, mas nada acontece."},
-    {"indice":6, "descricao":"Um click, mas nada acontece."}
+    {"indice":1, "efeito":"lâmina",   "descricao":"Uma lâmina desce do teto."},
+    {"indice":2, "efeito":"dano[5]",  "descricao":"Um jorro de ácido é esguichado!"},
+    {"indice":3, "efeito":"tocha[1]", "descricao":"O chão se abre e você cai em um fosso."},
+    {"indice":4, "efeito":"dano[1]",  "descricao":"Um dardo é disparado e acerta em cheio."},
+    {"indice":5, "efeito":null,       "descricao":"Um click, mas nada acontece."},
+    {"indice":6, "efeito":"luta[1d6 Esqueleto(s) (Pv:4, Dano:2, Morto-vivo)]", "descricao":"Um click, mas nada acontece."}
   ],
   "TabelaConteudo": [
     {"indice":2, "descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},

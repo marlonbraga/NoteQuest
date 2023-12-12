@@ -1,9 +1,11 @@
 ﻿using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Entities;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -14,7 +16,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IPortaComum Porta { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Efeito { get; set; }
+        public IPersonagem Personagem { get; set; }
+        public Func<IEnumerable<ActionResult>> Efeito { get; set; }
         //public ISegmentoBuilder SegmentoFactory { get; set; }
 
         public AbrirFechadura(IPortaComum porta, int? indice = null)
@@ -31,15 +34,16 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
                     string texto = string.Empty;
                     texto += $"\n  Você gasta algum tempo tentando arrombar o cadeado. A porta é destravada revelando um segmento da masmorra.";
                     texto += $"\n  Porém o processo foi demorado. A iluminação cessou te colocando outra vez na escuridão.";
-                    ConsequenciaDTO consequencia = new()
+                    DungeonConsequence consequencia = new()
                     {
                         Descricao = texto,
-                        Segmento = Porta.SegmentoAtual,
-                        Escolhas = Porta.SegmentoAtual.RecuperaTodasAsEscolhas()
+                        Segment = Porta.SegmentoAtual,
+                        //Escolhas = Porta.SegmentoAtual.RecuperaTodasAsEscolhas()
                         //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
                     };
 
-                    return consequencia;
+                    IEnumerable<ActionResult> result = new List<ActionResult>(){consequencia};
+                    return result;
                 };
         }
 

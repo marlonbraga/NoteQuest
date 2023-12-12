@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NoteQuest.Domain.MasmorraContext.DTO;
 
-namespace NoteQuest.Domain.MasmorraContext.Interfaces
+namespace NoteQuest.Domain.MasmorraContext.Interfaces.Dados
 {
     public interface IMasmorraNomes
     {

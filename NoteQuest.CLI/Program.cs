@@ -52,28 +52,29 @@ namespace NoteQuest.CLI
             AnsiConsole.Markup(CharacterProfile.ExibirFicha(Personagem));
 
             //CRIA MASMORRA
-            IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository);
-            _ = masmorra.GerarNome(/*index ?? D6.Rolagem(1,true)*/0, D6.Rolagem(1, true), D6.Rolagem(1, true));
+            IMasmorra masmorra = Masmorra.GerarMasmorra(Container.MasmorraRepository, 1);
+            _ = masmorra.GerarNome(D6.Rolagem(1, true), D6.Rolagem(1, true));
             Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n");
-            //Masmorra.Build(D6.Rolagem(), D6.Rolagem(), D6.Rolagem());
 
             AnsiConsole.MarkupLine($"   [underline yellow]{masmorra.Nome.ToUpper()}[/]\n");
 
-            ConsequenciaDTO consequencia = masmorra.EntrarEmMasmorra();
-            Console.WriteLine(consequencia.Descricao);
-            List<IEscolha> escolhas = consequencia.Escolhas;
-            
+            IEnumerable<ActionResult> result = masmorra.EntrarEmMasmorra();
+            DungeonConsequence dungeonConsequence = (DungeonConsequence)result.Single();
+            Console.WriteLine(dungeonConsequence.Descricao);
+
+            ActionResult scenario = dungeonConsequence;
+
             int numeroDePorta = 0;
 
             //Nova Partida
             IAcao acao = null;
             do
             {
-                AnsiConsole.MarkupLine("-------------------------------------------------\n");
-                EscreverSala(consequencia, masmorra);
+                AnsiConsole.MarkupLine("\n------------------------------------------------\n");
+                EscreverSala(dungeonConsequence, masmorra);
                 Console.WriteLine();
-                TipoMenu tipoMenu = Menu.MenuSegmento(consequencia.Segmento);
-                BaseSegmento sala = consequencia.Segmento;
+                TipoMenu tipoMenu = Menu.MenuSegmento(dungeonConsequence.Segment);
+                BaseSegmento sala = dungeonConsequence.Segment;
                 int portaIndex = 0;
                 IPorta porta;
                 switch (tipoMenu)
@@ -129,7 +130,7 @@ namespace NoteQuest.CLI
                     case TipoMenu.Sala:
                         continue;
                     case TipoMenu.Inventário: Console.Write("╔");
-                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
+                        //AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
                         Inventario(Personagem);
                         continue;
                     default:
@@ -137,8 +138,14 @@ namespace NoteQuest.CLI
                 }
 
                 //Executa Ação
-                consequencia = acao.Efeito();
-                AnsiConsole.MarkupLine(consequencia?.Descricao);
+                result = Personagem.ChainOfResponsabilityEfeito(acao).Efeito();
+                foreach (var action in result)
+                {
+                    AnsiConsole.MarkupLine(action.Descricao);
+                    if(action.GetType() == typeof(DungeonConsequence))
+                        dungeonConsequence = (DungeonConsequence)action;
+                }
+
             } while (true);
         }
 
@@ -168,13 +175,13 @@ namespace NoteQuest.CLI
             } while (tipoMenu != TipoMenu.None);
         }
 
-        static void EscreverSala(ConsequenciaDTO consequencia, IMasmorra masmorra)
+        static void EscreverSala(DungeonConsequence consequencia, IMasmorra masmorra)
         {
-            AdicionaConteudo(consequencia?.Segmento.Descricao, "cyan");
-            if (consequencia?.Segmento.GetType() != typeof(Sala))
+            AdicionaConteudo(consequencia?.Segment.Descricao, "cyan");
+            if (consequencia?.Segment.GetType() != typeof(Sala))
                 return;
-            AdicionaConteudo(((Sala)consequencia.Segmento).DescricaoConteudo);
-            AdicionaMonstros(((Sala)consequencia.Segmento).Monstros);
+            AdicionaConteudo(((Sala)consequencia.Segment).DescricaoConteudo);
+            AdicionaMonstros(((Sala)consequencia.Segment).Monstros);
             Console.WriteLine();
         }
         

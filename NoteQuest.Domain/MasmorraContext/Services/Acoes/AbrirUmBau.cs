@@ -1,6 +1,8 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -10,7 +12,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Efeito { get; set; }
+        public IPersonagem Personagem { get; set; }
+        public Func<IEnumerable<ActionResult>> Efeito { get; set; }
 
         public AbrirUmBau()
         {
@@ -20,7 +23,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Titulo = "Abrir Baú";
         }
 
-        public ConsequenciaDTO Executar(int? indice = null)
+        public IEnumerable<ActionResult> Executar(int? indice = null)
         {
             return null;
         }

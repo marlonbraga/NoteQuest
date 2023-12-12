@@ -1,5 +1,7 @@
 ﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.Interfaces
 {
@@ -18,6 +20,8 @@ namespace NoteQuest.Domain.Core.Interfaces
         SairDeMasmorra = 9,
         VerificarPorta = 10,
         CairEmArmadilha = 11,
+        Decapitacao = 110,
+        PerderBraço = 111,
         #endregion 
 
         #region Combate
@@ -58,8 +62,8 @@ namespace NoteQuest.Domain.Core.Interfaces
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Efeito { get; set; }
-
-        //ConsequenciaDTO Executar(int? indice = null);
+        public IPersonagem Personagem { get; set; }
+        public Func<IEnumerable<ActionResult>> Efeito { get; set; }
+        //public Func<ConsequenciaDTO> Efeito { get; set; }
     }
 }

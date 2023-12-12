@@ -1,4 +1,4 @@
-﻿using NoteQuest.Domain.MasmorraContext.Interfaces;
+﻿using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.DTO

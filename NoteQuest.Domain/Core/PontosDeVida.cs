@@ -25,5 +25,12 @@ namespace NoteQuest.Domain.Core
         {
             Pv = PvMaximo;
         }
+
+        public void ReceberDano(int pv, out bool morreu)
+        {
+            Pv -= pv;
+            Pv = Math.Max(0, Pv);
+            morreu = Pv == 0;
+        }
     }
 }

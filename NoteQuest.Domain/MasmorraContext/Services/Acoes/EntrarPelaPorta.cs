@@ -1,9 +1,12 @@
 ﻿using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -16,7 +19,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public int? IndicePreDefinido { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Efeito { get; set; }
+        public IPersonagem Personagem { get; set; }
+        public Func<IEnumerable<ActionResult>> Efeito { get; set; }
 
         public EntrarPelaPorta(IPortaComum porta, int? indicePreDefinido)
         {
@@ -29,20 +33,21 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             IndicePreDefinido = indicePreDefinido;
         }
 
-        public ConsequenciaDTO Executar(int? indice = null)
+        public IEnumerable<ActionResult> Executar(int? indice = null)
         {
             IndicePreDefinido = EhEscadariaObrigatoria(Porta);
             Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = $"\n  Você abre a porta revelando um segmento da masmorra";
-            ConsequenciaDTO consequencia = new()
+            DungeonConsequence consequencia = new()
             {
                 Descricao = texto,
-                Segmento = novoSegmento,
-                Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
+                Segment = novoSegmento,
+                //Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
             };
 
-            return consequencia;
+            IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
+            return result;
         }
 
         public int? EhEscadariaObrigatoria(IPortaComum porta)

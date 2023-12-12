@@ -1,4 +1,5 @@
-﻿using NoteQuest.Domain.Core.DTO;
+﻿using System.Collections.Generic;
+using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces.Masmorra;
@@ -6,7 +7,7 @@ using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Services;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -22,6 +23,7 @@ namespace NoteQuest.Domain.Core.Classes
         public int QtdMagias { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
         public IAbrirFechaduraService Acao { get; }
+        public IPersonagem Personagem { get; }
 
         public void Build()
         {
@@ -44,27 +46,22 @@ namespace NoteQuest.Domain.Core.Classes
             return acao;
         }
 
-        public ConsequenciaDTO Efeito(IAcao acao, int? indice = null)
-        {
-            IAcaoPorta acaoPorta = (IAcaoPorta)acao;
+        public IEnumerable<ActionResult> Efeito(IAcao acao, int? indice = null)
+        { IAcaoPorta acaoPorta = (IAcaoPorta)acao;
             IPortaComum porta = acaoPorta.Porta;
             porta.AbrirFechadura();
             porta.SegmentoAlvo = porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(porta, indice ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = porta.SegmentoAlvo;
             string texto = string.Empty;
-            texto += $"\n  Com as habilidade de CHAVEIRO, você destranca a fechadura rapidamente.";
-            texto += $"\n  #{novoSegmento.IdSegmento}";
-            texto += $"\n  {novoSegmento.Descricao}";
-            texto += novoSegmento.DetalhesDescricao;
-            ConsequenciaDTO consequencia = new()
+            texto += $"\n  Com as habilidade de CHAVEIRO, {acao.Personagem.Nome} destranca a fechadura rapidamente.";
+            ActionResult consequencia = new DungeonConsequence()
             {
                 Descricao = texto,
-                Segmento = novoSegmento,
-                Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
-                //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
+                Segment = novoSegmento
             };
 
-            return consequencia;
+            IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
+            return result;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace NoteQuest.Domain.Core
 
         public IAcao ChainOfResponsabilityEfeito(IAcao acao)
         {
+            acao.Personagem = this;
             IAcao acaoModificada;
             acaoModificada = Raca.AplicaEfeito(acao);
             foreach (IClasse classe in Classes)

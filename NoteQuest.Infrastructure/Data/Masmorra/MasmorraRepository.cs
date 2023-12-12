@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NoteQuest.Domain.MasmorraContext.DTO;
-using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using System.IO;
 
@@ -48,6 +47,7 @@ namespace NoteQuest.Infrastructure.Data.Masmorra
             MasmorraNomenclatura = ConverterNomes(json);
             return MasmorraNomenclatura;
         }
+
         private MasmorraNomesDTO ConverterNomes(string json)
         {
             try

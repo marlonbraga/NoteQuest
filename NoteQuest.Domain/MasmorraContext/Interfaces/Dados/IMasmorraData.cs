@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities;
 
-namespace NoteQuest.Domain.MasmorraContext.Interfaces
+namespace NoteQuest.Domain.MasmorraContext.Interfaces.Dados
 {
     public interface IMasmorraData
     {

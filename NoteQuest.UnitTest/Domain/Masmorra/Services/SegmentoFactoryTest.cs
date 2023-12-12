@@ -8,9 +8,9 @@ using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Services;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using System;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 
 namespace NoteQuest.UnitTest
 {

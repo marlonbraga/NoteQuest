@@ -1,10 +1,12 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Services;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -18,7 +20,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Efeito { get; set; }
+        public IPersonagem Personagem { get; set; }
+        public Func<IEnumerable<ActionResult>> Efeito { get; set; }
 
         public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IMasmorra masmorra, IPortaEntrada portaEntrada)
         {
@@ -32,19 +35,19 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Ambiente escuro e perigoso. Gasta 1 tocha";
         }
 
-        public ConsequenciaDTO Executar(int? indice = null)
+        public IEnumerable<ActionResult> Executar(int? indice = null)
         {
             (string, BaseSegmento) entradaEmMasmorra;
             entradaEmMasmorra = SegmentoFactory.Instancia(MasmorraRepository).GeraSegmentoInicial(Masmorra);
             BaseSegmento segmentoInicial = entradaEmMasmorra.Item2;
-            ConsequenciaDTO consequencia = new()
+            DungeonConsequence consequencia = new()
             {
                 Descricao = $"  {entradaEmMasmorra.Item1}\n  {segmentoInicial.Descricao}",
-                Segmento = segmentoInicial,
-                Escolhas = segmentoInicial.RecuperaTodasAsEscolhas()
+                Segment = segmentoInicial,
+                //Escolhas = segmentoInicial.RecuperaTodasAsEscolhas()
             };
-
-            return consequencia;
+            IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
+            return result;
         }
     }
 }

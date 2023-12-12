@@ -3,8 +3,11 @@ using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
@@ -17,7 +20,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public int? IndicePreDefinido { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
         public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public Func<ConsequenciaDTO> Efeito { get; set; }
+        public Func<IEnumerable<ActionResult>> Efeito { get; set; }
+        public IPersonagem Personagem {get; set; }
 
         public VerificarPorta(IPortaComum porta, int? indicePreDefinido)
         {
@@ -30,22 +34,37 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             IndicePreDefinido = indicePreDefinido;
         }
 
-        public ConsequenciaDTO Executar(int? indice = null)
+        public IEnumerable<ActionResult> Executar(int? indicePorta = null, int? indiceArmadilha = null)
         {
-            EstadoDePorta estado = Porta.VerificarFechadura(indice ?? D6.Rolagem());
+            List<ActionResult> result = new(2);
+
+            EstadoDePorta estado = Porta.VerificarFechadura(indicePorta ?? D6.Rolagem());
             IndicePreDefinido = EhEscadariaObrigatoria(Porta);
             if (estado == EstadoDePorta.aberta)
-                Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+                Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? SegmentoFactory.GeraSegmento(Porta, indicePorta ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+
+            indiceArmadilha ??= D6.Rolagem();
+            if (indiceArmadilha == 1)
+            {
+                ActionResult armadilha = new ActionResult() {Descricao = "ARMADILHA!"};
+                result.Add(armadilha);
+
+                //TODO: Remover singleton!
+                //IArmadilha armadilha = ArmadilhaFactory.GeraArmadilha(Porta.Masmorra, 1);
+                //descricao = $"\n  {armadilha.Efeito(Personagem)}";
+            }
+
             BaseSegmento segmentoAtual = Porta.SegmentoAtual;
             List<IEscolha> escolhas = segmentoAtual.RecuperaTodasAsEscolhas();
-            ConsequenciaDTO consequencia = new()
+            ActionResult dungeonConsequence = new DungeonConsequence()
             {
                 Descricao = $"\n  A porta está {estado}",
-                Segmento = segmentoAtual,
-                Escolhas = escolhas
+                Segment = segmentoAtual,
+                //Escolhas = escolhas
             };
+            result.Add(dungeonConsequence);
 
-            return consequencia;
+            return result;
         }
 
         public int? EhEscadariaObrigatoria(IPortaComum porta)
