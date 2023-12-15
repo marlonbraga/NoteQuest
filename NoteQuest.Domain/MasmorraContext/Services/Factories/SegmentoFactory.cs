@@ -47,7 +47,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             {
                 case 1://Palácio
                     int index = segmento.Portas.FindIndex(s => s.Posicao == Posicao.frente);
-                    IAcao novaAcao = new EntrarPelaPorta((IPortaComum)segmento.Portas[index], 5);
+                    IEvent novaAcao = new EntrarPelaPorta((IPortaComum)segmento.Portas[index], 5);
                     novaAcao.Titulo = "Descer escadaria";
                     segmento.Portas[index].Escolhas[0].Acao = novaAcao;
                     segmento.Portas[0].EstadoDePorta = EstadoDePorta.aberta;

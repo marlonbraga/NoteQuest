@@ -2,7 +2,7 @@
 
 namespace NoteQuest.Domain.Core.Interfaces.Masmorra
 {
-    public interface IAbrirFechaduraService : IAcao
+    public interface IAbrirFechaduraService : IEvent
     {
         public IPortaComum Porta { get; set; }
     }

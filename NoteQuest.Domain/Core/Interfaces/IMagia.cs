@@ -9,6 +9,6 @@ namespace NoteQuest.Domain.Core.Interfaces
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public Type TipoAcao { get; set; }
-        public IAcao Acao { get; set; }
+        public IEvent Acao { get; set; }
     }
 }

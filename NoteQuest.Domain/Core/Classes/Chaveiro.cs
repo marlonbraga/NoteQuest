@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using NoteQuest.Domain.Core.DTO;
+﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
-using NoteQuest.Domain.Core.Interfaces.Masmorra;
-using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Services.Factories;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -19,15 +18,12 @@ namespace NoteQuest.Domain.Core.Classes
         public int Pv { get; set; }
         public string Vantagem { get; set; }
         public IArma ArmaInicial { get; set; }
-        public int Dano { get; set; }
         public int QtdMagias { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
-        public IAbrirFechaduraService Acao { get; }
-        public IPersonagem Personagem { get; }
+        public string EventTrigger { get; set; }
 
         public void Build()
         {
-            GatilhoDeAcao = GatilhoDeAcao.AbrirFechadura;
+            EventTrigger = nameof(AbrirFechadura);
             Pv = 2;
             Nome = "Chaveiro";
             Vantagem = "Não gasta tochas ao Abrir Fechaduras.";
@@ -36,31 +32,36 @@ namespace NoteQuest.Domain.Core.Classes
             QtdMagias = 0;
         }
 
-        public IAcao AplicaEfeito(IAcao acao)
+        public IEvent EffectSubstitutionComposite(IEvent gameEvent)
         {
-            if (acao.GatilhoDeAcao == this.GatilhoDeAcao)
-            {
-                acao.Efeito = () => Efeito(acao);
-                return acao;
-            }
-            return acao;
+            if (gameEvent?.GetType().Name == EventTrigger)
+                gameEvent.Efeito = () => Efeito(gameEvent);
+
+            if (gameEvent?.ChainedEvents is not null)
+                foreach (var subEvent in gameEvent?.ChainedEvents)
+                {
+                    if (subEvent.Value is not null)
+                    {
+                        subEvent.Value.Personagem = gameEvent.Personagem;
+                        EffectSubstitutionComposite(subEvent.Value);
+                    }
+                }
+
+            return gameEvent;
         }
 
-        public IEnumerable<ActionResult> Efeito(IAcao acao, int? indice = null)
-        { IAcaoPorta acaoPorta = (IAcaoPorta)acao;
+        public IEnumerable<ActionResult> Efeito(IEvent acao, int? indice = null)
+        {
+            IAcaoPorta acaoPorta = (IAcaoPorta)acao;
             IPortaComum porta = acaoPorta.Porta;
             porta.AbrirFechadura();
-            porta.SegmentoAlvo = porta.SegmentoAlvo ?? porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(porta, indice ?? D6.Rolagem(deslocamento: true));
+            porta.SegmentoAlvo ??= porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(porta, indice ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Com as habilidade de CHAVEIRO, {acao.Personagem.Nome} destranca a fechadura rapidamente.";
-            ActionResult consequencia = new DungeonConsequence()
-            {
-                Descricao = texto,
-                Segment = novoSegmento
-            };
-
+            ActionResult consequencia = new DungeonConsequence(texto, novoSegmento);
             IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
+
             return result;
         }
     }

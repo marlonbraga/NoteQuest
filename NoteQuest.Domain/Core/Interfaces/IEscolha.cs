@@ -2,6 +2,6 @@
 {
     public interface IEscolha
     {
-        public IAcao Acao { get; set; }
+        public IEvent Acao { get; set; }
     }
 }

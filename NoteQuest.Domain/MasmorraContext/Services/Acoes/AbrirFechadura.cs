@@ -14,15 +14,13 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public IPortaComum Porta { get; set; }
-        public AcaoTipo AcaoTipo { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
         public IPersonagem Personagem { get; set; }
+        public string EventTrigger { get; set; }
         public Func<IEnumerable<ActionResult>> Efeito { get; set; }
-        //public ISegmentoBuilder SegmentoFactory { get; set; }
+        public IDictionary<string, IEvent> ChainedEvents { get; set; }
 
         public AbrirFechadura(IPortaComum porta, int? indice = null)
         {
-            GatilhoDeAcao = GatilhoDeAcao.AbrirFechadura;
             Porta = porta;
             Titulo = $"Abrir fechadura {porta.Posicao}";
             Descricao = "Arrombar fechadura silenciosamente. Ação demorada.";
@@ -30,17 +28,13 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
                 {
                     //TODO: Evento de escuridão (remover 1 tocha ou encerrar o eeita da magia LUZ)
                     Porta.AbrirFechadura();
-                    Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indice ?? D6.Rolagem(deslocamento: true));
+                    Porta.SegmentoAlvo ??= Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indice ?? D6.Rolagem(deslocamento: true));
                     string texto = string.Empty;
                     texto += $"\n  Você gasta algum tempo tentando arrombar o cadeado. A porta é destravada revelando um segmento da masmorra.";
                     texto += $"\n  Porém o processo foi demorado. A iluminação cessou te colocando outra vez na escuridão.";
-                    DungeonConsequence consequencia = new()
-                    {
-                        Descricao = texto,
-                        Segment = Porta.SegmentoAtual,
-                        //Escolhas = Porta.SegmentoAtual.RecuperaTodasAsEscolhas()
-                        //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
-                    };
+                    DungeonConsequence consequencia = new(texto, Porta.SegmentoAtual);
+                    //Escolhas = Porta.SegmentoAtual.RecuperaTodasAsEscolhas()
+                    //TODO: Verifica se é uma sala recem criada e passa a Escolha de gerar Conteudo e Monstros
 
                     IEnumerable<ActionResult> result = new List<ActionResult>(){consequencia};
                     return result;

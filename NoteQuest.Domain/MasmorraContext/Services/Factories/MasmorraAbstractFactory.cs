@@ -23,9 +23,9 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
         {
             IPortaEntrada portaEntrada = new PortaEntrada();
             indice1 ??= D6.Rolagem();
-            indice2 ??= D6.Rolagem();
-            indice3 ??= D6.Rolagem();
-            indiceChefe ??= D6.Rolagem();
+            indice2 ??= D6.Rolagem(deslocamento: true);
+            indice3 ??= D6.Rolagem(deslocamento: true);
+            indiceChefe ??= D6.Rolagem(deslocamento: true);
             Masmorra masmorra = new (portaEntrada, MasmorraRepository, SegmentoFactory, ArmadilhaFactory)
             {
                 Nome = GerarNome((TipoMasmorra)indice1, (int)indice2, (int)indice3),
@@ -45,7 +45,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
         public string GerarNome(TipoMasmorra tipoMasmorra, int indice2, int indice3)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
-            string nomeParte1 = masmorraNomes.TipoDeMasmorra[((int)tipoMasmorra) - 1];
+            string nomeParte1 = masmorraNomes.TipoDeMasmorra[((int)tipoMasmorra)-1];
             string nomeParte2 = masmorraNomes.SegundaParte[indice2];
             string nomeParte3 = masmorraNomes.TerceiraParte[indice3];
 

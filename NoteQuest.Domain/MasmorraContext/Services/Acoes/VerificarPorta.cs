@@ -8,10 +8,11 @@ using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System;
 using System.Collections.Generic;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
+using NoteQuest.Domain.Core.ObjectValue;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class VerificarPorta : IAcao
+    public class VerificarPorta : IEvent
     {
         public IPortaComum Porta { get; set; }
         public IMasmorra Masmorra { get; set; }
@@ -19,19 +20,22 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Descricao { get; set; }
         public int? IndicePreDefinido { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public string EventTrigger { get; set; }
         public Func<IEnumerable<ActionResult>> Efeito { get; set; }
         public IPersonagem Personagem {get; set; }
+        public IDictionary<string, IEvent> ChainedEvents { get; set; }
 
         public VerificarPorta(IPortaComum porta, int? indicePreDefinido)
         {
-            GatilhoDeAcao = GatilhoDeAcao.VerificarPorta;
+            EventTrigger = nameof(VerificarPorta);
             Efeito = delegate { return Executar(); };
             Porta = porta;
             Masmorra = porta.Masmorra;
             Titulo = "Verificar porta";
             Descricao = "Pode acionar armadilhas";
             IndicePreDefinido = indicePreDefinido;
+            ChainedEvents = new Dictionary<string, IEvent>();
+            ChainedEvents["Armadilha"] = Porta.Masmorra?.ArmadilhaFactory.GeraArmadilha(Porta.Masmorra, 1);
         }
 
         public IEnumerable<ActionResult> Executar(int? indicePorta = null, int? indiceArmadilha = null)
@@ -46,22 +50,20 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             indiceArmadilha ??= D6.Rolagem();
             if (indiceArmadilha == 1)
             {
-                ActionResult armadilha = new ActionResult() {Descricao = "ARMADILHA!"};
-                result.Add(armadilha);
+                //IArmadilhaFactory armadilhaFactory = Porta.Masmorra.ArmadilhaFactory;
+                ActionResult eventoArmadilha = new ("ARMADILHA!");
+                result.Add(eventoArmadilha);
 
-                //TODO: Remover singleton!
-                //IArmadilha armadilha = ArmadilhaFactory.GeraArmadilha(Porta.Masmorra, 1);
+                //ActionResult armadilha = armadilhaFactory.GeraArmadilha(Porta.Masmorra, 1);
+                //ActionResult efeitoArmadilha = new ActionResult() { Descricao = armadilha.Descricao };
+                result.AddRange(ChainedEvents["Armadilha"].Efeito.Invoke());
                 //descricao = $"\n  {armadilha.Efeito(Personagem)}";
             }
 
             BaseSegmento segmentoAtual = Porta.SegmentoAtual;
             List<IEscolha> escolhas = segmentoAtual.RecuperaTodasAsEscolhas();
-            ActionResult dungeonConsequence = new DungeonConsequence()
-            {
-                Descricao = $"\n  A porta está {estado}",
-                Segment = segmentoAtual,
-                //Escolhas = escolhas
-            };
+            string descicao = $"\n  A porta está {estado}";
+            ActionResult dungeonConsequence = new DungeonConsequence(descicao, segmentoAtual);
             result.Add(dungeonConsequence);
 
             return result;

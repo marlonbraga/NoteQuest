@@ -14,14 +14,14 @@ namespace NoteQuest.Domain.Core
         public List<IClasse> Classes { get; set; }
         public IInventario Inventario { get; set; }
 
-        public IAcao ChainOfResponsabilityEfeito(IAcao acao)
+        public IEvent ChainOfResponsabilityEfeito(IEvent acao)
         {
             acao.Personagem = this;
-            IAcao acaoModificada;
-            acaoModificada = Raca.AplicaEfeito(acao);
+            IEvent acaoModificada;
+            acaoModificada = Raca.EffectSubstitutionComposite(acao);
             foreach (IClasse classe in Classes)
             {
-                acaoModificada = classe.AplicaEfeito(acao);
+                acaoModificada = classe.EffectSubstitutionComposite(acao);
             }
 
             return acaoModificada;

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class EntrarEmMasmorra : IAcao
+    public class EntrarEmMasmorra : IEvent
     {
         public int Indice { get; set; }
         public IMasmorra Masmorra { get; set; }
@@ -19,13 +19,14 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public string EventTrigger { get; set; }
+        public IDictionary<string, IEvent> ChainedEvents { get; set; }
         public IPersonagem Personagem { get; set; }
         public Func<IEnumerable<ActionResult>> Efeito { get; set; }
 
         public EntrarEmMasmorra(int indice, IMasmorraRepository masmorraRepository, IMasmorra masmorra, IPortaEntrada portaEntrada)
         {
-            GatilhoDeAcao = GatilhoDeAcao.EntrarEmMasmorra;
+            EventTrigger = nameof(EntrarEmMasmorra);
             Efeito = delegate { return Executar(); };
             Indice = indice;
             MasmorraRepository = masmorraRepository;
@@ -40,12 +41,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             (string, BaseSegmento) entradaEmMasmorra;
             entradaEmMasmorra = Masmorra.SegmentoFactory.GeraSegmentoInicial(Masmorra);
             BaseSegmento segmentoInicial = entradaEmMasmorra.Item2;
-            DungeonConsequence consequencia = new()
-            {
-                Descricao = $"  {entradaEmMasmorra.Item1}\n  {segmentoInicial.Descricao}",
-                Segment = segmentoInicial,
-                //Escolhas = segmentoInicial.RecuperaTodasAsEscolhas()
-            };
+            string descricao = $"  {entradaEmMasmorra.Item1}\n  {segmentoInicial.Descricao}";
+            DungeonConsequence consequencia = new(descricao, segmentoInicial);
             IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
             return result;
         }

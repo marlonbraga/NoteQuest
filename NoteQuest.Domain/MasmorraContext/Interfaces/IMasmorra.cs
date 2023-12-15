@@ -44,5 +44,6 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         public bool FoiConquistada { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
         public IEnumerable<ActionResult> EntrarEmMasmorra();
+        public IEvent GeraArmadilha(int? indice = null);
     }
 }

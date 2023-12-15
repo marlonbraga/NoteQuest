@@ -68,7 +68,7 @@ namespace NoteQuest.CLI
             int numeroDePorta = 0;
 
             //Nova Partida
-            IAcao acao = null;
+            IEvent acao = null;
             do
             {
                 AnsiConsole.MarkupLine("\n------------------------------------------------\n");

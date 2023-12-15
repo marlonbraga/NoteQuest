@@ -4,9 +4,9 @@ namespace NoteQuest.Domain.Core.ObjectValue
 {
     public class Escolha : IEscolha
     {
-        public IAcao Acao { get; set; }
+        public IEvent Acao { get; set; }
 
-        public Escolha(IAcao acao)
+        public Escolha(IEvent acao)
         {
             Acao = acao;
         }

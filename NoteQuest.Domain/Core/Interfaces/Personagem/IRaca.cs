@@ -11,7 +11,7 @@ namespace NoteQuest.Domain.Core.Interfaces.Personagem
         public int QtdMagias { get; set; }
         public string Vantagem { get; set; }
         public Type TipoAcao { get; set; }
-        public IAcao Acao { get; set; }
+        public IEvent Acao { get; set; }
 
         public void Build();
     }

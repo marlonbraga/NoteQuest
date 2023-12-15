@@ -59,9 +59,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         private List<IEscolha> GerarEscolhasBasicas()
         {
-            IAcao acaoDesarmarArmadilhas = new DesarmarArmadilhas();
+            IEvent acaoDesarmarArmadilhas = new DesarmarArmadilhas();
             Escolha desarmarArmadilhas = new (acaoDesarmarArmadilhas);
-            IAcao acaoAcharPassagemSecreta = new AcharPassagemSecreta();
+            IEvent acaoAcharPassagemSecreta = new AcharPassagemSecreta();
             Escolha acharPassagemSecreta = new (acaoAcharPassagemSecreta);
             List<IEscolha> escolhas = new() { desarmarArmadilhas, acharPassagemSecreta };
             return escolhas;

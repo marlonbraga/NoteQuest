@@ -3,10 +3,6 @@ using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -18,12 +14,9 @@ namespace NoteQuest.Domain.Core.Classes
         public int Pv { get; set; }
         public string Vantagem { get; set; }
         public IArma ArmaInicial { get; set; }
-        public int Dano { get; set; }
         public int QtdMagias { get; set; }
-        public Type TipoAcao { get; set; }
-        public IAcao Acao { get; set; }
 
-        public IAcao AplicaEfeito(IAcao acao) => acao;
+        public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
         public void Build(/*IAcao acao*/)
         {

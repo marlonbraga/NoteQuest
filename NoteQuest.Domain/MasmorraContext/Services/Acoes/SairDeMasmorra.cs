@@ -6,17 +6,18 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class SairDeMasmorra : IAcao
+    public class SairDeMasmorra : IEvent
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public string EventTrigger { get; set; }
+        public IDictionary<string, IEvent> ChainedEvents { get; set; }
         public IPersonagem Personagem { get; set; }
         public Func<IEnumerable<ActionResult>> Efeito { get; set; }
         public SairDeMasmorra()
         {
-            GatilhoDeAcao = GatilhoDeAcao.SairDeMasmorra;
+            EventTrigger = nameof(SairDeMasmorra);
             Efeito = delegate { return Executar(); };
             Titulo = "Sair de Masmorra";
             Descricao = "Voltar para a cidade";

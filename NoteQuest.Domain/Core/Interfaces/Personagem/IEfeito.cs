@@ -2,6 +2,7 @@
 {
     public interface IEfeito
     {
-        public IAcao AplicaEfeito(IAcao acao);
+        //public IEvent AplicaEfeito(IEvent acao);
+        IEvent EffectSubstitutionComposite(IEvent gameEvent);
     }
 }

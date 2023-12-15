@@ -29,7 +29,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
             Masmorra = segmentoAtual.Masmorra;
-            IAcao acao = new VerificarPorta(this, 1);
+            IEvent acao = new VerificarPorta(this, 1);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
             Andar = segmentoAtual.Andar;
@@ -40,7 +40,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             SegmentoAtual = segmentoAtual;
             Posicao = posicao;
             Masmorra = segmentoAtual.Masmorra;
-            IAcao acao = new EntrarPelaPorta(this, indice);
+            IEvent acao = new EntrarPelaPorta(this, indice);
             Escolha escolha = new(acao);
             Escolhas = new List<IEscolha>() { escolha };
             Andar = segmentoAtual.Andar;
@@ -58,9 +58,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 case 2:
                 case 3:
                     EstadoDePorta = EstadoDePorta.fechada;
-                    IAcao acaoQuebrarPorta = new QuebrarPorta(this, 1);
+                    IEvent acaoQuebrarPorta = new QuebrarPorta(this, 1);
                     Escolha escolhaQuebrarPorta = new(acaoQuebrarPorta);
-                    IAcao acaoAbrirFechadura = new AbrirFechadura(this,1);
+                    IEvent acaoAbrirFechadura = new AbrirFechadura(this,1);
                     Escolha escolhaAbrirFechadura = new(acaoAbrirFechadura);
                     Escolhas = new List<IEscolha>() { escolhaQuebrarPorta, escolhaAbrirFechadura };
                     break;
@@ -107,7 +107,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 Masmorra = this.SegmentoAtual.Masmorra,
                 Andar = this.Andar,
             };
-            IAcao acao = new EntrarPelaPorta(porta, null);
+            IEvent acao = new EntrarPelaPorta(porta, null);
             acao.Titulo = $"◄┘ Voltar ({porta.Posicao})";
             IEscolha escolha = new Escolha(acao);
             List<IEscolha> escolhas = new() { escolha };
@@ -118,7 +118,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         public List<IEscolha> AbrirPorta()
         {
-            IAcao acao = new EntrarPelaPorta(this, null);
+            IEvent acao = new EntrarPelaPorta(this, null);
             Escolha escolha = new(acao);
             return new List<IEscolha>() { escolha };
         }

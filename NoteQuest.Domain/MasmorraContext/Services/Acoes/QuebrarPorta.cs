@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class QuebrarPorta : IAcao
+    public class QuebrarPorta : IEvent
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
@@ -18,13 +18,14 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IMasmorra Masmorra { get; set; }
         public int? IndicePreDefinido { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
+        public string EventTrigger { get; set; }
+        public IDictionary<string, IEvent> ChainedEvents { get; set; }
         public IPersonagem Personagem { get; set; }
         public Func<IEnumerable<ActionResult>> Efeito { get; set; }
 
         public QuebrarPorta(IPortaComum porta, int? indicePreDefinido)
         {
-            GatilhoDeAcao = GatilhoDeAcao.ArromarPorta;
+            EventTrigger = nameof(QuebrarPorta);
             Efeito = delegate { return Executar(); };
             Porta = porta;
             Masmorra = porta.Masmorra;
@@ -41,12 +42,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
             texto += $"\n  Você aplica diversos golpes a porta. O barulho ecoa pelo ambinete. A porta logo é quebrada revelando um segmento da masmorra.";
-            DungeonConsequence consequencia = new()
-            {
-                Descricao = texto,
-                Segment = novoSegmento,
-                //Escolhas = novoSegmento.RecuperaTodasAsEscolhas()
-            };
+            DungeonConsequence consequencia = new(texto, novoSegmento);
 
             IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
             return result;

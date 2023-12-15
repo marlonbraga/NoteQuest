@@ -11,7 +11,7 @@ namespace NoteQuest.Domain.Core.Interfaces.Personagem
         List<IClasse> Classes { get; set; }
         IInventario Inventario { get; set; }
 
-        IAcao ChainOfResponsabilityEfeito(IAcao acao);
+        IEvent ChainOfResponsabilityEfeito(IEvent acao);
         void Build(string nome, IRaca indiceRaca, IClasse indiceClasse);
     }
 }

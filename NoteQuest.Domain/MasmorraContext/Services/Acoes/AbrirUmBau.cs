@@ -6,18 +6,19 @@ using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
 {
-    public class AbrirUmBau : IAcao
+    public class AbrirUmBau : IEvent
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public AcaoTipo AcaoTipo { get; set; }
-        public GatilhoDeAcao GatilhoDeAcao { get; set; }
         public IPersonagem Personagem { get; set; }
         public Func<IEnumerable<ActionResult>> Efeito { get; set; }
+        public string EventTrigger { get; set; }
+        public IDictionary<string, IEvent> ChainedEvents { get; set; }
 
         public AbrirUmBau()
         {
-            GatilhoDeAcao = GatilhoDeAcao.AbrirUmBau;
+            EventTrigger = nameof(AbrirUmBau);
             Efeito = delegate { return Executar(); };
             Descricao = "Encontra moedas e tesouros; Raramente aciona armadilhas.";
             Titulo = "Abrir Baú";

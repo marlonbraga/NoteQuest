@@ -468,7 +468,7 @@ namespace NoteQuest.CLI
             return numeroDeEscolha;
         }
 
-        public static IAcao MenuPorta(IPorta porta)
+        public static IEvent MenuPorta(IPorta porta)
         {
             if (porta == null) return null;
             AnsiConsole.MarkupLine($" Porta {porta.EstadoDePorta} à {porta.Posicao}:\n");

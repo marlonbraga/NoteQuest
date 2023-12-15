@@ -1,14 +1,9 @@
-﻿using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NoteQuest.Domain.Core.Interfaces;
 
 namespace NoteQuest.Domain.MasmorraContext.Interfaces
 {
     public interface IArmadilhaFactory
     {
-        public IArmadilha GeraArmadilha(IMasmorra masmorra, int? indice = null);
+        public IEvent GeraArmadilha(IMasmorra masmorra, int? indice = null);
     }
 }

@@ -42,11 +42,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
                 porta.Masmorra = this;
             }
 
-            DungeonConsequence dungeonConsequence = new()
-            {
-                Descricao = $"  {entradaEmMasmorra.descricao}",
-                Segment = segmentoInicial
-            };
+            DungeonConsequence dungeonConsequence = new($"  {entradaEmMasmorra.descricao}", segmentoInicial);
             Consequencia = new List<DungeonConsequence>( 1) { dungeonConsequence };
         }
 
@@ -61,7 +57,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             return masmorraNomes.TipoDeMasmorra[indice];
         }
 
-        public IArmadilha GeraArmadilha(int? indice = null)
+        public IEvent GeraArmadilha(int? indice = null)
         {
             return ArmadilhaFactory.GeraArmadilha(this, indice);
         }

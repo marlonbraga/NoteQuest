@@ -2,10 +2,6 @@
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Racas
 {
@@ -18,12 +14,9 @@ namespace NoteQuest.Domain.Core.Racas
         public int QtdMagias { get; set; }
         public string Vantagem { get; set; }
         public Type TipoAcao { get; set; }
-        public IAcao Acao { get; set; }
+        public IEvent Acao { get; set; }
 
-        public IAcao AplicaEfeito(IAcao acao)
-        {
-            return acao;
-        }
+        public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
         public void Build(/*IAcao acao*/)
         {

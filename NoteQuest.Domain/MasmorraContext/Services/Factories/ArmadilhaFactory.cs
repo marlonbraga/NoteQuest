@@ -1,4 +1,6 @@
 ﻿using NoteQuest.Domain.Core;
+using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities.Armadilhas;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
@@ -9,24 +11,24 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
 {
     public class ArmadilhaFactory : IArmadilhaFactory
     {
-        private IDictionary<TipoMasmorra, IArmadilha[]> Armadilhas;
+        private IDictionary<TipoMasmorra, IEvent[]> Armadilhas;
 
         public ArmadilhaFactory(IMasmorraRepository masmorraRepository)
         {
-            Armadilhas = new Dictionary<TipoMasmorra, IArmadilha[]>();
+            Armadilhas = new Dictionary<TipoMasmorra, IEvent[]>();
             TabelaArmadilhaElement[] tabelaDeArmadilhas;
 
             for (int i = 1; i <= 18; i++)
             {
                 TipoMasmorra tipo = (TipoMasmorra)i;
-                Armadilhas[tipo] = new IArmadilha[6];
+                Armadilhas[tipo] = new IEvent[6];
                 tabelaDeArmadilhas = masmorraRepository.PegarDadosMasmorra(/*tipo.ToString()*/).TabelaArmadilha;
 
                 for (int j = 0; j < 6; j++)
                 {
                     string descricao = tabelaDeArmadilhas[j].Descricao;
                     string efeito = tabelaDeArmadilhas[j]?.Efeito;
-                    if(efeito is null)
+                    if (efeito is null)
                         continue;
                     if (efeito.Contains("lâmina"))
                     {
@@ -38,7 +40,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                         string danoRaw = GetIndex(efeito);
                         int dano = 0;
                         _ = int.TryParse(danoRaw, out dano);
-                        IArmadilha armadilha = new SofrerDano(descricao, dano);
+                        IEvent armadilha = new SofrerDano(descricao, dano);
                         Armadilhas[tipo][j] = armadilha;
 
                         continue;
@@ -84,7 +86,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return result;
         }
 
-        public IArmadilha GeraArmadilha(IMasmorra masmorra, int? indice = null)
+        public IEvent GeraArmadilha(IMasmorra masmorra, int? indice = null)
         {
             indice ??= D6.Rolagem(1, true);
             return Armadilhas[masmorra.TipoMasmorra][(int)indice];
