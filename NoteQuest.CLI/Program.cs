@@ -178,6 +178,7 @@ namespace NoteQuest.CLI
 
         static void EscreverSala(DungeonConsequence consequencia, IMasmorra masmorra)
         {
+            Console.WriteLine($"ANDAR = {consequencia?.Segment.Andar} ??? = {consequencia?.Segment.Masmorra.QtdPortasInexploradas}");
             AdicionaConteudo(consequencia?.Segment.Descricao, "cyan");
             if (consequencia?.Segment.GetType() != typeof(Sala))
                 return;

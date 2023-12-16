@@ -43,9 +43,8 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             List<ActionResult> result = new(2);
 
             EstadoDePorta estado = Porta.VerificarFechadura(indicePorta ?? D6.Rolagem());
-            IndicePreDefinido = EhEscadariaObrigatoria(Porta);
             if (estado == EstadoDePorta.aberta)
-                Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indicePorta ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+                Porta.SegmentoAlvo ??= Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, IndicePreDefinido ?? indicePorta ?? D6.Rolagem(deslocamento: true));
 
             indiceArmadilha ??= D6.Rolagem();
             if (indiceArmadilha == 1)
@@ -62,17 +61,6 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             result.Add(dungeonConsequence);
 
             return result;
-        }
-
-        public int? EhEscadariaObrigatoria(IPortaComum porta)
-        {
-            int floor = porta.Andar;
-            var segmentoAlvo = porta.SegmentoAlvo;
-            var salaFinalEncontrada = porta.Masmorra.SalaFinal is not null;
-            var veioDeEscada = porta.SegmentoAtual.GetType() == typeof(Escadaria);
-            if (floor > -2 && Masmorra.QtdPortasInexploradas == 1 && segmentoAlvo is null && !salaFinalEncontrada && !veioDeEscada)
-                return 5;
-            return IndicePreDefinido;
         }
     }
 }

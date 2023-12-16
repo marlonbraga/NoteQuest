@@ -37,25 +37,14 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
         public IEnumerable<ActionResult> Executar(int? indice = null)
         {
             Porta.QuebrarPorta();
-            IndicePreDefinido = EhEscadariaObrigatoria(Porta);
-            Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
+            Porta.SegmentoAlvo ??= Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, IndicePreDefinido ?? indice ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = string.Empty;
-            texto += $"\n  Você aplica diversos golpes a porta. O barulho ecoa pelo ambinete. A porta logo é quebrada revelando um segmento da masmorra.";
+            texto += $"\n  {Personagem?.Nome} aplica diversos golpes a porta. O barulho ecoa pelo ambinete. A porta logo é quebrada revelando um segmento da masmorra.";
             DungeonConsequence consequencia = new(texto, novoSegmento);
 
             IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
             return result;
-        }
-
-        public int? EhEscadariaObrigatoria(IPortaComum porta)
-        {
-            int floor = porta.Andar;
-            var segmentoAlvo = porta.SegmentoAlvo;
-            var salaFinalEncontrada = porta.Masmorra.SalaFinal is not null;
-            if (floor > -2 && Masmorra.QtdPortasInexploradas == 1 && segmentoAlvo is null && !salaFinalEncontrada)
-                return 5;
-            return IndicePreDefinido;
         }
     }
 }

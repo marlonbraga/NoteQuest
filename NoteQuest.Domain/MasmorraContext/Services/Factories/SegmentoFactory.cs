@@ -71,7 +71,21 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             if (EhSalaFinal(portaDeEntrada))
                 return GeraSalaFinal(portaDeEntrada, indice);
 
+            if (EhEscadariaObrigatoria(portaDeEntrada))
+                return GerarSegmentoPorSegmento(portaDeEntrada, 5);
+
             return GerarSegmentoPorSegmento(portaDeEntrada, indice);
+        }
+
+        public bool EhEscadariaObrigatoria(IPortaComum porta)
+        {
+            int floor = porta.Andar;
+            var segmentoAlvo = porta.SegmentoAlvo;
+            var salaFinalEncontrada = porta.Masmorra.SalaFinal is not null;
+            var veioDeEscada = porta.SegmentoAtual.GetType() == typeof(Escadaria);
+            if (floor > -2 && porta.Masmorra.QtdPortasInexploradas == 0 && segmentoAlvo is null && !salaFinalEncontrada && !veioDeEscada)
+                return true;
+            return false;
         }
 
         public bool EhSalaFinal(IPortaComum portaDeEntrada)
