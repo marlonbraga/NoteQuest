@@ -41,7 +41,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                     if (escolha.Acao.GetType() == typeof(VerificarPorta))
                     {
                         ((VerificarPorta)escolha.Acao).Masmorra = masmorra;
-                        escolha.Acao.ChainedEvents["Armadilha"] = masmorra.ArmadilhaFactory.GeraArmadilha(masmorra, indice);
+                        escolha.Acao.ChainedEvents["Armadilha"] = masmorra.GeraArmadilha();
                     }
                 }
             }

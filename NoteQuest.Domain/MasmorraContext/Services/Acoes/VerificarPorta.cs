@@ -35,7 +35,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Descricao = "Pode acionar armadilhas";
             IndicePreDefinido = indicePreDefinido;
             ChainedEvents = new Dictionary<string, IEvent>();
-            ChainedEvents["Armadilha"] = Porta.Masmorra?.ArmadilhaFactory.GeraArmadilha(Porta.Masmorra, 1);
+            ChainedEvents["Armadilha"] = Porta.Masmorra?.GeraArmadilha();
         }
 
         public IEnumerable<ActionResult> Executar(int? indicePorta = null, int? indiceArmadilha = null)

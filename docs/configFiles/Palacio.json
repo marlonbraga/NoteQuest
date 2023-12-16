@@ -42,7 +42,8 @@
     {"indice":3, "efeito":"tocha[1]", "descricao":"O chão se abre e você cai em um fosso."},
     {"indice":4, "efeito":"dano[1]",  "descricao":"Um dardo é disparado e acerta em cheio."},
     {"indice":5, "efeito":null,       "descricao":"Um click, mas nada acontece."},
-    {"indice":6, "efeito":"luta[1d6 Esqueleto(s) (Pv:4, Dano:2, Morto-vivo)]", "descricao":"Um click, mas nada acontece."}
+    {"indice":6, "efeito":null,       "descricao":"Um click, mas nada acontece."},
+    {"indice":7, "efeito":"luta[1d6 Esqueleto(s) (Pv:4, Dano:2, Morto-vivo)]", "descricao":"Um click, mas nada acontece."}
   ],
   "TabelaConteudo": [
     {"indice":2, "descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},

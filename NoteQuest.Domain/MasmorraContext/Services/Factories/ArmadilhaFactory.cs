@@ -29,10 +29,13 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                     string descricao = tabelaDeArmadilhas[j].Descricao;
                     string efeito = tabelaDeArmadilhas[j]?.Efeito;
                     if (efeito is null)
+                    {
+                        Armadilhas[tipo][j] = new Click(descricao);
                         continue;
+                    }
                     if (efeito.Contains("lâmina"))
                     {
-                        Armadilhas[tipo][j] = null;
+                        Armadilhas[tipo][j] = new Lamina(descricao);
                         continue;
                     }
                     if (efeito.Contains("dano"))
@@ -47,7 +50,11 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                     }
                     if (efeito.Contains("tocha"))
                     {
-                        Armadilhas[tipo][j] = null;
+                        string tochaRaw = GetIndex(efeito);
+                        int tocha = 0;
+                        _ = int.TryParse(tochaRaw, out tocha);
+                        IEvent armadilha = new PerderTocha(descricao, tocha);
+                        Armadilhas[tipo][j] = armadilha;
                         continue;
                     }
                     if (efeito.Contains("luta"))
@@ -62,12 +69,12 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                     }
                     if (efeito.Contains("decapitação"))
                     {
-                        Armadilhas[tipo][j] = null;
+                        Armadilhas[tipo][j] = new Decapitacao(descricao);
                         continue;
                     }
                     if (efeito.Contains("amputação"))
                     {
-                        Armadilhas[tipo][j] = null;
+                        Armadilhas[tipo][j] = new Amputacao(descricao);
                         continue;
                     }
                     Armadilhas[tipo][j] = null;
