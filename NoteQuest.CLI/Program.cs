@@ -131,7 +131,7 @@ namespace NoteQuest.CLI
                     case TipoMenu.Sala:
                         continue;
                     case TipoMenu.Inventário: Console.Write("╔");
-                        //AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (escolhas.Count + 2)));
+                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: (dungeonConsequence.Segment.Escolhas.Count + 2)));
                         Inventario(Personagem);
                         continue;
                     default:
@@ -227,7 +227,7 @@ namespace NoteQuest.CLI
         {
             string result = "";
             result += $"Contém {conteudo.Descricao}";
-            return $"Contém {conteudo.Descricao}";
+            return result;
         }
     }
 }

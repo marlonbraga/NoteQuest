@@ -24,7 +24,6 @@ namespace NoteQuest.CLI.IoC
         public ISegmentoFactory SegmentoFactory { get; set; }
         public IArmadilhaFactory ArmadilhaFactory { get; set; }
         //public ISegmentoBuilder SegmentoFactory { get; set; }
-        public ISegmentoInicial SegmentoInicial { get; set; }
         //public IEntrarEmMasmorraService EntrarEmMasmorraService { get; set; }
         //public IVerificarPortaService VerificarPortaService { get; set; }
         //public IEntrarPelaPortaService EntrarPelaPortaService { get; set; }
@@ -62,8 +61,6 @@ namespace NoteQuest.CLI.IoC
 
             PersonagemBuilder = Kernel.Get<PersonagemBuilder>();
             PersonagemService = Kernel.Get<PersonagemService>();
-
-            Masmorra = Kernel.Get<Masmorra>();
         }
     }
 }

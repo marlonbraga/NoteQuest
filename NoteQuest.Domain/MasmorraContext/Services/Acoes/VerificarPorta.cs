@@ -50,14 +50,9 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             indiceArmadilha ??= D6.Rolagem();
             if (indiceArmadilha == 1)
             {
-                //IArmadilhaFactory armadilhaFactory = Porta.Masmorra.ArmadilhaFactory;
                 ActionResult eventoArmadilha = new ("ARMADILHA!");
                 result.Add(eventoArmadilha);
-
-                //ActionResult armadilha = armadilhaFactory.GeraArmadilha(Porta.Masmorra, 1);
-                //ActionResult efeitoArmadilha = new ActionResult() { Descricao = armadilha.Descricao };
                 result.AddRange(ChainedEvents["Armadilha"].Efeito.Invoke());
-                //descricao = $"\n  {armadilha.Efeito(Personagem)}";
             }
 
             BaseSegmento segmentoAtual = Porta.SegmentoAtual;

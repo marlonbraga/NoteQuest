@@ -31,7 +31,10 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             MasmorraRepository = masmorraRepository;
             SegmentoFactory = segmentoFactory;
             ArmadilhaFactory = armadilhaFactory;
+        }
 
+        public void Build()
+        {
             (string descricao, BaseSegmento segmentoInicial) entradaEmMasmorra;
             entradaEmMasmorra = GeraSegmentoInicial();
 

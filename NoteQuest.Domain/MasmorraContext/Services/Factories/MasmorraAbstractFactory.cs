@@ -34,6 +34,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                 FoiConquistada = false,
                 TipoMasmorra = (TipoMasmorra)indice1
             };
+            masmorra.Build();
 
             var entradaEmMasmorra = SegmentoFactory.GeraSegmentoInicial(masmorra, (int)indice1);
             portaEntrada.SegmentoAtual = entradaEmMasmorra.segmentoInicial;
