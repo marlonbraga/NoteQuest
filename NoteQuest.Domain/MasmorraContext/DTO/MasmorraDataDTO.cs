@@ -82,20 +82,23 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
     public partial class TabelaItemTesouro
     {
         public int Indice { get; set; }
+        public string Nome { get; set; }
         public string Descricao { get; set; }
         public string Efeito { get; set; }
     }
+
     public partial class TabelaItemMaravilha
     {
         public int Indice { get; set; }
+        public string Nome { get; set; }
         public string Descricao { get; set; }
-        public string Efeito { get; set; }
     }
+    
     public partial class TabelaItemMagico
     {
         public int Indice { get; set; }
+        public string Nome { get; set; }
         public string Descricao { get; set; }
-        public string Efeito { get; set; }
     }
 
     public partial class TabelaSegmentos

@@ -19,6 +19,7 @@ namespace NoteQuest.Domain.Core.Racas
         public string Vantagem { get; set; }
         public Type TipoAcao { get; set; }
         public IEvent Acao { get; set; }
+        public string EventTrigger { get; set; }
 
         public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
@@ -31,7 +32,7 @@ namespace NoteQuest.Domain.Core.Racas
             Vantagem = "Pode atacar com seu cifre (Dano 1D6) em vez de usar a arma.";
         }
 
-        public ConsequenciaDTO Efeito()
+        public IEnumerable<ActionResult> Efeito(IEvent acao, int? indice = null)
         {
             throw new NotImplementedException();
         }

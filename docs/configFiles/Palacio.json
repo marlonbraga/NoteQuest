@@ -74,28 +74,28 @@
   "TabelaRecompensa":
   {
     "TabelaTesouro": [
-      {"indice":1, "descricao":"Ornamento", "efeito":"(vale 5 Moedas na cidade)"},
-      {"indice":2, "descricao":"Poção de Vida ", "efeito":"(Recupera todos os PV)"},
-      {"indice":3, "descricao":"Pergaminho Mágico", "efeito":"(Magia Básica aleatória)"},
-      {"indice":4, "descricao":"Jóia valiosa ", "efeito":"(vale 2d6 x 10 Moedas na cidade)"},
-      {"indice":5, "descricao":"Maravilha", "efeito":"[Role na coluna Maravilha]"},
-      {"indice":6, "descricao":"Item Mágico", "efeito":"[Role na coluna Item Mágico]"}
+      {"indice":1, "efeito":"valor[5]", "nome":"Ornamento", "descricao":"(vale 5 Moedas na cidade)"},
+      {"indice":2, "efeito":"pv[1000]", "nome":"Poção de Vida ", "descricao":"(Recupera todos os PV)"},
+      {"indice":3, "efeito":"pergaminho", "nome":"Pergaminho Mágico", "descricao":"(Magia Básica aleatória)"},
+      {"indice":4, "efeito":"valor[2d6*10]", "nome":"Jóia valiosa ", "descricao":"(vale 2d6 x 10 Moedas na cidade)"},
+      {"indice":5, "efeito":"maravilha", "nome":"Maravilha", "descricao":"[Role na coluna Maravilha]"},
+      {"indice":6, "efeito":"equipamento", "nome":"Item Mágico", "descricao":"[Role na coluna Item Mágico]"}
     ],
     "TabelaMaravilha": [
-      {"indice":1, "descricao":"Chapéu do Bobo ", "efeito":"(2 PV; Não pode mover em Silêncio)"},
-      {"indice":2, "descricao":"Sandálias do Imperador", "efeito":"(2 PV; +1 de dano contra baratas"},
-      {"indice":3, "descricao":"Amuleto dos Mortos", "efeito":"(Ignora efeito de Mortos-Vivos)"},
-      {"indice":4, "descricao":"Poção da Sorte", "efeito":"(Ignora a próxima Armadilha ativada)"},
-      {"indice":5, "descricao":"Poção da Fúria", "efeito":"(Dano +2 até o final do combate)"},
-      {"indice":6, "descricao":"Lamparina", "efeito":"(Não precisa usar mãos pra iluminar)"}
+      {"indice":1, "nome":"Chapéu do Bobo ", "descricao":"(2 PV; Não pode mover em Silêncio)"},
+      {"indice":2, "nome":"Sandálias do Imperador", "descricao":"(2 PV; +1 de dano contra baratas"},
+      {"indice":3, "nome":"Amuleto dos Mortos", "descricao":"(Ignora efeito de Mortos-Vivos)"},
+      {"indice":4, "nome":"Poção da Sorte", "descricao":"(Ignora a próxima Armadilha ativada)"},
+      {"indice":5, "nome":"Poção da Fúria", "descricao":"(Dano +2 até o final do combate)"},
+      {"indice":6, "nome":"Lamparina", "descricao":"(Não precisa usar mãos pra iluminar)"}
     ],
     "TabelaItemMagico": [
-      {"indice":1, "descricao":"[Armadura] da Realeza ", "efeito":"(É muito elegante)"},
-      {"indice":2, "descricao":"[Armadura] do Leprechaun", "efeito":"(Ganha o dobro de moedas em baús)"},
-      {"indice":3, "descricao":"[Armadura] do Centurião", "efeito":"(+1 PV)"},
-      {"indice":4, "descricao":"[Arma] da Destruição", "efeito":"(Causa +2 de dano)"},
-      {"indice":5, "descricao":"[Arma] da Guerra", "efeito":"(Causa +2 de dano contra Anjos)"},
-      {"indice":6, "descricao":"[Arma] do Matador de Dragões", "efeito":"(Dobro de dano contra Dragões)"}
+      {"indice":1, "nome":"[Armadura] da Realeza ", "descricao":"(É muito elegante)"},
+      {"indice":2, "nome":"[Armadura] do Leprechaun", "descricao":"(Ganha o dobro de moedas em baús)"},
+      {"indice":3, "nome":"[Armadura] do Centurião", "descricao":"(+1 PV)"},
+      {"indice":4, "nome":"[Arma] da Destruição", "descricao":"(Causa +2 de dano)"},
+      {"indice":5, "nome":"[Arma] da Guerra", "descricao":"(Causa +2 de dano contra Anjos)"},
+      {"indice":6, "nome":"[Arma] do Matador de Dragões", "descricao":"(Dobro de dano contra Dragões)"}
     ]
   },
   "TabelaChefeDaMasmorra": [

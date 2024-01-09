@@ -4,6 +4,7 @@ using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using System;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -19,6 +20,7 @@ namespace NoteQuest.Domain.Core.Classes
         public int QtdMagias { get; set; }
         public Type TipoAcao { get; set; }
         public IEvent Acao { get; set; }
+        public string EventTrigger { get; set; }
 
         public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
@@ -33,7 +35,7 @@ namespace NoteQuest.Domain.Core.Classes
             QtdMagias = 0;
         }
 
-        public ConsequenciaDTO Efeito()
+        public IEnumerable<ActionResult> Efeito(IEvent acao, int? indice = null)
         {
             //TODO
             throw new NotImplementedException();

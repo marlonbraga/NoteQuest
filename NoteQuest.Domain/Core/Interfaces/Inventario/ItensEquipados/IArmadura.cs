@@ -2,6 +2,6 @@
 {
     public interface IArmadura : IEquipamento
     {
-        public IPontosDeVida PontosDeVida { get; set; }
+        public IPontosDeVida Pv { get; set; }
     }
 }

@@ -1,11 +1,10 @@
-﻿using NoteQuest.Domain.Core;
-using NoteQuest.Domain.Core.DTO;
-using NoteQuest.Domain.Core.Interfaces.Personagem;
+﻿using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System.Collections.Generic;
-using NoteQuest.Domain.Core.Interfaces;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
@@ -17,6 +16,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public IPortaEntrada PortaEntrada { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
         public IArmadilhaFactory ArmadilhaFactory { get; set; }
+        public IItemFactory ItemFactory { get; set; }
         public ISegmentoFactory SegmentoFactory { get; set; }
         private IEnumerable<ActionResult> Consequencia { get; set; }
         public BaseSegmento SalaFinal { get; set; }
@@ -46,14 +46,14 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             }
 
             DungeonConsequence dungeonConsequence = new($"  {entradaEmMasmorra.descricao}", segmentoInicial);
-            Consequencia = new List<DungeonConsequence>( 1) { dungeonConsequence };
+            Consequencia = new List<DungeonConsequence>(1) { dungeonConsequence };
         }
 
         public IEnumerable<ActionResult> EntrarEmMasmorra()
         {
             return Consequencia;
         }
-        
+
         public string BuscarTipo(int indice)
         {
             IMasmorraNomes masmorraNomes = MasmorraRepository.PegarNomesMasmorra();
@@ -63,6 +63,11 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public IEvent GeraArmadilha(int? indice = null)
         {
             return ArmadilhaFactory.GeraArmadilha(this, indice);
+        }
+
+        public IItem GeraItem(int? indice = null)
+        {
+            return ItemFactory.GeraTesouro(this, indice);
         }
 
         public (string descricao, BaseSegmento segmentoInicial) GeraSegmentoInicial()

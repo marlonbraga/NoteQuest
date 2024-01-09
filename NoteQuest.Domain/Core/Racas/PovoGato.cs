@@ -3,9 +3,6 @@ using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteQuest.Domain.Core.Racas
 {
@@ -19,6 +16,7 @@ namespace NoteQuest.Domain.Core.Racas
         public string Vantagem { get; set; }
         public Type TipoAcao { get; set; }
         public IEvent Acao { get; set; }
+        public string EventTrigger { get; set; }
 
         public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
@@ -31,7 +29,7 @@ namespace NoteQuest.Domain.Core.Racas
             Vantagem = "Vende equipamentos pelo dobro do valor";
         }
 
-        public ConsequenciaDTO Efeito()
+        public IEnumerable<ActionResult> Efeito(IEvent acao, int? indice = null)
         {
             throw new NotImplementedException();
         }

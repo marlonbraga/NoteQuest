@@ -8,6 +8,12 @@ namespace NoteQuest.Domain.Core
         public int Pv { get; private set; }
         public int PvMaximo { get; private set; }
 
+        public PontosDeVida(int pvMaximo = 0, int? pvAtual = null)
+        {
+            PvMaximo = pvMaximo;
+            Pv = pvAtual ?? PvMaximo;
+        }
+
         public void Alterar(int pv)
         {
             Pv += pv;

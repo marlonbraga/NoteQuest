@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NoteQuest.Domain.Core.DTO;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -19,6 +20,7 @@ namespace NoteQuest.Domain.Core.Classes
         public string Vantagem { get; set; }
         public IArma ArmaInicial { get; set; }
         public int QtdMagias { get; set; }
+        public string EventTrigger { get; set; }
 
         public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
@@ -31,6 +33,11 @@ namespace NoteQuest.Domain.Core.Classes
             ArmaInicial = new Arma();
             ArmaInicial.Build("Machado");
             QtdMagias = 0;
+        }
+
+        public IEnumerable<ActionResult> Efeito(IEvent acao, int? indice = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

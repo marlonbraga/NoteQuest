@@ -1,14 +1,15 @@
 ﻿using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
-using NoteQuest.Domain.Core.Interfaces.Personagem;
+using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.MasmorraContext.Interfaces
 {
-    public enum TipoMasmorra{
+    public enum TipoMasmorra
+    {
         none = 0,
         Palácio = 1,
         Cripta = 2,
@@ -39,11 +40,13 @@ namespace NoteQuest.Domain.MasmorraContext.Interfaces
         public BaseSegmento SalaFinal { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
         public IArmadilhaFactory ArmadilhaFactory { get; set; }
+        public IItemFactory ItemFactory { get; set; }
         public ISegmentoFactory SegmentoFactory { get; set; }
-        public int QtdPortasInexploradas {get; set; }
+        public int QtdPortasInexploradas { get; set; }
         public bool FoiConquistada { get; set; }
         public IPortaEntrada PortaEntrada { get; set; }
         public IEnumerable<ActionResult> EntrarEmMasmorra();
         public IEvent GeraArmadilha(int? indice = null);
+        public IItem GeraItem(int? indice = null);
     }
 }

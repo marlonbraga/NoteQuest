@@ -3,6 +3,8 @@ using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.ObjectValue;
 using System;
+using NoteQuest.Domain.Core.DTO;
+using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.Classes
 {
@@ -15,6 +17,7 @@ namespace NoteQuest.Domain.Core.Classes
         public string Vantagem { get; set; }
         public IArma ArmaInicial { get; set; }
         public int QtdMagias { get; set; }
+        public string EventTrigger { get; set; }
 
         public IEvent EffectSubstitutionComposite(IEvent gameEvent) => gameEvent;
 
@@ -27,6 +30,11 @@ namespace NoteQuest.Domain.Core.Classes
             ArmaInicial = new Arma();
             ArmaInicial.Build("Martelo");
             QtdMagias = 0;
+        }
+
+        public IEnumerable<ActionResult> Efeito(IEvent acao, int? indice = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }
