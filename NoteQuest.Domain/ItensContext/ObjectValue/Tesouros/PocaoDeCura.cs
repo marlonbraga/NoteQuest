@@ -1,8 +1,9 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.ItensContext.Interfaces;
 
 namespace NoteQuest.Domain.ItensContext.ObjectValue.Tesouros
 {
-    public class PocaoDeCura : IItem
+    public class PocaoDeCura : IItem, IItemEfeitoAtivo
     {
         private const string DefaultNome = "Poção de Cura";
         private const string DefaultDescricao = "Recupera todos os pontos de vida";

@@ -230,7 +230,8 @@ namespace NoteQuest.CLI
                         /*tipoMenu = */Menu.MenuEquipamentos(personagem.Inventario);
                         continue;
                     case TipoMenu.Mochila:
-                        /*tipoMenu = */Menu.MenuMochila(personagem.Inventario);
+                        Menu.MenuMochila(personagem.Inventario);
+                        
                         continue;
                     case TipoMenu.Magias:
                         /*tipoMenu = */Menu.MenuMagias(personagem.Inventario);

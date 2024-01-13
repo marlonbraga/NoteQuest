@@ -16,6 +16,7 @@ using NoteQuest.Domain.ItensContext.Entities;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Racas;
 
 namespace NoteQuest.CLI
 {
@@ -526,7 +527,6 @@ namespace NoteQuest.CLI
 
         public static int MenuHorizontal(IDictionary<int, string[]> escolhas, string titulo = "")
         {
-            AnsiConsole.Markup($"║ {titulo }");
             var currentLineNumber = Console.CursorTop - 1;
             int selecao = 0;
             int numeroDeEscolha;
@@ -536,7 +536,7 @@ namespace NoteQuest.CLI
             {
                 Console.SetCursorPosition(0, Math.Max(0, currentLineNumber));
                 ClearCurrentConsoleLine();
-                AnsiConsole.Markup($"║  ◄ ");
+                AnsiConsole.Markup($"║ {titulo} ◄ ");
                 foreach (var escolha in escolhas)
                 {
                     string escolhaValue = "";
@@ -645,7 +645,7 @@ namespace NoteQuest.CLI
             escolhasHorizontais[2] = new[] { "Grimório", "Livro de Magias" };
             escolhasHorizontais[max] = new[] { "[red][[X]][/]", "(voltar)" };
 
-            AnsiConsole.MarkupLine($"║\n║ [yellow]■ Inventário[/]\n");
+            AnsiConsole.MarkupLine($"║\n║ [yellow]■ Inventário:[/]\n");
             return Menu.MenuHorizontal(escolhasHorizontais) switch
             {
                 0 => TipoMenu.Mochila,
@@ -675,19 +675,37 @@ namespace NoteQuest.CLI
             int max;
             int acaoItem;
             do {
-                int indiceItem = Menu.MenuVertical(escolhasVerticais);
-                if (indiceItem == 0) break;
-                AnsiConsole.MarkupLine($"║ {mochila.ElementAt(indiceItem)?.Nome}");
+                int indiceItem = Menu.MenuVertical(escolhasVerticais) -1;
+                if (indiceItem < 0) break;
+                IItem? item = mochila.ElementAt(indiceItem);
+                string nomeItem = item?.Nome;
+                AnsiConsole.MarkupLine($"║ {nomeItem}");
                 IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
-                escolhasHorizontais[0] = new [] {$"Usar", $""};
-                escolhasHorizontais[1] = new [] {$"Equipar", "Vestir/Segurar" };
-                escolhasHorizontais[2] = new [] {$"Descartar", "Jogar fora" };
-                escolhasHorizontais[3] = new [] {$"[red][[X]][/]", "(voltar)" };
+                if (item is IItemEfeitoAtivo)
+                    escolhasHorizontais[(int)AcaoItem.Usar] = new [] {$"Usar", $""};
+                if (item is IEquipamento)
+                    escolhasHorizontais[(int)AcaoItem.Equipar] = new [] {$"Equipar", "Vestir/Segurar" };
+                escolhasHorizontais[(int)AcaoItem.Descartar] = new [] {$"Descartar", "Jogar fora" };
+                escolhasHorizontais[(int)AcaoItem.None] = new [] {$"[red][[X]][/]", "(voltar)" };
 
                 max = escolhasHorizontais.Count;
-                acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+                acaoItem = Menu.MenuHorizontal(escolhasHorizontais, nomeItem);
+                switch (acaoItem)
+                {
+                    case (int)AcaoItem.Usar://Usar
+                        break;
+                    case (int)AcaoItem.Equipar://Equipar
+                        inventario.Equipar(item as IEquipamento);
+                        break;
+                    case (int)AcaoItem.Descartar://Descartar
+                        inventario.RemoverItem(item);
+                        escolhasVerticais.Remove(indiceItem);
+                        break;
+                    default:
+                        break;
+                }
             }
-            while (acaoItem == max) ;
+            while (acaoItem == max);
         }
 
         public static void MenuEquipamentos(IInventario inventario)

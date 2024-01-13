@@ -164,7 +164,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                 case "sala":
                     segmento = new Sala(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
                     segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros(masmorraData[IndiceMasmorraAtual].TabelaMonstro[D6.Rolagem(2, deslocamento: true)]));
-                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo(masmorraData[IndiceMasmorraAtual].TabelaConteudo[3/*D6.Rolagem(2, deslocamento: true)*/], masmorra));
+                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo(masmorraData[IndiceMasmorraAtual].TabelaConteudo[4/*D6.Rolagem(2, deslocamento: true)*/], masmorra));
                     break;
                 case "corredor":
                     segmento = new Corredor(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
