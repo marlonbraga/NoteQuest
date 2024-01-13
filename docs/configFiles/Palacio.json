@@ -48,7 +48,7 @@
   "TabelaConteudo": [
     {"indice":2, "descricao":"Grande biblioteca cheia de pó. Pode ter Passagem Secreta.", "PassagemSecreta":true},
     {"indice":3, "descricao":"Cozinha destruída e 1d6 moedas.", "moedas":"1D6"},
-    {"indice":4, "descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta."},
+    {"indice":4, "descricao":"Grande mesa com algumas cadeiras. Pode ter Passagem Secreta.", "PassagemSecreta":true},
     {"indice":5, "descricao":"Estante de livro e 1d6 Pergaminhos.", "pergaminho":"1D6"},
     {"indice":6, "descricao":"Escrivaninha com 1 Baú.", "baú":"1"},
     {"indice":7, "descricao":"Sujeira por todos cantos. Pode ter Passagem Secreta.", "PassagemSecreta":true},
@@ -74,28 +74,28 @@
   "TabelaRecompensa":
   {
     "TabelaTesouro": [
-      {"indice":1, "efeito":"valor[5]", "nome":"Ornamento", "descricao":"(vale 5 Moedas na cidade)"},
-      {"indice":2, "efeito":"pv[1000]", "nome":"Poção de Vida ", "descricao":"(Recupera todos os PV)"},
-      {"indice":3, "efeito":"pergaminho", "nome":"Pergaminho Mágico", "descricao":"(Magia Básica aleatória)"},
-      {"indice":4, "efeito":"valor[2d6*10]", "nome":"Jóia valiosa ", "descricao":"(vale 2d6 x 10 Moedas na cidade)"},
+      {"indice":1, "efeito":"valor[5]", "nome":"Ornamento", "descricao":"Vale 5 moedas na cidade"},
+      {"indice":2, "efeito":"pv[1000]", "nome":"Poção de Vida ", "descricao":"Recupera todos os PV"},
+      {"indice":3, "efeito":"pergaminho", "nome":"Pergaminho Mágico", "descricao":"Magia Básica aleatória"},
+      {"indice":4, "efeito":"valor[2d6*10]", "nome":"Jóia valiosa ", "descricao":"Vale 2D6x10 moedas na cidade"},
       {"indice":5, "efeito":"maravilha", "nome":"Maravilha", "descricao":"[Role na coluna Maravilha]"},
       {"indice":6, "efeito":"equipamento", "nome":"Item Mágico", "descricao":"[Role na coluna Item Mágico]"}
     ],
     "TabelaMaravilha": [
-      {"indice":1, "nome":"Chapéu do Bobo ", "descricao":"(2 PV; Não pode mover em Silêncio)"},
-      {"indice":2, "nome":"Sandálias do Imperador", "descricao":"(2 PV; +1 de dano contra baratas"},
-      {"indice":3, "nome":"Amuleto dos Mortos", "descricao":"(Ignora efeito de Mortos-Vivos)"},
-      {"indice":4, "nome":"Poção da Sorte", "descricao":"(Ignora a próxima Armadilha ativada)"},
-      {"indice":5, "nome":"Poção da Fúria", "descricao":"(Dano +2 até o final do combate)"},
-      {"indice":6, "nome":"Lamparina", "descricao":"(Não precisa usar mãos pra iluminar)"}
+      {"indice":1, "nome":"Chapéu do Bobo", "descricao":"2 PV; Não pode mover em Silêncio"},
+      {"indice":2, "nome":"Sandálias do Imperador", "descricao":"2 PV; +1 de dano contra baratas"},
+      {"indice":3, "nome":"Amuleto dos Mortos", "descricao":"Ignora efeito de Mortos-Vivos"},
+      {"indice":4, "nome":"Poção da Sorte", "descricao":"Ignora a próxima Armadilha ativada"},
+      {"indice":5, "nome":"Poção da Fúria", "descricao":"Dano +2 até o final do combate"},
+      {"indice":6, "nome":"Lamparina", "descricao":"Não precisa usar mãos pra iluminar"}
     ],
     "TabelaItemMagico": [
-      {"indice":1, "nome":"[Armadura] da Realeza ", "descricao":"(É muito elegante)"},
-      {"indice":2, "nome":"[Armadura] do Leprechaun", "descricao":"(Ganha o dobro de moedas em baús)"},
-      {"indice":3, "nome":"[Armadura] do Centurião", "descricao":"(+1 PV)"},
-      {"indice":4, "nome":"[Arma] da Destruição", "descricao":"(Causa +2 de dano)"},
-      {"indice":5, "nome":"[Arma] da Guerra", "descricao":"(Causa +2 de dano contra Anjos)"},
-      {"indice":6, "nome":"[Arma] do Matador de Dragões", "descricao":"(Dobro de dano contra Dragões)"}
+      {"indice":1, "nome":"[Armadura] da Realeza ", "descricao":"É muito elegante"},
+      {"indice":2, "nome":"[Armadura] do Leprechaun", "descricao":"Ganha o dobro de moedas em baús"},
+      {"indice":3, "nome":"[Armadura] do Centurião", "descricao":"+1 PV"},
+      {"indice":4, "nome":"[Arma] da Destruição", "descricao":"Causa +2 de dano"},
+      {"indice":5, "nome":"[Arma] da Guerra", "descricao":"Causa +2 de dano contra Anjos"},
+      {"indice":6, "nome":"[Arma] do Matador de Dragões", "descricao":"Dobro de dano contra Dragões"}
     ]
   },
   "TabelaChefeDaMasmorra": [
@@ -107,19 +107,19 @@
     {"indice":6, "descricao":"Sentado em um trono e com um pé em um crânio de dragão está o Rei Orc (24 PV; Dano 5; Horda).", "qtd":1, "nome":"Rei Orc", "dano":5, "pvs":24}
   ],
   "TabelaArmadura": [
-    {"indice":1, "nome":"Anel (0 PV)", "pvs":"0"},
-    {"indice":2, "nome":"Braceletes (2 PV)", "pvs":"2"},
-    {"indice":3, "nome":"Botas (3 PV)", "pvs":"3"},
-    {"indice":4, "nome":"Ombreiras (3 PV)", "pvs":"3"},
-    {"indice":5, "nome":"Elmo (4 PV)", "pvs":"4"},
-    {"indice":6, "nome":"Peitoral (10 PV)", "pvs":"10"}
+    {"indice":1, "nome":"Anel", "pvs":"0"},
+    {"indice":2, "nome":"Braceletes", "pvs":"2"},
+    {"indice":3, "nome":"Botas", "pvs":"3"},
+    {"indice":4, "nome":"Ombreiras", "pvs":"3"},
+    {"indice":5, "nome":"Elmo", "pvs":"4"},
+    {"indice":6, "nome":"Peitoral", "pvs":"10"}
   ],
   "TabelaArma": [
-    {"indice":1, "nome":"Castiçal (Dano 1d6-1)", "dano":"1D6-1"},
-    {"indice":2, "nome":"Espada (Dano 1d6)", "dano":"1D6"},
-    {"indice":3, "nome":"Rapieira (Dano 1d6+1)", "dano":"1D6+1"},
-    {"indice":4, "nome":"Chicote (Dano 1d6+1)", "dano":"1D6+1"},
-    {"indice":5, "nome":"Garra (Dano 1d6+1)", "dano":"1D6+1"},
-    {"indice":6, "nome":"Alabarda (Dano 1d6+3; Duas Mãos)", "dano":"1D6+3", "caracteristicas":"Duas Mãos"}
+    {"indice":1, "nome":"Castiçal", "dano":"1D6-1"},
+    {"indice":2, "nome":"Espada", "dano":"1D6"},
+    {"indice":3, "nome":"Rapieira", "dano":"1D6+1"},
+    {"indice":4, "nome":"Chicote", "dano":"1D6+1"},
+    {"indice":5, "nome":"Garra", "dano":"1D6+1"},
+    {"indice":6, "nome":"Alabarda", "dano":"1D6+3", "caracteristicas":"Duas Mãos"}
   ]
 }

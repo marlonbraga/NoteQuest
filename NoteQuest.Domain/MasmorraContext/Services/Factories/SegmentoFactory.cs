@@ -1,19 +1,20 @@
 ﻿using NoteQuest.Domain.CombateContext.Entities;
 using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.Interfaces;
+using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using System;
 using System.Collections.Generic;
-using NoteQuest.Domain.ItensContext.Interfaces;
-using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 
 namespace NoteQuest.Domain.MasmorraContext.Services.Factories
 {
     public class SegmentoFactory : ISegmentoFactory
     {
+        public IMasmorra Masmorra { get; set; }
         private IDictionary<int, IMasmorraData> masmorraData;
         private int IndiceMasmorraAtual;
 
@@ -32,6 +33,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
         {
             IndiceMasmorraAtual = indice;
             BaseSegmento segmento = masmorraData[IndiceMasmorraAtual].SegmentoInicial;
+            Masmorra = masmorra;
             segmento.Masmorra = masmorra;
             foreach (var porta in segmento.Portas)
             {
@@ -153,6 +155,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
         {
             BaseSegmento segmento = null;
             BaseSegmento segmentoAtual = portaDeEntrada.SegmentoAtual;
+            IMasmorra masmorra = portaDeEntrada.Masmorra;
 
             var segmentoData = TipoSegmento(segmentoAtual, indice);
 
@@ -161,7 +164,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
                 case "sala":
                     segmento = new Sala(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
                     segmento = ((Sala)segmento).AdicionaMonstros(GeraMonstros(masmorraData[IndiceMasmorraAtual].TabelaMonstro[D6.Rolagem(2, deslocamento: true)]));
-                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo(masmorraData[IndiceMasmorraAtual].TabelaConteudo[D6.Rolagem(2, deslocamento: true)]));
+                    segmento = ((Sala)segmento).AdicionaConteudo(GeraConteudo(masmorraData[IndiceMasmorraAtual].TabelaConteudo[3/*D6.Rolagem(2, deslocamento: true)*/], masmorra));
                     break;
                 case "corredor":
                     segmento = new Corredor(portaDeEntrada, segmentoData.descricao, segmentoData.qtdPortas);
@@ -203,9 +206,9 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             return monstros;
         }
 
-        private static IConteudo GeraConteudo(TabelaConteudo tabelaConteudo)
+        private static IConteudo GeraConteudo(TabelaConteudo tabelaConteudo, IMasmorra masmorra)
         {
-            return new Conteudo(tabelaConteudo);
+            return new Conteudo(tabelaConteudo, masmorra);
         }
 
         private static int ConverteQtdMonstros(string qtd)

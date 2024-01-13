@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NoteQuest.Domain.Core.Interfaces.Inventario;
+﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
 using NoteQuest.Domain.ItensContext.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NoteQuest.Domain.ItensContext.Entities
 {
-    public class Bau : IBau
+    public class RepositorioDeItens : IRepositorio
     {
         public string Titulo { get; set; }
-
-        public bool EstaFechado => !EstaAberto;
-
-        public bool EstaAberto { get; set; }
 
         public IDictionary<int, IItem> Conteudo { get; set; }
 
@@ -22,7 +18,7 @@ namespace NoteQuest.Domain.ItensContext.Entities
 
         public void PegarItem(IItem item)
         {
-            int indice = Conteudo.FirstOrDefault(x=>x.Value == item).Key;
+            int indice = Conteudo.FirstOrDefault(x => x.Value == item).Key;
             Conteudo.Remove(indice);
         }
     }

@@ -12,6 +12,10 @@ using System.ComponentModel;
 using Newtonsoft.Json.Linq;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.ItensContext.Entities;
+using NoteQuest.Domain.ItensContext.Interfaces;
+using NoteQuest.Domain.MasmorraContext.Services.Acoes;
+using NoteQuest.Domain.Core.DTO;
 
 namespace NoteQuest.CLI
 {
@@ -110,7 +114,7 @@ namespace NoteQuest.CLI
 
 
             //Pegar a porta selecionada
-            return MenuVertical2(escolhas);
+            return MenuVerticalDeMasmorra(escolhas);
         }
 
         public static string Seta(Posicao posicao)
@@ -145,7 +149,7 @@ namespace NoteQuest.CLI
             return text;
         }
 
-        public static TipoMenu MenuVertical2(IDictionary<TipoMenu, string[]> escolhas, string[] cores = null)
+        public static TipoMenu MenuVerticalDeMasmorra(IDictionary<TipoMenu, string[]> escolhas, string[] cores = null)
         {
             string defaultBackgroundColor = cores?[1] ?? "default";
             string corColuna1 = cores?[2] ?? "default";
@@ -247,16 +251,15 @@ namespace NoteQuest.CLI
             return opcaoMenu;
         }
 
-        public static int MenuVertical(IDictionary<int, string[]> escolhas, string[] cor = null)
+        public static int MenuVertical(IDictionary<int, string[]> escolhas, string[] cor = null, bool exibirDescricao = false)
         {
             ConsoleColor defaultBackgroundColor = Console.BackgroundColor;
-            string cor0 = cor?[0] ?? "default";
-            string cor1 = cor?[1] ?? "default";
-            string cor2 = cor?[2] ?? "default";
-            string cor3 = cor?[3] ?? "default";
-            string cor4 = cor?[4] ?? "default";
-            string cor5 = cor?[5] ?? "default";
-            bool exibirDescricao = false;
+            string cor0 = cor?[0] ?? "white";
+            string cor1 = cor?[1] ?? "yellow";
+            string cor2 = cor?[2] ?? "white";
+            string cor3 = cor?[3] ?? "grey";
+            string cor4 = cor?[4] ?? "blue";
+            string cor5 = cor?[5] ?? "white";
             for (int i = 0; i < escolhas.Count + 2; i++)
                 Console.WriteLine($"║");
             var currentLineNumber = Console.CursorTop - (escolhas.Count + 2);
@@ -292,14 +295,19 @@ namespace NoteQuest.CLI
                         invert = "invert ";
                     AnsiConsole.Markup($"[{cor1}] {escolha.Value[0]} [/]");
                     AnsiConsole.Markup($"[{invert}{cor2}] {escolha.Value[1]} [/]");
-                    AnsiConsole.Markup($"[{cor3}] {escolha.Value[2]} [/]");
-                    AnsiConsole.Markup($"[{cor4}] {escolha.Value[3]} [/]");
-                    if (selecao == escolha.Key || exibirDescricao)
+                    if (escolha.Value.Length > 2)
+                        AnsiConsole.Markup($"[{cor3}] {escolha.Value[2]} [/]");
+                    if (escolha.Value.Length > 3)
+                        AnsiConsole.Markup($"[{cor4}] {escolha.Value[3]} [/]");
+                    if (escolha.Value.Length > 4 && (selecao == escolha.Key || exibirDescricao))
                         AnsiConsole.MarkupLine($"[{cor5}] {escolha.Value[4]} [/]");
                     else
                     {
-                        Console.ForegroundColor = defaultBackgroundColor;
-                        AnsiConsole.MarkupLine($"[{cor5}] {escolha.Value[4]} [/]");
+                        //Console.ForegroundColor = defaultBackgroundColor;
+                        if (escolha.Value.Length > 4)
+                            AnsiConsole.MarkupLine($"[{cor5}] {escolha.Value[4]} [/]");
+                        else
+                            AnsiConsole.MarkupLine("");
                     }
                 }
                 AnsiConsole.Markup($"║  ▼");
@@ -363,7 +371,7 @@ namespace NoteQuest.CLI
                         continue;
                 }
                 AnsiConsole.Markup($"\r║");
-                if (numeroDeEscolha < escolhas.Count)
+                if (numeroDeEscolha <= escolhas.Count)
                 {
                     if (numeroDeEscolha == 0)
                     {
@@ -373,6 +381,146 @@ namespace NoteQuest.CLI
                     break;
                 }
             } while (true);
+            return numeroDeEscolha;
+        }
+
+        public static int MenuVerticalSimples(IDictionary<int, string[]> escolhas, string[] cor = null, bool exibirDescricao = false, IInventario inventario = null)
+        {
+            string cor0 = cor?[0] ?? "white";
+            string cor1 = cor?[1] ?? "yellow";
+            string cor2 = cor?[2] ?? "default";
+            string cor3 = cor?[3] ?? "grey";
+            for (int i = 0; i < escolhas.Count + 2; i++)
+                Console.WriteLine($"║");
+            var currentLineNumber = Console.CursorTop - (escolhas.Count + 2);
+            int selecao = 1;
+            int numeroDeEscolha;
+            int[] largurDeColuna = new int[5];
+            for (int i = 0; i < escolhas.Count; i++)
+                if (escolhas.ContainsKey(i))
+                    for (int j = 0; j < escolhas[i]?.Length; j++)
+                        largurDeColuna[j] = escolhas.Max(x => Remove(x.Value[j], "[", "]").Length);
+
+
+            IList<IItem> mochila = inventario.Mochila;
+            int moedas = inventario.Moedas;
+            do
+            {
+                int higherKey = escolhas.Max(x => x.Key);
+                ClearMultipleConsoleLines(currentLineNumber - 1, currentLineNumber + higherKey + 5);
+                Console.SetCursorPosition(0, Math.Max(0, currentLineNumber));
+                if (mochila is not null)
+                {
+                    string color = mochila.Count == 10 ? "red" : "default";
+                    AnsiConsole.MarkupLine($"Mochila: [{color}]{CharacterProfile.GetMochilaBar(mochila)} {mochila.Count}/10[/]  ▪  [#daa520]{moedas}[/] Moedas");
+                }
+                AnsiConsole.MarkupLine($"║  ▲");
+                for (int key = 0; key <= higherKey; key++)
+                //foreach (var escolha in escolhas)
+                {
+                    var escolha = escolhas.ContainsKey(key) ? escolhas[key] : new []{ "", "" , "" , "" };
+                    if (key is not 0)
+                    {
+                        //Formata colunas
+                        for (int i = 0; i < escolha.Length; i++)
+                        {
+                            string valor = escolha[i];
+                            while (valor.Length < largurDeColuna[i])
+                                valor += " ";
+                            escolha[i] = valor;
+                        }
+                    }
+
+                    //Índice
+                    AnsiConsole.Markup($"║ [{cor0}] [[{key}]] [/]");
+
+                    string invert = "";
+                    if (selecao == key)
+                        invert = "invert ";
+                    AnsiConsole.Markup($"[{invert}{cor1}] {escolha[0]} [/]");
+                    if (escolha.Length > 1 && (selecao == key || exibirDescricao))
+                        AnsiConsole.MarkupLine($"[{cor2}] {escolha[1]} [/]");
+                    else
+                    {
+                        if (escolha.Length > 1)
+                            AnsiConsole.MarkupLine($"[{cor3}] {escolha[1]} [/]");
+                        else
+                            AnsiConsole.MarkupLine("");
+                    }
+                }
+                AnsiConsole.Markup($"║  ▼");
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Escape:
+                    case ConsoleKey.Clear:
+                        numeroDeEscolha = 0;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        selecao = (ushort)Math.Max(0, selecao - 1);
+                        continue;
+                    case ConsoleKey.DownArrow:
+                        selecao = (ushort)Math.Min(higherKey, selecao + 1);
+                        continue;
+                    case ConsoleKey.Enter:
+                    case ConsoleKey.Spacebar:
+                        numeroDeEscolha = selecao;
+                        break;
+                    case ConsoleKey.D0:
+                    case ConsoleKey.NumPad0:
+                        numeroDeEscolha = 0;
+                        break;
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        numeroDeEscolha = 1;
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        numeroDeEscolha = 2;
+                        break;
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        numeroDeEscolha = 3;
+                        break;
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        numeroDeEscolha = 4;
+                        break;
+                    case ConsoleKey.D5:
+                    case ConsoleKey.NumPad5:
+                        numeroDeEscolha = 5;
+                        break;
+                    case ConsoleKey.D6:
+                    case ConsoleKey.NumPad6:
+                        numeroDeEscolha = 6;
+                        break;
+                    case ConsoleKey.D7:
+                    case ConsoleKey.NumPad7:
+                        numeroDeEscolha = 7;
+                        break;
+                    case ConsoleKey.D8:
+                    case ConsoleKey.NumPad8:
+                        numeroDeEscolha = 8;
+                        break;
+                    case ConsoleKey.D9:
+                    case ConsoleKey.NumPad9:
+                        numeroDeEscolha = 9;
+                        break;
+                    default:
+                        continue;
+                }
+                AnsiConsole.Markup($"\r║");
+                if (numeroDeEscolha <= higherKey)
+                {
+                    if (numeroDeEscolha == 0)
+                    {
+                        ClearMultipleConsoleLines(currentLineNumber - 3, currentLineNumber + higherKey + 3);
+                        Console.SetCursorPosition(0, Math.Max(0, currentLineNumber - 3));
+                    }
+                    break;
+                }
+            } while (true); 
+            Console.SetCursorPosition(0, Math.Max(0, currentLineNumber));
+            
             return numeroDeEscolha;
         }
 
@@ -400,7 +548,7 @@ namespace NoteQuest.CLI
                 }
 
                 AnsiConsole.Markup($" ► ");
-                AnsiConsole.Markup($" [#333]| {escolhas[selecao][1]}[/]");
+                  AnsiConsole.Markup($" [#333]| {escolhas[selecao][1]}[/]");
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.Escape:
@@ -518,9 +666,10 @@ namespace NoteQuest.CLI
 
             IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
             escolhasVerticais[0] = new[] { $"", $"[red] [[X]] [/]", $"{descricao}", $"", $""};
-            for (int i = 1; i < mochila.Count; i++)
+            for (int i = 1; i <= mochila.Count; i++)
             {
-                escolhasVerticais[i] = new [] {$"{mochila.ElementAt(i).Nome}",$"{mochila.ElementAt(i).Descricao}", $"", $"", $"" };
+                int indiceItem = i - 1;
+                escolhasVerticais[i] = new [] {$"{mochila.ElementAt(indiceItem).Nome}",$"{mochila.ElementAt(indiceItem).Descricao}", $"", $"", $"" };
             }
 
             int max;
@@ -600,6 +749,117 @@ namespace NoteQuest.CLI
             escolhasHorizontais[1] = new[] {$"[red][[X]][/]", "(voltar)"};
             int max = escolhasHorizontais.Count;
             int acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+        }
+
+        public static IEvent MenuSala(BaseSegmento sala)
+        {
+            var opcoes = sala.Escolhas;
+            if (opcoes is null || opcoes?.Count == 0)
+            {
+                AnsiConsole.MarkupLine("\n  [grey]Não há nada relevante aqui[/]");
+                return null;
+            }
+
+            IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
+            for (int i = 0; i < opcoes.Count; i++)
+            {
+                if (opcoes.ElementAt(i).Key == OpcaoSala.saquear)
+                {
+                    VasculharRepositorio evento = (VasculharRepositorio)opcoes.ElementAt(i).Value.Acao;
+                    if (evento.RepositorioDeItens.Conteudo.Count == 0)
+                    {
+                        evento.RepositorioDeItens = null;
+                        opcoes.Remove(opcoes.ElementAt(i).Key);
+                        i--;
+                        continue;
+                    } 
+                    
+                    if (evento.RepositorioDeItens.Conteudo.Count == 1)
+                    {
+                        escolhasHorizontais[i] = new[]
+                        {
+                            $"[yellow]{evento.RepositorioDeItens.Conteudo.Single().Value.Nome}[/]", $"{evento.RepositorioDeItens.Conteudo.Single().Value.Descricao}"
+                        };
+                    }
+                    else
+                    {
+                        escolhasHorizontais[i] = new[]
+                        {
+                            $"{evento.Titulo}", $"{evento.Descricao}"
+                        };
+                    }
+                }
+                else if (opcoes.ElementAt(i).Key == OpcaoSala.bau)
+                {
+                    AbrirUmBau evento = (AbrirUmBau)opcoes.ElementAt(i).Value.Acao;
+                    if (evento.Bau.EstaFechado)
+                    {
+                        escolhasHorizontais[i] = new[] { $"{opcoes.ElementAt(i).Value.Acao.Titulo}", $"{opcoes.ElementAt(i).Value.Acao.Descricao}" };
+                        continue;
+                    }
+                    var conteudo = evento.Bau.Conteudo;
+                    int qtdItens = conteudo.Count;
+                    if (qtdItens == 0)
+                    {
+                        evento.Bau = null;
+                        opcoes.Remove(opcoes.ElementAt(i).Key);
+                        continue;
+                    }
+                    if (qtdItens == 1)
+                    {
+                        escolhasHorizontais[i] = new[]
+                        {
+                            $"[yellow]{conteudo.Single().Value.Nome}[/]", $"{conteudo.Single().Value.Descricao}"
+                        };
+                    }
+                }
+                else if (opcoes.ElementAt(i).Key == OpcaoSala.desarmar)
+                {
+                    IEvent evento = (DesarmarArmadilhas)opcoes.ElementAt(i).Value.Acao;
+                    escolhasHorizontais[i] = new[]
+                    {
+                        $"{evento.Titulo}", $"{evento.Descricao}"
+                    };
+                }
+                else if (opcoes.ElementAt(i).Key == OpcaoSala.procurar)
+                {
+                    IEvent evento = (AcharPassagemSecreta)opcoes.ElementAt(i).Value.Acao;
+                    escolhasHorizontais[i] = new[]
+                    {
+                        $"{evento.Titulo}", $"{evento.Descricao}"
+                    };
+                }
+            }
+
+             int exitPosition = escolhasHorizontais.Count;
+            escolhasHorizontais[exitPosition] = new[] { $"[red][[X]][/]", "(voltar)" };
+            AnsiConsole.MarkupLine($"  Você vasculha a sala");
+            int acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+            if (acaoItem == exitPosition)
+                return null;
+            return opcoes.ElementAt(acaoItem).Value.Acao;
+        }
+
+        public static IItem MenuRepositorio(IRepositorio repositorio, IPersonagem personagem)
+        {
+            IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
+
+            escolhasVerticais[0] = new[] { $"[red][[X]][/]", ""};
+            foreach (var slot in repositorio.Conteudo)
+            {
+                escolhasVerticais[slot.Key] = new[] { slot.Value.Nome, slot.Value.Descricao};
+            }
+
+            int indiceItem;
+            do
+            {
+                indiceItem = MenuVerticalSimples(escolhasVerticais, exibirDescricao: false, inventario: personagem.Inventario);
+                if (indiceItem == 0)
+                    return null;
+            }
+            while (!repositorio.Conteudo.ContainsKey(indiceItem));
+
+            return repositorio.Conteudo[indiceItem];
         }
 
         public static bool TryCast<T>(object obj, out T result)

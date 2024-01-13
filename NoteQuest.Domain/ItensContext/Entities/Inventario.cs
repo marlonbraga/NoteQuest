@@ -2,6 +2,7 @@
 using NoteQuest.Domain.Core.Interfaces.Inventario;
 using System;
 using System.Collections.Generic;
+using NoteQuest.Domain.ItensContext.ObjectValue;
 
 namespace NoteQuest.Domain.ItensContext.Entities
 {
@@ -61,17 +62,22 @@ namespace NoteQuest.Domain.ItensContext.Entities
         {
             return Mochila.Remove(item);
         }
+
         public bool AdicionaItem(IItem item)
         {
+            if (item.GetType() == typeof(Cabidela))
+            {
+                Cabidela cabidela = (Cabidela)item;
+                Moedas += (ushort) cabidela.Qtd;
+                return true;
+            }
             if (Mochila.Count < CapacidadeMochila)
             {
                 Mochila.Add(item);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            
+            return false;
         }
     }
 }

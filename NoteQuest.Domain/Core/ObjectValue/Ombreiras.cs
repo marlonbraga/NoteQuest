@@ -10,6 +10,7 @@ namespace NoteQuest.Domain.Core.ObjectValue
         public IEncantamento Encantamento { get; private set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
+        public bool EstaAmaldicoado { get; set; }
 
         public Ombreiras(string nome, int pontosDeVida)
         {
@@ -21,7 +22,7 @@ namespace NoteQuest.Domain.Core.ObjectValue
         {
             Encantamento = encantamento;
             Nome = encantamento.Nome.Replace("[Armadura]", Nome);
-            Descricao = encantamento.Descricao;
+            Descricao = $"PV: {Pv.PvMaximo}  ({encantamento.Descricao})";
         }
 
         public IEvent EffectSubstitutionComposite(IEvent gameEvent)

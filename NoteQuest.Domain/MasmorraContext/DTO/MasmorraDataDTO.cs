@@ -76,7 +76,7 @@ namespace NoteQuest.Domain.MasmorraContext.DTO
     {
         public TabelaItemTesouro[] TabelaTesouro { get; set; }
         public TabelaItemMaravilha[] TabelaMaravilha { get; set; }
-        public TabelaItemMagico[] TabelaItemMágico { get; set; }
+        public TabelaItemMagico[] TabelaItemMagico { get; set; }
     }
 
     public partial class TabelaItemTesouro

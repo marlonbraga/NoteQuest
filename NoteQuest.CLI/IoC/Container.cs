@@ -4,6 +4,8 @@ using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.Interfaces.Personagem.Data;
+using NoteQuest.Domain.ItensContext.Factories;
+using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
@@ -23,6 +25,7 @@ namespace NoteQuest.CLI.IoC
         public IMasmorraRepository MasmorraRepository { get; set; }
         public ISegmentoFactory SegmentoFactory { get; set; }
         public IArmadilhaFactory ArmadilhaFactory { get; set; }
+        public IItemFactory ItemFactory { get; set; }
         //public ISegmentoBuilder SegmentoFactory { get; set; }
         //public IEntrarEmMasmorraService EntrarEmMasmorraService { get; set; }
         //public IVerificarPortaService VerificarPortaService { get; set; }
@@ -42,6 +45,7 @@ namespace NoteQuest.CLI.IoC
             PortaEntrada = Kernel.Get<PortaEntrada>();
             MasmorraRepository = Kernel.Get<MasmorraRepository>();
             ArmadilhaFactory = Kernel.Get<ArmadilhaFactory>();
+            ItemFactory = Kernel.Get<ItemFactory>();
             SegmentoFactory = Kernel.Get<SegmentoFactory>();
             
             //SegmentoFactory = Kernel.Get<SegmentoFactory>();

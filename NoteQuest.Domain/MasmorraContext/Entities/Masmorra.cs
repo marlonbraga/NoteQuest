@@ -1,6 +1,8 @@
-﻿using NoteQuest.Domain.Core.DTO;
+﻿using NoteQuest.Domain.Core;
+using NoteQuest.Domain.Core.DTO;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.ItensContext.Factories;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
@@ -24,13 +26,14 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public bool FoiExplorada { get; set; }
         public bool FoiConquistada { get; set; }
 
-        public Masmorra(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IArmadilhaFactory armadilhaFactory)
+        public Masmorra(IPortaEntrada portaEntrada, IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IArmadilhaFactory armadilhaFactory, IItemFactory itemFactory)
         {
             portaEntrada.Masmorra = this;
             PortaEntrada = portaEntrada;
             MasmorraRepository = masmorraRepository;
             SegmentoFactory = segmentoFactory;
             ArmadilhaFactory = armadilhaFactory;
+            ItemFactory = itemFactory;
         }
 
         public void Build()
@@ -67,7 +70,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
 
         public IItem GeraItem(int? indice = null)
         {
-            return ItemFactory.GeraTesouro(this, indice);
+            indice ??= D6.Rolagem(1, true);
+            IItem item =  ItemFactory.GeraTesouro(this, indice);
+            return item;
         }
 
         public (string descricao, BaseSegmento segmentoInicial) GeraSegmentoInicial()

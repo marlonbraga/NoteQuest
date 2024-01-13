@@ -15,5 +15,7 @@ namespace NoteQuest.Domain.ItensContext.Interfaces
         IEquipamento GeraArmadura(IEncantamento encantamento, int? indice = null);
         
         IArma GeraArma(IEncantamento encantamento, int? indice = null);
+
+        IItem GerarPergaminho(int? indice = null);
     }
 }

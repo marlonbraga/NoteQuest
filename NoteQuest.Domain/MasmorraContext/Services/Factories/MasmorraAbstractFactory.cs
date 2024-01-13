@@ -1,5 +1,6 @@
 ﻿using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core;
+using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
@@ -11,12 +12,14 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
         public IMasmorraRepository MasmorraRepository { get; set; }
         public IArmadilhaFactory ArmadilhaFactory { get; set; }
         public ISegmentoFactory SegmentoFactory { get; set; }
+        public IItemFactory ItemFactory { get; set; }
 
-        public MasmorraAbstractFactory(IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IArmadilhaFactory armadilhaFactory)
+        public MasmorraAbstractFactory(IMasmorraRepository masmorraRepository, ISegmentoFactory segmentoFactory, IArmadilhaFactory armadilhaFactory, IItemFactory itemFactory)
         {
             MasmorraRepository = masmorraRepository;
             SegmentoFactory = segmentoFactory;
             ArmadilhaFactory = armadilhaFactory;
+            ItemFactory = itemFactory;
         }
 
         public Masmorra GerarMasmorra(int? indice1 = null, int? indice2 = null, int? indice3 = null, int? indiceChefe = null)
@@ -26,7 +29,7 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Factories
             indice2 ??= D6.Rolagem(deslocamento: true);
             indice3 ??= D6.Rolagem(deslocamento: true);
             indiceChefe ??= D6.Rolagem(deslocamento: true);
-            Masmorra masmorra = new (portaEntrada, MasmorraRepository, SegmentoFactory, ArmadilhaFactory)
+            Masmorra masmorra = new (portaEntrada, MasmorraRepository, SegmentoFactory, ArmadilhaFactory, ItemFactory)
             {
                 Nome = GerarNome((TipoMasmorra)indice1, (int)indice2, (int)indice3),
                 QtdPortasInexploradas = 1,

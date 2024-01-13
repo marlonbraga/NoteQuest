@@ -1,14 +1,10 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Interfaces.Dados;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NoteQuest.Application;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Personagem.Data;
+using NoteQuest.Domain.ItensContext.Interfaces;
 
 namespace NoteQuest.CLI.IoC
 {
@@ -19,6 +15,7 @@ namespace NoteQuest.CLI.IoC
 
         public ISegmentoFactory SegmentoFactory { get; set; }
         public IArmadilhaFactory ArmadilhaFactory { get; set; }
+        public IItemFactory ItemFactory { get; set; }
         public IMasmorraRepository MasmorraRepository { get; set; }
         //public IClasseBasicaRepository MasmorraRepository { get; set; }
         //public ISegmentoBuilder SegmentoFactory { get; set; }

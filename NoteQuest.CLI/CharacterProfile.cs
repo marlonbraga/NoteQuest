@@ -160,7 +160,7 @@ namespace NoteQuest.CLI
             );
             ConsoleRenderer.RenderDocument(doc4);
             Console.Write($"\n■ Qual é o nome do seu personagem?\n>: ");
-            string nomePersonagem = Console.ReadLine();
+            string nomePersonagem = "Feldon, o Testador";//Console.ReadLine();
             personagem.Nome = nomePersonagem;
             return personagem;
         }

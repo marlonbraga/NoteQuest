@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using NoteQuest.Domain.Core;
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.Core.Interfaces.Inventario;
@@ -6,6 +7,7 @@ using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Interfaces.Personagem;
 using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.ItensContext.Interfaces;
+using NoteQuest.Domain.ItensContext.ObjectValue.Encantamentos;
 using NoteQuest.Domain.ItensContext.ObjectValue.Tesouros;
 using NoteQuest.Domain.MasmorraContext.DTO;
 using NoteQuest.Domain.MasmorraContext.Entities.Armadilhas;
@@ -52,7 +54,7 @@ namespace NoteQuest.Domain.ItensContext.Factories
                 _tabelaItemMagico = new TabelaItemMagico[6];
                 for (int j = 0; j < 6; j++)
                 {
-                    _tabelaItemMagico[j] = _tabelaRecompensa.TabelaItemMágico[j];
+                    _tabelaItemMagico[j] = _tabelaRecompensa.TabelaItemMagico[j];
                 }
                 #endregion
             }
@@ -77,7 +79,7 @@ namespace NoteQuest.Domain.ItensContext.Factories
         public IItem GeraMaravilha(int? indice = null)
         {
             indice ??= D6.Rolagem(1, true);
-            IItem item = (IItem)_tabelaMaravilha[(int)indice];
+            IItem item = GeraMaravilha(_tabelaMaravilha[(int)indice]);
 
             return item;
         }
@@ -85,11 +87,12 @@ namespace NoteQuest.Domain.ItensContext.Factories
         public IItem GeraItemMagico(int? indice = null, int? indice2 = null)
         {
             indice ??= D6.Rolagem(1, true);
-            IEncantamento item = (IEncantamento)_tabelaItemMagico[(int)indice];
-            if (item.Descricao.Contains("[Arma]"))
-                return GeraArma(item, indice2);
-            if (item.Descricao.Contains("[Armadura]"))
-                return GeraArmadura(item, indice2);
+            indice2 ??= D6.Rolagem(1, true);
+            IEncantamento encantamento = GeraEncantamento(_tabelaItemMagico[(int)indice]);
+            if (encantamento.Nome.Contains("[Arma]"))
+                return GeraArma(encantamento, indice2);
+            if (encantamento.Nome.Contains("[Armadura]"))
+                return GeraArmadura(encantamento, indice2);
             
             throw new NotImplementedException();
         }
@@ -101,12 +104,12 @@ namespace NoteQuest.Domain.ItensContext.Factories
             IArmadura armadura;
             armadura = indice switch
             {
-                1 => new Amuleto(item.Nome, (int)item.Pvs),
-                2 => new Braceletes(item.Nome, (int)item.Pvs),
-                3 => new Botas(item.Nome, (int)item.Pvs),
-                4 => new Ombreiras(item.Nome, (int)item.Pvs),
-                5 => new Elmo(item.Nome, (int)item.Pvs),
-                6 => new Peitoral(item.Nome, (int)item.Pvs),
+                0 => new Amuleto(item.Nome, (int)item.Pvs),
+                1 => new Braceletes(item.Nome, (int)item.Pvs),
+                2 => new Botas(item.Nome, (int)item.Pvs),
+                3 => new Ombreiras(item.Nome, (int)item.Pvs),
+                4 => new Elmo(item.Nome, (int)item.Pvs),
+                5 => new Peitoral(item.Nome, (int)item.Pvs),
                 _ => throw new ArgumentOutOfRangeException("indice", "Índice não encontrado na tabela de armaduras"),
             };
             armadura.DefinirEncantamento(encantamento);
@@ -120,12 +123,54 @@ namespace NoteQuest.Domain.ItensContext.Factories
             var item = _tabelaArma[(int)indice];
             IArma arma = new Arma();
             bool empunhaduraDupla = item.Caracteristicas == "Duas Mãos";
-            string danoRaw = item.Dano.Replace("1d", "").Replace("1D", "");
+            string danoRaw = item.Dano.Replace("1d6", "").Replace("1D6", "");
             _ = short.TryParse(danoRaw, out short dano);
             arma.Build(item.Nome, dano, empunhaduraDupla);
             arma.DefinirEncantamento(encantamento);
 
             return arma;
+        }
+
+        public IEncantamento GeraEncantamento(TabelaItemMagico tabelaItemMagico)
+        {
+            string nome = tabelaItemMagico.Nome;
+            string descricao = tabelaItemMagico.Descricao;
+
+            if(nome.Contains("Realeza"))
+                return new DaRealeza(nome, descricao);
+            if(nome.Contains("Leprechaun"))
+                return new DoLeprechaun(nome, descricao);
+            if(nome.Contains("Centurião"))
+                return new DoCenturiao(nome, descricao);
+            if(nome.Contains("Destruição"))
+                return new DaDestruicao(nome, descricao);
+            if(nome.Contains("Guerra"))
+                return new DaGuerra(nome, descricao);
+            if(nome.Contains("Matador de Dragões"))
+                return new DoMatadorDeDragoes(nome, descricao);
+
+            return null;
+        }
+
+        public IItem GeraMaravilha(TabelaItemMaravilha tabelaItemMaravilha)
+        {
+            string nome = tabelaItemMaravilha.Nome;
+            string descricao = tabelaItemMaravilha.Descricao;
+
+            //if (nome.Contains("Chapéu do Bobo"))
+            //    return new ChapeuDoBobo(nome, descricao);
+            //if (nome.Contains("Sandálias do Imperador"))
+            //    return new SandaliasDoImperador(nome, descricao);
+            //if (nome.Contains("Amuleto dos Mortos"))
+            //    return new AmuletoDosMortos(nome, descricao);
+            //if (nome.Contains("Poção da Sorte"))
+            //    return new PocaoDaSorte(nome, descricao);
+            //if (nome.Contains("Poção da Fúria"))
+            //    return new PocaoDaFuria(nome, descricao);
+            //if (nome.Contains("Lamparina"))
+            //    return new Lamparina(nome, descricao);
+
+            return new ItemDeValor("Anel comum","Vale 2 moedas na cidade", 2);
         }
 
         private IItem GeraItemSimples(TabelaItemTesouro tabelaItemTesouro)
@@ -149,8 +194,7 @@ namespace NoteQuest.Domain.ItensContext.Factories
             }
             if (efeito.Contains("pergaminho"))
             {
-                //TODO
-                return null;
+                return GerarPergaminho();
             }
             if (efeito.Contains("mana"))
             {
@@ -158,6 +202,18 @@ namespace NoteQuest.Domain.ItensContext.Factories
             }
 
             throw new NotImplementedException();
+        }
+
+        public IItem GerarPergaminho(int? indice = null)
+        {
+            indice ??= D6.Rolagem(1, true);
+
+            //TODO: Criar gerador de Pergaminho e de Magia Básica aleatória
+            // var magia = MagiaFactory.GeraMagiaBasica(indice);
+            // IItem item = new Pergaminho(magia);
+            IItem item = new ItemDeValor("Pergaminho mágico", "Você não consegue lê-lo", 1);
+
+            return item;
         }
 
         private string GetIndex(string baseText, string startMark = "[", string finalMark = "]")

@@ -10,6 +10,7 @@ namespace NoteQuest.Domain.Core.ObjectValue
         public IEncantamento Encantamento { get; private set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
+        public bool EstaAmaldicoado { get; set; }
 
         public Amuleto(string nome, int pontosDeVida)
         {

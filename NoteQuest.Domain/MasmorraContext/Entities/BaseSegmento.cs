@@ -4,12 +4,18 @@ using NoteQuest.Domain.Core.ObjectValue;
 using NoteQuest.Domain.MasmorraContext.Interfaces;
 using System.Collections.Generic;
 using System;
+using NoteQuest.Domain.ItensContext.Interfaces;
 
 namespace NoteQuest.Domain.MasmorraContext.Entities
 {
     public enum SegmentoTipo
     {
         sala, corredor, escadaria
+    }
+
+    public enum OpcaoSala
+    {
+        procurar, desarmar, saquear, bau, cadaver
     }
 
     public abstract class BaseSegmento
@@ -19,8 +25,9 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public string Descricao { get; set; }
         public string DetalhesDescricao { get; set; }
         public List<IPorta> Portas { get; set; }
-        public List<IEscolha> Escolhas { get; set; }
+        public IDictionary<OpcaoSala, IEscolha> Escolhas { get; set; }
         public IMasmorra Masmorra { get; set; }
+        public IConteudo Conteudo { get; set; }
         public int Andar { get; set; }
 
         public BaseSegmento(IPorta portaDeEntrada, string descricao, int qtdPortas)
@@ -38,7 +45,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Portas = new() { porta };
             Descricao = descricao;
             DetalhesDescricao = string.Empty;
-            Escolhas = GerarEscolhasBasicas();
+            //Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
         }
 
@@ -48,7 +55,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             IdSegmento = ContagemDeSalas++;
             Portas = new();
             Descricao = descricao;
-            Escolhas = GerarEscolhasBasicas();
+            //Escolhas = GerarEscolhasBasicas();
             GerarPortas(qtdPortas);
         }
 
@@ -56,17 +63,7 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         {
 
         }
-
-        private List<IEscolha> GerarEscolhasBasicas()
-        {
-            IEvent acaoDesarmarArmadilhas = new DesarmarArmadilhas();
-            Escolha desarmarArmadilhas = new (acaoDesarmarArmadilhas);
-            IEvent acaoAcharPassagemSecreta = new AcharPassagemSecreta();
-            Escolha acharPassagemSecreta = new (acaoAcharPassagemSecreta);
-            List<IEscolha> escolhas = new() { desarmarArmadilhas, acharPassagemSecreta };
-            return escolhas;
-        }
-
+        
         private void GerarPortas(int qtdPortas)
         {
             //IPortaComum porta = ;

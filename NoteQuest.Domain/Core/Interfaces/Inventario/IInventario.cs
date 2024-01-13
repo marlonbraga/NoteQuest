@@ -10,5 +10,9 @@ namespace NoteQuest.Domain.Core.Interfaces.Inventario
         public ushort GastarTochas(ushort qtd);
         public IList<IItem> Mochila { get; }
         public IItensEquipados Equipamentos { get; }
+
+        public bool RemoverItem(IItem item);
+
+        public bool AdicionaItem(IItem item);
     }
 }
