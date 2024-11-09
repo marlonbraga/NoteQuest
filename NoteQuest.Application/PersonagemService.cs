@@ -1,4 +1,6 @@
-﻿using NoteQuest.Domain.Core.Interfaces.Personagem;
+﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 
 namespace NoteQuest.Application
 {
@@ -40,5 +42,19 @@ namespace NoteQuest.Application
             return personagem;
         }
 
+        public bool Equipar(IPersonagem personagem, IItem equipamento)
+        {
+            if (equipamento is IItemDeMao)
+                return personagem.Inventario.EquiparItemDeMao((IItemDeMao)equipamento);
+            if (equipamento is IEquipamento)
+                return personagem.Inventario.Equipar((IItemDeMao)equipamento);
+
+            return false;
+        }
+        
+        public bool Desequipar(IPersonagem personagem, IEquipamento equipamento)
+        {
+            return personagem.Inventario.Desequipar(equipamento);
+        }
     }
 }

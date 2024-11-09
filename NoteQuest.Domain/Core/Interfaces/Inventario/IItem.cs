@@ -4,10 +4,9 @@ namespace NoteQuest.Domain.Core.Interfaces.Inventario
 {
     public enum AcaoItem
     {
-        None = 0,
-        Usar = 1,
-        Equipar = 2,
-        Descartar = 4,
+        Usar_Equipar = 0,
+        Descartar = 1,
+        None = 2
     }
     public interface IItem
     {

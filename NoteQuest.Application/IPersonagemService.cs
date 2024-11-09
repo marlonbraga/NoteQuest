@@ -1,13 +1,16 @@
-﻿using NoteQuest.Domain.Core.Interfaces.Personagem;
+﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
+using NoteQuest.Domain.Core.Interfaces.Personagem;
 
 namespace NoteQuest.Application
 {
     public interface IPersonagemService
     {
-        public IPersonagem CriarPersonagem();
-        public IPersonagem CriarPersonagem(string nome, int indiceRaca, int indiceClasse);
-        public IPersonagem NomearPersonagem(IPersonagem personagem, string nome);
-        public IPersonagem DefinirRaca(IPersonagem personagem, int indiceRaca);
-        public IPersonagem DefinirClasse(IPersonagem personagem, int indiceClasse);
+        IPersonagem CriarPersonagem();
+        IPersonagem CriarPersonagem(string nome, int indiceRaca, int indiceClasse);
+        IPersonagem NomearPersonagem(IPersonagem personagem, string nome);
+        IPersonagem DefinirRaca(IPersonagem personagem, int indiceRaca);
+        IPersonagem DefinirClasse(IPersonagem personagem, int indiceClasse);
+        bool Equipar(IPersonagem personagem, IItem equipamento);
+        bool Desequipar(IPersonagem personagem, IEquipamento equipamento);
     }
 }

@@ -50,14 +50,16 @@ namespace NoteQuest.Domain.ItensContext.Entities
             return Provisoes;
         }
 
-        public void EquiparItemDeMao(IItemDeMao equipamento)
+        public bool EquiparItemDeMao(IItemDeMao equipamento)
         {
             RemoverItem((IItem)equipamento);
             if (Equipamentos.MaoDireita is not null)
-                AdicionaItem((IItem)equipamento);
+                return AdicionaItem((IItem)equipamento);
             Equipamentos.MaoDireita = equipamento;
             //TODO: E se for 2 maõs?
             // Tocha não aparece nos equipamentos;
+
+            return false;
         }
 
         public bool RemoverItem(IItem item)

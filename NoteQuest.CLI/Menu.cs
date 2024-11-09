@@ -682,9 +682,9 @@ namespace NoteQuest.CLI
                 AnsiConsole.MarkupLine($"║ {nomeItem}");
                 IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
                 if (item is IItemEfeitoAtivo)
-                    escolhasHorizontais[(int)AcaoItem.Usar] = new [] {$"Usar", $""};
+                    escolhasHorizontais[(int)AcaoItem.Usar_Equipar] = new [] {$"Usar", $""};
                 if (item is IEquipamento)
-                    escolhasHorizontais[(int)AcaoItem.Equipar] = new [] {$"Equipar", "Vestir/Segurar" };
+                    escolhasHorizontais[(int)AcaoItem.Usar_Equipar] = new [] {$"Equipar", "Vestir/Segurar" };
                 escolhasHorizontais[(int)AcaoItem.Descartar] = new [] {$"Descartar", "Jogar fora" };
                 escolhasHorizontais[(int)AcaoItem.None] = new [] {$"[red][[X]][/]", "(voltar)" };
 
@@ -692,10 +692,11 @@ namespace NoteQuest.CLI
                 acaoItem = Menu.MenuHorizontal(escolhasHorizontais, nomeItem);
                 switch (acaoItem)
                 {
-                    case (int)AcaoItem.Usar://Usar
-                        break;
-                    case (int)AcaoItem.Equipar://Equipar
-                        inventario.Equipar(item as IEquipamento);
+                    case (int)AcaoItem.Usar_Equipar:
+                        if (item is IItemEfeitoAtivo)
+                            break;
+                        if (item is IEquipamento)
+                            inventario.Equipar(item as IEquipamento);
                         break;
                     case (int)AcaoItem.Descartar://Descartar
                         inventario.RemoverItem(item);
@@ -748,6 +749,8 @@ namespace NoteQuest.CLI
                 max = escolhasHorizontais.Count-1;
                 acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
             } while (acaoItem == max);
+
+
         }
 
         public static void MenuMagias(IInventario inventario)
