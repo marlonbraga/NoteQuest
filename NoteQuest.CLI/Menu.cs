@@ -16,6 +16,7 @@ using NoteQuest.Domain.ItensContext.Entities;
 using NoteQuest.Domain.ItensContext.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Services.Acoes;
 using NoteQuest.Domain.Core.DTO;
+using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
 using NoteQuest.Domain.Core.Racas;
 
 namespace NoteQuest.CLI
@@ -655,7 +656,7 @@ namespace NoteQuest.CLI
             };
         }
 
-        public static void MenuMochila(IInventario inventario)
+        public static IItem MenuMochila(IInventario inventario)
         {
             IList<IItem> mochila = inventario.Mochila;
             string descricao = "";
@@ -694,7 +695,7 @@ namespace NoteQuest.CLI
                 {
                     case (int)AcaoItem.Usar_Equipar:
                         if (item is IItemEfeitoAtivo)
-                            break;
+                            return item;
                         if (item is IEquipamento)
                             inventario.Equipar(item as IEquipamento);
                         break;
@@ -707,13 +708,25 @@ namespace NoteQuest.CLI
                 }
             }
             while (acaoItem == max);
+
+            return null;
         }
 
         public static void MenuEquipamentos(IInventario inventario)
         {
             IItensEquipados equipamentos = inventario.Equipamentos;
             IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
-
+            IDictionary<int, IEquipamento> listaDeEquipamentos = new Dictionary<int, IEquipamento>()
+            {
+                [1] = equipamentos.MaoDireita,
+                [2] = equipamentos.MaoEsquerda,
+                [3] = equipamentos.Peitoral,
+                [4] = equipamentos.Elmo,
+                [5] = equipamentos.Ombreiras,
+                [6] = equipamentos.Botas,
+                [7] = equipamentos.Braceletes,
+                //[8] = (IEquipamento)equipamentos.Amuletos,
+            };
             escolhasVerticais[0] = new[] { $"", $"[red][[X]][/]", $"", $"", $"" };
             escolhasVerticais[1] = new[] { $"Mão 1", $"{equipamentos.MaoDireita?.Nome}", $"{equipamentos.MaoDireita?.Descricao}", $"", $"" };
             escolhasVerticais[2] = new[] { $"Mão 2", $"{equipamentos.MaoEsquerda?.Nome}", $"{equipamentos.MaoEsquerda?.Descricao}", $"", $"" };
@@ -733,7 +746,8 @@ namespace NoteQuest.CLI
                 if (indiceEquipamento == 0)
                     return;
                 IDictionary<int, string[]> escolhasHorizontais = new Dictionary<int, string[]>();
-                if (escolhasVerticais[indiceEquipamento][1].Trim() == string.Empty)
+                bool ehEspacoVazio = escolhasVerticais[indiceEquipamento][1].Trim() == string.Empty;
+                if (ehEspacoVazio)
                 {
                     AnsiConsole.MarkupLine($"\n\n{escolhasVerticais[indiceEquipamento][1]}");
                     escolhasHorizontais[0] = new [] {$"Equipar","Vestir/Segurar"};
@@ -748,9 +762,50 @@ namespace NoteQuest.CLI
                 }
                 max = escolhasHorizontais.Count-1;
                 acaoItem = Menu.MenuHorizontal(escolhasHorizontais);
+                int opcao = acaoItem switch
+                {
+                    0 => ehEspacoVazio ? 1 : 2,
+                    1 => ehEspacoVazio ? 0 : 3,
+                    _ => 0,
+                };
+                switch (opcao)
+                {
+                    case 1: //Equipar
+                        IEquipamento equipamento = EscolherEquipamentosEmMochila(inventario);
+                        inventario.Equipar(equipamento);
+                        break;
+                    case 2: //Desequipar
+                        if(inventario.Desequipar(listaDeEquipamentos[indiceEquipamento]))
+                            break;
+                        continue;
+                    case 3: //Descartar
+                        inventario.DescartarEquipamento(listaDeEquipamentos[indiceEquipamento]);
+                        break;
+                    default: //X
+                        break;
+                }
+                
             } while (acaoItem == max);
+        }
 
+        public static IEquipamento EscolherEquipamentosEmMochila(IInventario inventario)
+        {
+            var equipamentosDisponiveis = inventario.Mochila.Where(item => item is IEquipamento);
+            if (equipamentosDisponiveis.Count() == 0)
+                return null;
+            IDictionary<int, string[]> escolhasVerticais = new Dictionary<int, string[]>();
+            escolhasVerticais[0] = new[] { $"", $"[red][[X]][/]", $"", $"", $"" };
+            int i = 1;
+            foreach (var equipamento in equipamentosDisponiveis)
+            {
+                escolhasVerticais[i] = new[] { $"", $"{equipamento.Nome}", $"{equipamento.Descricao}", $"", $"" };
+                i++;
+            }
+            int option = Menu.MenuVertical(escolhasVerticais);
+            if (option == 0)
+                return null;
 
+            return equipamentosDisponiveis.ElementAt(option - 1) as IEquipamento;
         }
 
         public static void MenuMagias(IInventario inventario)

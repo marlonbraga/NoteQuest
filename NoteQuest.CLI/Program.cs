@@ -230,8 +230,11 @@ namespace NoteQuest.CLI
                         /*tipoMenu = */Menu.MenuEquipamentos(personagem.Inventario);
                         continue;
                     case TipoMenu.Mochila:
-                        Menu.MenuMochila(personagem.Inventario);
-                        
+                        IItem item = Menu.MenuMochila(personagem.Inventario);
+                        if (item is null)
+                            continue;
+                        //if(item is IItemEfeitoAtivo)
+                        //    personagem.ChainOfResponsabilityEfeito(item);
                         continue;
                     case TipoMenu.Magias:
                         /*tipoMenu = */Menu.MenuMagias(personagem.Inventario);

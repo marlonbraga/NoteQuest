@@ -22,6 +22,8 @@ namespace NoteQuest.Domain.Core.Interfaces.Inventario
 
         bool UsarItem(IItem item);
 
+        bool DescartarEquipamento(IEquipamento item);
+
         bool EquiparItemDeMao(IItemDeMao equipamento);
     }
 }

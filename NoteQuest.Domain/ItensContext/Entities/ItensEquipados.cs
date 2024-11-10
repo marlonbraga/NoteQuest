@@ -1,5 +1,7 @@
 ﻿using NoteQuest.Domain.Core.Interfaces.Inventario;
 using NoteQuest.Domain.Core.Interfaces.Inventario.ItensEquipados;
+using NoteQuest.Domain.Core.ObjectValue;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace NoteQuest.Domain.ItensContext.Entities
@@ -36,6 +38,26 @@ namespace NoteQuest.Domain.ItensContext.Entities
             }
 
             return lista;
+        }
+
+        public bool Descartar(IEquipamento equipamento)
+        {
+            bool equipamentoDescartado = false;
+
+            if (equipamento == MaoDireita) { MaoDireita = null; equipamentoDescartado = true; }
+            if (equipamento == MaoEsquerda) {MaoEsquerda = null; equipamentoDescartado = true; }
+            if (equipamento == Peitoral) {Peitoral = null; equipamentoDescartado = true; }
+            if (equipamento == Elmo) {Elmo = null; equipamentoDescartado = true; }
+            if (equipamento == Botas) {Botas = null; equipamentoDescartado = true; }
+            if (equipamento == Braceletes) {Braceletes = null; equipamentoDescartado = true; }
+            if (equipamento == Ombreiras) {Ombreiras = null; equipamentoDescartado = true; }
+            foreach (var amuleto in Amuletos)
+            {
+                Amuletos.Remove(amuleto);
+                equipamentoDescartado = true;
+            }
+
+            return equipamentoDescartado;
         }
     }
 }

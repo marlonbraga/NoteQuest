@@ -67,6 +67,11 @@ namespace NoteQuest.Domain.ItensContext.Entities
             return Mochila.Remove(item);
         }
 
+        public bool DescartarEquipamento(IEquipamento item)
+        {
+            return Equipamentos.Descartar(item);
+        }
+
         public bool AdicionaItem(IItem item)
         {
             if (item.GetType() == typeof(Cabidela))
@@ -86,6 +91,7 @@ namespace NoteQuest.Domain.ItensContext.Entities
         
         public bool Equipar(IEquipamento equipamento)
         {
+            //TODO: se já houver equipamento -> troca com equipamento a ser escolhido
             if (equipamento is IAmuleto amuleto)
                 Equipamentos.Amuletos.Add(amuleto);
             else if (equipamento is IBraceletes braceletes && Equipamentos.Braceletes is null)

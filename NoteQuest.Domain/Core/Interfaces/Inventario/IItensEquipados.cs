@@ -15,5 +15,6 @@ namespace NoteQuest.Domain.Core.Interfaces.Inventario
         public IList<IAmuleto> Amuletos { get; set; }
 
         public IList<IEquipamento> Listar();
+        public bool Descartar(IEquipamento equipamento);
     }
 }
