@@ -670,7 +670,7 @@ namespace NoteQuest.CLI
             for (int i = 1; i <= mochila.Count; i++)
             {
                 int indiceItem = i - 1;
-                escolhasVerticais[i] = new [] {$"{mochila.ElementAt(indiceItem).Nome}",$"{mochila.ElementAt(indiceItem).Descricao}", $"", $"", $"" };
+                escolhasVerticais[i] = new [] {$"", $"{mochila.ElementAt(indiceItem).Nome}",$"{mochila.ElementAt(indiceItem).Descricao}", $"", $"" };
             }
 
             int max;

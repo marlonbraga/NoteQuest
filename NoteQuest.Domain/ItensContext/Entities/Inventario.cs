@@ -54,7 +54,7 @@ namespace NoteQuest.Domain.ItensContext.Entities
         {
             RemoverItem((IItem)equipamento);
             if (Equipamentos.MaoDireita is not null)
-                return AdicionaItem((IItem)equipamento);
+                AdicionaItem((IItem)Equipamentos.MaoDireita);
             Equipamentos.MaoDireita = equipamento;
             //TODO: E se for 2 maõs?
             // Tocha não aparece nos equipamentos;
@@ -91,8 +91,9 @@ namespace NoteQuest.Domain.ItensContext.Entities
         
         public bool Equipar(IEquipamento equipamento)
         {
-            //TODO: se já houver equipamento -> troca com equipamento a ser escolhido
-            if (equipamento is IAmuleto amuleto)
+            if (equipamento is IItemDeMao itemDeMao)
+                return EquiparItemDeMao(itemDeMao);
+            else if (equipamento is IAmuleto amuleto)
                 Equipamentos.Amuletos.Add(amuleto);
             else if (equipamento is IBraceletes braceletes && Equipamentos.Braceletes is null)
                 Equipamentos.Braceletes = braceletes;
