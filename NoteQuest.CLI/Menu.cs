@@ -32,7 +32,8 @@ namespace NoteQuest.CLI
         Porta3 = 6,
         Porta4 = 7,
         Mochila = 8,
-        Equipamentos = 9
+        Equipamentos = 9,
+        Ataque = 10
     }
     public class Menu
     {
@@ -57,7 +58,85 @@ namespace NoteQuest.CLI
         //escolhasHorizontais[3] = "Goblin Caolha";
         //escolhasHorizontais[4] = " x ";
         //Console.WriteLine($"Opção {MenuHorizontal(escolhasHorizontais)} escolhida");
+
+        COMBATE INICIADO!
+
+        ╔═════▬▬══════╗   [Esc]   Inventário 
+        ║             ║   [Space] Atacar           (Adaga [1d6] -1)
+        ║             ║   [1]     Cura         ■□  (Recurera 5 PV)
+        ▌?    ᴥᴥ      X   [2]     Luz          ■□□ (Ilumina sem tocha)
+        ║      ᴥᴥ     ║   [3]     Teletranspo… ■■  (Muda de sala)
+        ║             ║   [4]     Raio de Gelo □□□ (Causa 4 PV de dano e congela inimigo por 1 turno)
+        ╚════════  ═══╝   [5]     Relâmpago    □   (Causa 6 PV de dano)
+
+        Iglu ♥●●●●●●●●●●●●●●●●●ᴓ○○○○ 17/22
+        [▲]
+        [0] X
+        [1] Goblin Gordo  ●●●
+        [2] Goblin Caolho ●●●
+        [3] Goblin Feio   ●●○
+        [2] Goblin Caolho ●●●
+        [▼]
+
         */
+        public static TipoMenu MenuCombate(BaseSegmento segmento, string cor = "default")
+        {
+            if (segmento.IdSegmento == 0)
+                cor = "#daa520";
+            if (segmento.Masmorra.SalaFinal == segmento)
+                cor = "red";
+            string mapa = Mapa.DesenharSala(segmento);
+
+            string[] linhaDeMapa = mapa.Split("\n");
+            linhaDeMapa = linhaDeMapa.Select(linha => $"[{cor}]{linha}[/]").ToArray();
+
+            IDictionary<TipoMenu, string[]> escolhas = new Dictionary<TipoMenu, string[]>();
+            escolhas[TipoMenu.Inventário] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[0]), "[[Esc]]", "Inventário", "", "" };
+            escolhas[TipoMenu.Ataque] = new[] { Mapa.DesenharLinhaDeSala(linhaDeMapa[1]), "[[0]][[Space]]", "Atacar", "", "" };
+            int numLinha = 2;
+            for (int indexPortas = 0; indexPortas < 4 || numLinha < linhaDeMapa.Length; indexPortas++, numLinha++)
+            {
+                string linhaDesenhada = string.Empty;
+                if (numLinha < linhaDeMapa.Length)
+                {
+                    linhaDesenhada = Mapa.DesenharLinhaDeSala(linhaDeMapa[numLinha]);
+                }
+                //if (indexPortas < 4)
+                //{
+                //    IPorta porta = segmento.Portas.Where(porta => porta.Posicao == (Posicao)indexPortas).FirstOrDefault();
+                //    if (porta != null)
+                //    {
+                //        string descricaoPorta = string.Empty;
+                //        if (TryCast(porta, out IPortaComum portaComum))
+                //            if (TryCast(portaComum.SegmentoAlvo, out Sala sala))
+                //            {
+                //                int? count = sala.Monstros?.Count;
+                //                string inimigos = string.Empty;
+                //                for (; count > 0; count--)
+                //                {
+                //                    inimigos += "ᴥ";
+                //                }
+                //                descricaoPorta += sala.Conteudo is not null ? "[blue]●[/]" : "";
+                //                descricaoPorta += $"[red]{inimigos}[/]";
+                //                if (descricaoPorta != string.Empty)
+                //                    descricaoPorta = $"[#333]({descricaoPorta})[/]";
+                //            }
+                //        escolhas[(TipoMenu)numLinha + 1] = new[] { linhaDesenhada, $"[[{indexPortas + 1}]][[{Seta(porta.Posicao)}]]", $"Porta {porta.EstadoDePorta.ToString()}", $"{descricaoPorta}", "" };
+                //    }
+                //    else
+                //        numLinha--;
+                //}
+                //else
+                //{
+                //    escolhas[(TipoMenu)numLinha + 1] = new[] { linhaDesenhada, "", "", "", "" };
+                //}
+            }
+            //int portaIndex = 0;
+
+            //Escolher entre [Inventário, Atacar e Magias()]
+            return MenuVerticalDeCombate(escolhas);
+        }
+
         public static TipoMenu MenuSegmento(BaseSegmento segmento, string cor = "default")
         {
             if (segmento.IdSegmento == 0)
@@ -242,6 +321,103 @@ namespace NoteQuest.CLI
                     case ConsoleKey.NumPad4:
                     case ConsoleKey.DownArrow:
                         opcaoMenu = TipoMenu.Porta4;
+                        break;
+                    default:
+                        continue;
+                }
+                Console.Write($"\r ");
+                if (escolhas.ContainsKey(opcaoMenu))
+                    break;
+            } while (true);
+            return opcaoMenu;
+        }
+
+        public static TipoMenu MenuVerticalDeCombate(IDictionary<TipoMenu, string[]> escolhas, string[] cores = null)
+        {
+            string defaultBackgroundColor = cores?[1] ?? "default";
+            string corColuna1 = cores?[2] ?? "default";
+            string corColuna2 = cores?[3] ?? "#333";
+            string corColuna3 = cores?[4] ?? "default";
+            bool exibirDescricao = false;
+            for (int i = 0; i < escolhas.Count + 2; i++)
+                Console.WriteLine();
+            var currentLineNumber = Console.CursorTop - (escolhas.Count + 2);
+            TipoMenu selecao = TipoMenu.None;
+            TipoMenu opcaoMenu;
+            int[] largurDeColuna = new int[6];
+
+            for (int i = 0; i < escolhas.Count; i++)
+            {
+                for (int j = 0; j < escolhas[(TipoMenu)i + 1].Length; j++)
+                    largurDeColuna[j] = escolhas.Max(x => Remove(x.Value[j], "[", "]").Length);
+            }
+            do
+            {
+                Console.SetCursorPosition(0, Math.Max(0, currentLineNumber));
+                foreach (var escolha in escolhas)
+                {
+                    //Formata colunas
+                    for (int i = 0; i < escolha.Value.Length; i++)
+                    {
+                        string valor = escolha.Value[i];
+                        while (valor.Replace("[[", "[").Replace("]]", "]").Length < largurDeColuna[i])
+                            valor += " ";
+                        escolha.Value[i] = valor;
+                    }
+                    //[1]  Cura ■□□ (Recurera 5 PV)
+                    //Coluna 1: "[0][Space]"
+                    string invert = "";
+                    if (selecao == escolha.Key)
+                        invert = "invert ";
+
+                    AnsiConsole.Markup($"[{corColuna1} on {defaultBackgroundColor}] {escolha.Value[0]}[/]");
+
+                    //Coluna 2: "Cura"
+                    AnsiConsole.Markup($"[{corColuna2}]{escolha.Value[1]}[/]");
+
+                    //Coluna 3: "■□□"
+                    AnsiConsole.Markup($"[{corColuna3}]{escolha.Value[3]}[/]");
+
+                    //Coluna 4: "(Recurera 5 PV)"
+                    AnsiConsole.Markup($"[{corColuna2}]{escolha.Value[4]}[/]");
+                    AnsiConsole.MarkupLine("");
+                }
+
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Escape:
+                    case ConsoleKey.Clear:
+                        opcaoMenu = TipoMenu.Inventário;
+                        break;
+                    case ConsoleKey.Enter:
+                    case ConsoleKey.Spacebar:
+                    case ConsoleKey.D0:
+                    case ConsoleKey.NumPad0:
+                        opcaoMenu = TipoMenu.Ataque;
+                        break;
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        opcaoMenu = TipoMenu.Magias;
+                        break;
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        opcaoMenu = TipoMenu.Magias;
+                        break;
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        opcaoMenu = TipoMenu.Magias;
+                        break;
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        opcaoMenu = TipoMenu.Magias;
+                        break;
+                    case ConsoleKey.D5:
+                    case ConsoleKey.NumPad5:
+                        opcaoMenu = TipoMenu.Magias;
+                        break;
+                    case ConsoleKey.D6:
+                    case ConsoleKey.NumPad6:
+                        opcaoMenu = TipoMenu.Magias;
                         break;
                     default:
                         continue;

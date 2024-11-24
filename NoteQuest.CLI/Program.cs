@@ -16,6 +16,7 @@ using NoteQuest.Domain.MasmorraContext.Services.Factories;
 using NoteQuest.Domain.Core.Racas;
 using NoteQuest.Domain.ItensContext.Entities;
 using NoteQuest.Domain.Core.Interfaces.Inventario;
+using System.Threading;
 
 namespace NoteQuest.CLI
 {
@@ -71,146 +72,187 @@ namespace NoteQuest.CLI
 
             int numeroDePorta = 0;
 
-            //Nova Partida
-            IEvent acao = null;
+            Turn(dungeonConsequence, masmorra);
+        }
+
+        static void Turn(DungeonConsequence initialConsequence, IMasmorra masmorra)
+        {
+            ActionResult result = initialConsequence;
             do
             {
-                AnsiConsole.MarkupLine("\n------------------------------------------------\n");
-                EscreverSala(dungeonConsequence, masmorra);
-                Console.WriteLine();
-                TipoMenu tipoMenu = Menu.MenuSegmento(dungeonConsequence.Segment);
-                BaseSegmento sala = dungeonConsequence.Segment;
-                int portaIndex = 0;
-                IPorta porta;
-                switch (tipoMenu)
+                switch (result)
                 {
-                    case TipoMenu.Porta1:
-                        portaIndex = 0;
-                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
-                        if (porta?.Escolhas?.Count == 1)
-                        {
-                            acao = porta.Escolhas.Single().Acao;
-                            if (acao is null) continue;
-                            break;
-                        }
-                        acao = Menu.MenuPorta(porta);
-                        if (acao is null) continue;
+                    case DungeonConsequence dungeonConsequence:
+                        result = DungeonTurn(dungeonConsequence, masmorra);
                         break;
-                    case TipoMenu.Porta2:
-                        portaIndex = 1;
-                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
-                        if (porta?.Escolhas?.Count == 1)
-                        {
-                            acao = porta.Escolhas.Single().Acao;
-                            if (acao is null) continue;
-                            break;
-                        }
-                        acao = Menu.MenuPorta(porta);
-                        if (acao is null) continue;
+                    case CombatConsequence combatConsequence:
+                        result = CombateTurn(combatConsequence, masmorra);
                         break;
-                    case TipoMenu.Porta3:
-                        portaIndex = 2;
-                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
-                        if (porta?.Escolhas?.Count == 1)
-                        {
-                            acao = porta.Escolhas.Single().Acao;
-                            if (acao is null) continue;
-                            break;
-                        }
-                        acao = Menu.MenuPorta(porta);
-                        if (acao is null) continue;
-                        break;
-                    case TipoMenu.Porta4:
-                        portaIndex = 3;
-                        porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
-                        if (porta?.Escolhas?.Count == 1)
-                        {
-                            acao = porta.Escolhas.Single().Acao;
-                            if (acao is null) continue;
-                            break;
-                        }
-                        acao = Menu.MenuPorta(porta);
-                        if (acao is null) continue;
-                        break;
-                    case TipoMenu.Sala:
-                        acao = Menu.MenuSala(sala);
-                        if (acao is null) continue;
-                        if (acao is VasculharRepositorio)
-                        {
-                            ExecutaAcao(acao, dungeonConsequence, out result, out dungeonConsequence);
-                            IRepositorio repositorio = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(RepositorioDeItens));
-                            IItem item = null;
-                            if (repositorio?.Conteudo.Count == 1)
-                                item = repositorio.Conteudo.Single().Value;
-                            do
-                            {
-                                item ??= Menu.MenuRepositorio(repositorio, Personagem);
-                                if (item is null) break;
-                                if (Personagem.Inventario.AdicionaItem(item))
-                                {
-                                    repositorio.PegarItem(item);
-                                    if (repositorio.Conteudo.Count == 0)
-                                    {
-                                        repositorio = null;
-                                        var repositorioDeItens = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(RepositorioDeItens));
-                                        sala.Conteudo.Repositorio.Remove(repositorioDeItens);
-                                    }
-                                }
-                                item = null;
-                            } while (repositorio?.Conteudo.Count > 0);
-                        }
-                        else if (acao is AbrirUmBau)
-                        {
-                            ExecutaAcao(acao, dungeonConsequence, out result, out dungeonConsequence);
-                            IRepositorio repositorio = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(Bau));
-                            IItem item = null;
-                            if (repositorio?.Conteudo.Count == 1)
-                                item = repositorio.Conteudo.Single().Value;
-                            do
-                            {
-                                item ??= Menu.MenuRepositorio(repositorio, Personagem);
-                                if (item is null) break;
-                                if(Personagem.Inventario.AdicionaItem(item))
-                                {
-                                    repositorio.PegarItem(item);
-                                    if (repositorio.Conteudo.Count == 0)
-                                    {
-                                        repositorio = null;
-                                        var bau = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(Bau));
-                                        sala.Conteudo.Repositorio.Remove(bau);
-                                    }
-                                }
-                                item = null;
-                            } while (repositorio?.Conteudo.Count > 0);
-                        }
-                        else
-                        {
-                            ExecutaAcao(acao, dungeonConsequence, out result, out dungeonConsequence);
-                        }
-                        continue;
-                    case TipoMenu.Inventário: Console.Write("╔");
-                        int linhas = dungeonConsequence.Segment.Escolhas?.Count + 2 ?? 2;
-                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: linhas));
-                        Inventario(Personagem);
-                        continue;
-                    default:
-                        continue;
                 }
-
-                ExecutaAcao(acao, dungeonConsequence, out result, out dungeonConsequence);
             } while (true);
         }
 
-        static void ExecutaAcao(IEvent acao, DungeonConsequence defaultConsequence, out IEnumerable<ActionResult> result, out DungeonConsequence dungeonConsequence)
+        static ActionResult DungeonTurn(DungeonConsequence dungeonConsequence, IMasmorra masmorra)
         {
-            dungeonConsequence = defaultConsequence;
-            result = Personagem.ChainOfResponsabilityEfeito(acao).Efeito();
+            IEvent acao = null;
+            AnsiConsole.MarkupLine("\n------------------------------------------------\n");
+            EscreverSala(dungeonConsequence, masmorra);
+            Console.WriteLine();
+            TipoMenu tipoMenu = Menu.MenuSegmento(dungeonConsequence.Segment);
+            BaseSegmento sala = dungeonConsequence.Segment;
+            int portaIndex = 0;
+            IPorta porta;
+            switch (tipoMenu)
+            {
+                case TipoMenu.Porta1:
+                    acao = OpcaoPorta(portaIndex: 0, sala);
+                    if (acao is null) return dungeonConsequence;
+                    break;
+                case TipoMenu.Porta2:
+                    acao = OpcaoPorta(portaIndex: 1, sala);
+                    if (acao is null) return dungeonConsequence;
+                    break;
+                case TipoMenu.Porta3:
+                    acao = OpcaoPorta(portaIndex: 2, sala);
+                    if (acao is null) return dungeonConsequence;
+                    break;
+                case TipoMenu.Porta4:
+                    acao = OpcaoPorta(portaIndex: 3, sala);
+                    if (acao is null) return dungeonConsequence;
+                    break;
+                case TipoMenu.Sala:
+                    acao = Menu.MenuSala(sala);
+                    if (acao is null) return dungeonConsequence;
+                    if (acao is VasculharRepositorio)
+                    {
+                        VasculharRepositorio(acao, dungeonConsequence, sala);
+                    }
+                    else if (acao is AbrirUmBau)
+                    {
+                        OpcaoAbrirBau(acao, dungeonConsequence, sala);
+                    }
+                    else
+                    {
+                        ExecutaAcao(acao, dungeonConsequence);
+                    }
+                    return dungeonConsequence;
+                case TipoMenu.Inventário:
+                    Console.Write("╔");
+                    int linhas = dungeonConsequence.Segment.Escolhas?.Count + 2 ?? 2;
+                    AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: linhas));
+                    Inventario(Personagem);
+                    return dungeonConsequence;
+                default:
+                    return dungeonConsequence;
+            }
+
+            return ExecutaAcao(acao, dungeonConsequence);
+        }
+
+        private static IEvent OpcaoPorta(int portaIndex, BaseSegmento sala)
+        {
+            IPorta porta = sala.Portas.Where(p => p.Posicao == (Posicao)(portaIndex)).SingleOrDefault();
+            if (porta?.Escolhas?.Count == 1)
+            {
+                return porta.Escolhas.Single().Acao;
+            }
+            return Menu.MenuPorta(porta);
+        }
+
+        private static void OpcaoAbrirBau(IEvent acao, DungeonConsequence dungeonConsequence, BaseSegmento sala)
+        {
+            _ = ExecutaAcao(acao, dungeonConsequence);
+            IRepositorio repositorio = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(Bau));
+            IItem item = null;
+            if (repositorio?.Conteudo.Count == 1)
+                item = repositorio.Conteudo.Single().Value;
+            do
+            {
+                item ??= Menu.MenuRepositorio(repositorio, Personagem);
+                if (item is null) break;
+                if (Personagem.Inventario.AdicionaItem(item))
+                {
+                    repositorio.PegarItem(item);
+                    if (repositorio.Conteudo.Count == 0)
+                    {
+                        repositorio = null;
+                        var bau = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(Bau));
+                        sala.Conteudo.Repositorio.Remove(bau);
+                    }
+                }
+                item = null;
+            } while (repositorio?.Conteudo.Count > 0);
+        }
+
+        private static void VasculharRepositorio(IEvent acao, DungeonConsequence dungeonConsequence, BaseSegmento sala)
+        {
+            _ = ExecutaAcao(acao, dungeonConsequence);
+            IRepositorio repositorio = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(RepositorioDeItens));
+            IItem item = null;
+            if (repositorio?.Conteudo.Count == 1)
+                item = repositorio.Conteudo.Single().Value;
+            do
+            {
+                item ??= Menu.MenuRepositorio(repositorio, Personagem);
+                if (item is null) break;
+                if (Personagem.Inventario.AdicionaItem(item))
+                {
+                    repositorio.PegarItem(item);
+                    if (repositorio.Conteudo.Count == 0)
+                    {
+                        repositorio = null;
+                        var repositorioDeItens = sala.Conteudo.Repositorio.FirstOrDefault(x => x.GetType() == typeof(RepositorioDeItens));
+                        sala.Conteudo.Repositorio.Remove(repositorioDeItens);
+                    }
+                }
+                item = null;
+            } while (repositorio?.Conteudo.Count > 0);
+        }
+
+        static ActionResult CombateTurn(CombatConsequence combatConsequence, IMasmorra masmorra)
+        {
+            return combatConsequence;
+            //IEvent acao = null;
+            //do
+            //{
+            //    AnsiConsole.MarkupLine("\n------------------------------------------------\n");
+            //    EscreverSala(combatConsequence, masmorra);
+            //    Console.WriteLine();
+            //    TipoMenu tipoMenu = Menu.MenuCombate(combatConsequence.Segment);
+            //    Sala sala = combatConsequence.Segment;
+            //    IEvent acao = combatConsequence.Escolhas[tipoMenu];
+            //    switch (tipoMenu)
+            //    {
+            //        case TipoMenu.Inventário:
+            //            Console.Write("╔");
+            //            int linhas = combatConsequence.Segment.Escolhas?.Count + 2 ?? 2;
+            //            AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: linhas));
+            //            Inventario(Personagem);
+            //            continue;
+            //        case TipoMenu.Ataque:
+            //            Monstro monstro = Menu.MenuMonstro(sala.Monstros);
+            //            if (monstro is not null)
+            //            {
+            //                acao.Alvo = monstro;
+            //                ExecutaAcao(acao, combatConsequence, out result, out combatConsequence);
+            //            }
+            //            continue;
+            //        default:
+            //            continue;
+            //    }
+            //} while (true);//TODO: Fazer condição de saída (Vitória ou Derrota)
+        }
+
+        static ActionResult ExecutaAcao(IEvent acao, ActionResult defaultConsequence)
+        {
+            ActionResult consequence = defaultConsequence;
+            IEnumerable<ActionResult> result = Personagem.ChainOfResponsabilityEfeito(acao).Efeito();
             foreach (var action in result)
             {
                 AnsiConsole.MarkupLine(action.Descricao);
-                if (action.GetType() == typeof(DungeonConsequence))
-                    dungeonConsequence = (DungeonConsequence)action;
+                consequence = action;
             }
+            return consequence;
         }
 
         static void Repositorio(IRepositorio repositorio)
