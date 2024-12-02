@@ -20,6 +20,8 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
             Descricao = descricao;
         }
 
+        public override bool HaMonstros() => Monstros?.Count > 0;
+
         public Sala AdicionaMonstros(List<Monstro> monstros)
         {
             if(monstros.Count > 0)

@@ -40,7 +40,11 @@ namespace NoteQuest.Domain.MasmorraContext.Services.Acoes
             Porta.SegmentoAlvo = Porta.SegmentoAlvo ?? Porta.SegmentoAtual.Masmorra.SegmentoFactory.GeraSegmento(Porta, indice ?? IndicePreDefinido ?? D6.Rolagem(deslocamento: true));
             BaseSegmento novoSegmento = Porta.SegmentoAlvo;
             string texto = $"\n  Você abre a porta revelando um segmento da masmorra";
-            DungeonConsequence consequencia = new(texto, novoSegmento);
+            ActionResult consequencia;
+            if(novoSegmento.HaMonstros())
+                consequencia = new CombatConsequence(texto, novoSegmento);
+            else
+                consequencia = new DungeonConsequence(texto, novoSegmento);
 
             IEnumerable<ActionResult> result = new List<ActionResult>() { consequencia };
             return result;

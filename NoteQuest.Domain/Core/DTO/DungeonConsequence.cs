@@ -1,10 +1,9 @@
 using NoteQuest.Domain.Core.Interfaces;
 using NoteQuest.Domain.MasmorraContext.Entities;
-using System.Collections.Generic;
 
 namespace NoteQuest.Domain.Core.DTO
 {
-    public class DungeonConsequence: ActionResult
+    public class DungeonConsequence: ActionResult, ISalaSegmentConsequence
     {
         public DungeonConsequence(string descricao, BaseSegmento segment) : base(descricao)
         {

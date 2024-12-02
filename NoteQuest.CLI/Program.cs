@@ -211,36 +211,36 @@ namespace NoteQuest.CLI
 
         static ActionResult CombateTurn(CombatConsequence combatConsequence, IMasmorra masmorra)
         {
-            return combatConsequence;
-            //IEvent acao = null;
-            //do
-            //{
-            //    AnsiConsole.MarkupLine("\n------------------------------------------------\n");
-            //    EscreverSala(combatConsequence, masmorra);
-            //    Console.WriteLine();
-            //    TipoMenu tipoMenu = Menu.MenuCombate(combatConsequence.Segment);
-            //    Sala sala = combatConsequence.Segment;
-            //    IEvent acao = combatConsequence.Escolhas[tipoMenu];
-            //    switch (tipoMenu)
-            //    {
-            //        case TipoMenu.Inventário:
-            //            Console.Write("╔");
-            //            int linhas = combatConsequence.Segment.Escolhas?.Count + 2 ?? 2;
-            //            AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: linhas));
-            //            Inventario(Personagem);
-            //            continue;
-            //        case TipoMenu.Ataque:
-            //            Monstro monstro = Menu.MenuMonstro(sala.Monstros);
-            //            if (monstro is not null)
-            //            {
-            //                acao.Alvo = monstro;
-            //                ExecutaAcao(acao, combatConsequence, out result, out combatConsequence);
-            //            }
-            //            continue;
-            //        default:
-            //            continue;
-            //    }
-            //} while (true);//TODO: Fazer condição de saída (Vitória ou Derrota)
+            //return combatConsequence;
+            IEvent acao = null;
+            do
+            {
+                AnsiConsole.MarkupLine("\n------------------------------------------------\n");
+                EscreverSala(combatConsequence, masmorra);
+                Console.WriteLine();
+                TipoMenu tipoMenu = Menu.MenuCombate(combatConsequence.Segment);
+                Sala sala = (Sala)combatConsequence.Segment;
+                //IEvent acao = combatConsequence.Escolhas[tipoMenu];
+                switch (tipoMenu)
+                {
+                    case TipoMenu.Inventário:
+                        Console.Write("╔");
+                        int linhas = combatConsequence.Segment.Escolhas?.Count + 2 ?? 2;
+                        AnsiConsole.Markup(CharacterProfile.ExibirFicha(linhas: linhas));
+                        Inventario(Personagem);
+                        continue;
+                    case TipoMenu.Ataque:
+                        Monstro monstro = Menu.MenuMonstro(sala.Monstros);
+                        if (monstro is not null)
+                        {
+                            acao.Alvo = monstro;
+                            return ExecutaAcao(acao, combatConsequence);
+                        }
+                        continue;
+                    default:
+                        continue;
+                }
+            } while (true);//TODO: Fazer condição de saída (Vitória ou Derrota)
         }
 
         static ActionResult ExecutaAcao(IEvent acao, ActionResult defaultConsequence)
@@ -290,7 +290,7 @@ namespace NoteQuest.CLI
             } while (tipoMenu != TipoMenu.None);
         }
 
-        static void EscreverSala(DungeonConsequence consequencia, IMasmorra masmorra)
+        static void EscreverSala(ISalaSegmentConsequence consequencia, IMasmorra masmorra)
         {
             //Console.WriteLine($"ANDAR = {consequencia?.Segment.Andar} ??? = {consequencia?.Segment.Masmorra.QtdPortasInexploradas}");
             AdicionaConteudo(consequencia?.Segment.Descricao, "cyan");

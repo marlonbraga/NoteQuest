@@ -30,6 +30,8 @@ namespace NoteQuest.Domain.MasmorraContext.Entities
         public IConteudo Conteudo { get; set; }
         public int Andar { get; set; }
 
+        public virtual bool HaMonstros() => false;
+
         public BaseSegmento(IPorta portaDeEntrada, string descricao, int qtdPortas)
         {
             IdSegmento = ContagemDeSalas++;
